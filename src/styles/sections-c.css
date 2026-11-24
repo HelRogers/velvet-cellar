@@ -130,6 +130,15 @@
 .record-body > p:not(.record-strap):not(.awaiting) {
   color: var(--text-soft);
 }
+/* A line beneath the button, such as how to add songs. */
+.record-body > .record-note {
+  max-width: 26rem;
+  margin-top: 1rem;
+  font-size: 1.02rem;
+  font-style: italic;
+  line-height: 1.4;
+  opacity: 0.92;
+}
 .record-body .btn,
 .awaiting {
   margin-top: 0.5rem;

@@ -333,9 +333,21 @@ const visible = (page, selector) =>
   await page.click('[data-gallery-close]');
 
   // ---------- Radio, noticeboard, questions, sealed sections ----------
-  const radio = await page.evaluate(() => ({ records: document.querySelectorAll('.record').length, links: document.querySelectorAll('.radio a[href]').length, awaiting: document.querySelectorAll('.radio .is-awaiting[aria-disabled=true]').length, audio: document.querySelectorAll('audio, video, iframe').length }));
-  check('two playlists, each awaiting its Spotify link; no invented links', radio.records === 2 && radio.links === 0 && radio.awaiting === 2);
-  check('nothing plays or embeds audio on the page', radio.audio === 0);
+  const radio = await page.evaluate(() => ({
+    records: document.querySelectorAll('.record').length,
+    buttons: [...document.querySelectorAll('.radio a.btn')].map((a) => ({ text: a.childNodes[0].textContent.trim(), href: a.href, target: a.target, rel: a.rel, record: a.closest('.record').className })),
+    awaiting: document.querySelectorAll('.radio .is-awaiting').length,
+    note: document.querySelector('.record--after-hours .record-note')?.textContent.trim(),
+    noteBelowButton: (() => { const n = document.querySelector('.record--after-hours .record-note'); const b = document.querySelector('.record--after-hours a.btn'); return n && b && n.getBoundingClientRect().top >= b.getBoundingClientRect().bottom; })(),
+    gramophoneNote: document.querySelector('.record--gramophone .record-note'),
+    audio: document.querySelectorAll('audio, iframe, video, embed').length,
+  }));
+  check('two playlists, each with the host’s button wording and her Spotify link', radio.records === 2 && radio.awaiting === 0 && radio.buttons.length === 2 &&
+    radio.buttons[0].text === 'Listen to The Gramophone' && radio.buttons[0].href === 'https://open.spotify.com/playlist/5n2F5zAvRoT4II9YKupx8s' && /gramophone/.test(radio.buttons[0].record) &&
+    radio.buttons[1].text === 'Listen to After Hours' && radio.buttons[1].href === 'https://open.spotify.com/playlist/1t5P9HNkWKBWzx1d1JBhVt' && /after-hours/.test(radio.buttons[1].record), JSON.stringify(radio.buttons));
+  check('playlist buttons open Spotify in a new tab, safely', radio.buttons.every((b) => b.target === '_blank' && /noopener/.test(b.rel)));
+  check('After Hours carries the host’s note beneath its button; the Gramophone has none', radio.note === 'Once the mystery is solved, the night is yours. Add your favourite party tracks using the Spotify collaboration invitation shared in our group chat.' && radio.noteBelowButton && !radio.gramophoneNote);
+  check('nothing plays or embeds audio on the page, and there is no song request form', radio.audio === 0 && (await page.evaluate(() => document.querySelectorAll('.radio form, .radio input').length)) === 0);
   const notices = await page.evaluate(() => [...document.querySelectorAll('.notice')].map((n) => ({ title: n.querySelector('h3').textContent.trim(), date: n.querySelector('time').textContent.trim(), stamp: n.querySelector('.notice-stamp')?.textContent.trim() ?? '', closing: n.querySelector('.notice-closing')?.textContent.trim(), italic: getComputedStyle(n.querySelector('.notice-closing')).fontStyle, link: n.querySelector('.notice-link')?.getAttribute('href'), text: n.textContent })));
   check('noticeboard: the host’s two notices, in her order, with no specimens left', notices.length === 2 && notices[0].title === 'An Invitation Has Arrived' && notices[1].title === 'A Word of Caution…' && notices.every((n) => n.date === '24 November 2026' && !/Specimen/i.test(n.text)) && !(await page.evaluate(() => /Nothing has been posted yet/.test(document.querySelector('#noticeboard').textContent))));
   check('noticeboard: only the first notice carries the Important stamp', notices[0].stamp === 'Important' && notices[1].stamp === '');
