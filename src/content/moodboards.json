@@ -113,7 +113,48 @@
       "title": "The Ladies of The Velvet Cellar",
       "subtitle": "Costume inspiration",
       "note": "Glamorous eveningwear, flapper dresses, satin and velvet, beading, pearls, long gloves, feathers, sharp tailoring and a little femme fatale.",
-      "images": [],
+      "images": [
+        {
+          "file": "01-red-curtain-trio.jpg",
+          "alt": "Three women dressed as flappers, in beaded black and sheer ivory with pearls, headpieces and long gloves, holding cocktails and a paper fan in front of a red velvet curtain."
+        },
+        {
+          "file": "02-gold-and-silver-fringe.jpg",
+          "alt": "Two women in knee-length metallic fringed dresses, one gold and one silver, with jewelled hair clips and blue eyeshadow; one holds a glass of champagne."
+        },
+        {
+          "file": "03-ostrich-feather-fan.jpg",
+          "alt": "Black and white studio photograph from the 1920s of a woman in a beaded, feather-trimmed dress and headscarf, holding a huge white ostrich feather fan."
+        },
+        {
+          "file": "04-gold-fringe-dress.jpg",
+          "alt": "A gold beaded halter-neck mini dress covered in tiers of shimmering fringe, worn with long drop earrings."
+        },
+        {
+          "file": "05-lace-glove-and-coupe.jpg",
+          "alt": "Close-up of a hand in a black lace glove tilting a coupe of champagne to a woman’s lips; she wears a white heart-shaped earring."
+        },
+        {
+          "file": "06-evening-make-up.jpg",
+          "alt": "Close-up of dramatic evening make-up: smoky plum eyeshadow, glossy dark berry lips and a green jewelled earring."
+        },
+        {
+          "file": "07-beaded-gowns.jpg",
+          "alt": "Two women in bias-cut beaded evening gowns in a wood-panelled bar, one in dusky pink with silver beading, the other seen from behind in a low-backed grey dress."
+        },
+        {
+          "file": "08-pearls-and-chiffon.jpg",
+          "alt": "Two women in beaded 1920s-style dresses in a crowded club, one in pale pink chiffon with crystal trim, the other in gold with long ropes of pearls."
+        },
+        {
+          "file": "09-red-feathers-and-gloves.jpg",
+          "alt": "A woman in red feathers, long red satin gloves, a beaded headband and a crystal necklace, hiding her face behind her hand."
+        },
+        {
+          "file": "10-candlelit-flappers.jpg",
+          "alt": "Four women in sequins, pearls and feathered headbands laughing by candlelight, with cigarette holders, a lace fan and white ostrich feathers on the table."
+        }
+      ],
       "placeholders": [
         "2/3",
         "1/1",
