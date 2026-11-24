@@ -385,6 +385,20 @@ const visible = (page, selector) =>
     await sleep(200);
     return page.evaluate((sel) => document.querySelector(sel).dataset.state === 'redacted' && !document.querySelector(`${sel} [data-private-body]`).textContent.trim(), s);
   })());
+  const pictures = await page.evaluate(async () => {
+    const out = [];
+    for (const el of document.querySelectorAll('[data-dossier]')) {
+      const img = el.querySelector('.dossier-portrait img');
+      if (!img) { out.push({ id: el.id, missing: true }); continue; }
+      el.hidden = false;
+      await img.decode().catch(() => {});
+      out.push({ id: el.id, ok: img.naturalWidth === 640 && img.naturalHeight === 800, alt: img.alt });
+      el.hidden = true;
+    }
+    return out;
+  });
+  check('every dossier has its own portrait, upright and loading, described for screen readers', pictures.length === 27 && GUESTS.every((g) => { const p = pictures.find((x) => x.id === `dossier-${g.slug}`); return p && p.ok && p.alt === `Portrait of ${g.character}`; }), JSON.stringify(pictures.filter((x) => !x.ok).slice(0, 4)));
+  check('each portrait file is used by exactly one dossier', new Set(GUESTS.map((g) => g.portrait)).size === 27 && GUESTS.every((g) => g.portrait === `${g.slug}.jpg`));
   check('no script errors while opening every dossier', errors.length === 0, errors.join(' | '));
   await context.close();
 }

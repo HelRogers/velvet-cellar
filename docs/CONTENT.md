@@ -30,3 +30,16 @@ before it is published.
 At present every change above means a rebuild and a deploy. The small host page planned
 for after launch will let announcements, booklet releases, voting and the gallery be
 switched without one.
+
+## Character portraits
+
+The host's portraits are kept as supplied in `originals/portraits/` (named after the guest). They are
+cropped to one upright 4:5 frame centred on the face, converted to black and white and saved to
+`src/assets/portraits/<dossier address>.jpg` by:
+
+    python3 tools/portraits.py originals/portraits src/content/guests.json src/assets/portraits /tmp/sheet.png
+
+Faces are marked by eye in `tools/portraits-faces.json` (x, y, width, height in the original's pixels).
+To move a crop, adjust that guest's entry and run the command again. To replace a portrait, put the new
+file in `originals/portraits/` under the guest's name and update their entry.
+
