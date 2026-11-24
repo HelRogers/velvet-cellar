@@ -369,7 +369,7 @@ const visible = (page, selector) =>
   check('eleven questions as the host has them: no acting question, plus what to bring and whether we are going out', faqs === 11 && FAQS.length === 11 && FAQS.every((f, i) => asked[i].includes(f.question) && asked[i].includes(f.answer)) && !asked.some((t) => /acting experience/i.test(t)) && asked.some((t) => /What should I bring\?/.test(t) && /bottle/.test(t)) && asked.some((t) => /Are we going out to an event\?/.test(t) && /poker/.test(t)));
   await page.evaluate(() => document.querySelector('.ledger-entry summary').scrollIntoView({ block: 'center', behavior: 'instant' }));
   await page.click('.ledger-entry summary');
-  check('a question opens to show its answer', await page.evaluate(() => document.querySelector('.ledger-entry').open && /No\. The murder mystery is designed/.test(document.querySelector('.ledger-answer').textContent)));
+  check('a question opens to show its answer', await page.evaluate((answer) => document.querySelector('.ledger-entry').open && document.querySelector('.ledger-answer').textContent.includes(answer), FAQS[0].answer));
   await page.focus('.ledger-entry:nth-of-type(2) summary');
   await page.keyboard.press('Enter');
   check('questions open from the keyboard', await page.evaluate(() => document.querySelector('.ledger-entry:nth-of-type(2)').open));
