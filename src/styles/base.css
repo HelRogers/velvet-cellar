@@ -1,0 +1,238 @@
+/* Base: reset, type, browser surfaces and the shared components. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background: var(--ink);
+  color-scheme: dark;
+  scrollbar-color: var(--bronze) var(--ink);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.5;
+  font-kerning: normal;
+  font-variant-numeric: oldstyle-nums proportional-nums;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 400;
+  text-wrap: balance;
+}
+
+a {
+  color: var(--gold-bright);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 4px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  background: var(--ivory);
+  color: var(--burgundy-deep);
+  transform: translateY(-200%);
+}
+.skip-link:focus-visible {
+  transform: none;
+}
+
+/* ---------- Display lettering ----------
+   Condensed Victorian capitals with a swash initial on each principal word,
+   echoing the structure of the invitation's own lettering. */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.045em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+.display .swash {
+  font-family: var(--font-swash);
+  font-size: 1.3em;
+  letter-spacing: 0;
+  line-height: 0;
+  margin-inline-end: 0.01em;
+}
+.display .word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Typewriter labels: stamps, file numbers, notes. */
+.typed {
+  font-family: var(--font-type);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* ---------- Buttons ----------
+   Engraved plaques: square corners, a hairline inner rule, no rounded pills. */
+.btn {
+  --btn-fg: var(--ivory);
+  --btn-line: var(--gold);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  min-height: 3rem;
+  padding: 0.55rem 1.35rem 0.5rem;
+  border: 1px solid var(--btn-line);
+  background: rgb(22 8 13 / 0.35);
+  color: var(--btn-fg);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  line-height: 1.1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
+}
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px solid color-mix(in srgb, var(--btn-line) 45%, transparent);
+  pointer-events: none;
+}
+.btn svg {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    background: rgb(184 155 98 / 0.16);
+    border-color: var(--gold-bright);
+  }
+}
+
+.btn--primary {
+  --btn-fg: var(--burgundy-deep);
+  --btn-line: var(--gold-bright);
+  background: linear-gradient(180deg, #f6ecd6, #e3d2ad);
+  box-shadow: var(--shadow-paper);
+}
+.btn--primary::after {
+  border-color: rgb(73 5 24 / 0.35);
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn--primary:hover {
+    background: linear-gradient(180deg, #fff8e6, #ecdcb8);
+  }
+}
+
+.btn--quiet {
+  min-height: 2.75rem;
+  padding-inline: 0.5rem;
+  border-color: transparent;
+  background: none;
+  color: var(--text-soft);
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 1.1rem;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgb(184 155 98 / 0.6);
+  text-underline-offset: 0.25em;
+}
+.btn--quiet::after {
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn--quiet:hover {
+    background: none;
+    border-color: transparent;
+    color: var(--ivory);
+    text-decoration-color: var(--gold-bright);
+  }
+}
+
+/* ---------- Ornament ---------- */
+.rule {
+  display: block;
+  width: min(100%, 20rem);
+  height: 1.25rem;
+  margin-inline: auto;
+  color: var(--gold);
+}

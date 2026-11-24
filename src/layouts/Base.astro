@@ -1,0 +1,49 @@
+---
+import '../styles/tokens.css';
+import '../styles/base.css';
+// The lettering above the fold is preloaded so the opening scene never flashes a fallback face.
+import smythe from '@fontsource/smythe/files/smythe-latin-400-normal.woff2?url';
+import elsie from '@fontsource/elsie-swash-caps/files/elsie-swash-caps-latin-400-normal.woff2?url';
+import garamondItalic from '@fontsource-variable/eb-garamond/files/eb-garamond-latin-wght-italic.woff2?url';
+import typewriter from '@fontsource/special-elite/files/special-elite-latin-400-normal.woff2?url';
+const preloads = [smythe, elsie, garamondItalic, typewriter];
+
+interface Props {
+  title?: string;
+}
+// The title and description are deliberately generic: nothing private belongs in
+// a browser tab, a link preview or a search result.
+const { title = 'The Velvet Cellar' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive, noimageindex" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="theme-color" content="#2c030e" />
+    <meta name="description" content="Private correspondence." />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%236e1225'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23dcc48f' stroke-width='1'/%3E%3Cpath d='M10 10l6 13 6-13' fill='none' stroke='%23f6ecd6' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
+    />
+    {preloads.map((href) => <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />)}
+    <title>{title}</title>
+    <!-- Decide before first paint whether the envelope is still sealed for this visitor. -->
+    <script is:inline>
+      (function () {
+        var opened = false;
+        try {
+          opened = localStorage.getItem('velvet-cellar:invitation-opened') === '1';
+        } catch (e) {}
+        document.documentElement.dataset.invite = opened ? 'opened' : 'sealed';
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to the content</a>
+    <slot />
+  </body>
+</html>

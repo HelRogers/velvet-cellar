@@ -1,0 +1,26 @@
+{
+  "name": "velvet-cellar",
+  "type": "module",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "check": "astro build && node tools/interactions.mjs dist",
+    "shots": "node tools/shots.mjs dist scratch/shots",
+    "preview:pack": "node tools/make_preview.mjs",
+    "textures": "python3 tools/make_textures.py"
+  },
+  "dependencies": {
+    "@fontsource-variable/eb-garamond": "^5.3.0",
+    "@fontsource/elsie-swash-caps": "^5.3.0",
+    "@fontsource/smythe": "^5.3.0",
+    "@fontsource/special-elite": "^5.3.0",
+    "astro": "^7.4.13",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.18.1"
+  },
+  "description": "Private event website for a joint 21st birthday and 1920s murder mystery."
+}

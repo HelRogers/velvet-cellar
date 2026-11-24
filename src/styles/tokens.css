@@ -1,0 +1,93 @@
+/* The Velvet Cellar: design tokens.
+   Colours are sampled from the invitation artwork (#490518 ground, cream lettering)
+   and extended with the palette in the master brief. Change values here only. */
+
+@font-face {
+  font-family: 'Smythe';
+  src: url('../../node_modules/@fontsource/smythe/files/smythe-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Elsie Swash Caps';
+  src: url('../../node_modules/@fontsource/elsie-swash-caps/files/elsie-swash-caps-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  src: url('../../node_modules/@fontsource-variable/eb-garamond/files/eb-garamond-latin-wght-normal.woff2') format('woff2');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  src: url('../../node_modules/@fontsource-variable/eb-garamond/files/eb-garamond-latin-wght-italic.woff2') format('woff2');
+  font-weight: 400 800;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Special Elite';
+  src: url('../../node_modules/@fontsource/special-elite/files/special-elite-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Colour */
+  --burgundy: #490518; /* sampled from the invitation ground */
+  --burgundy-deep: #2c030e;
+  --oxblood: #6e1225;
+  --ink: #16080d; /* almost-black, tinted burgundy */
+  --ivory: #f6ecd6;
+  --parchment: #e6d6b8;
+  --gold: #b89b62;
+  --gold-bright: #dcc48f;
+  --bronze: #82673e;
+  --blood: #7a0c17;
+  --parchment-ink: #2b0a13; /* text on parchment */
+
+  --text: var(--ivory);
+  --text-soft: #dccdb2; /* secondary text on burgundy, tinted from ivory */
+
+  /* Type */
+  --font-display: 'Smythe', 'Elsie Swash Caps', Georgia, 'Times New Roman', serif;
+  --font-swash: 'Elsie Swash Caps', 'Smythe', Georgia, serif;
+  --font-body: 'EB Garamond', Georgia, 'Times New Roman', serif;
+  --font-type: 'Special Elite', 'Courier New', monospace;
+
+  --step--1: clamp(0.94rem, 0.9rem + 0.2vw, 1.05rem);
+  --step-0: clamp(1.19rem, 1.12rem + 0.3vw, 1.35rem); /* body */
+  --step-1: clamp(1.45rem, 1.3rem + 0.7vw, 1.9rem);
+  --step-2: clamp(1.9rem, 1.5rem + 1.8vw, 3rem);
+  --step-3: clamp(2.5rem, 1.7rem + 3.6vw, 4.6rem);
+  --step-4: clamp(3rem, 1.8rem + 5.6vw, 6rem);
+
+  /* Space */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --space-9: 7rem;
+  --gutter: clamp(1.1rem, 4vw, 3rem);
+  --measure: 62ch;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-paper: cubic-bezier(0.6, 0.05, 0.2, 1);
+
+  /* Depth */
+  --shadow-card: 0 1px 1px rgb(0 0 0 / 0.35), 0 14px 28px -8px rgb(0 0 0 / 0.55),
+    0 40px 70px -24px rgb(0 0 0 / 0.6);
+  --shadow-paper: 0 1px 1px rgb(0 0 0 / 0.3), 0 10px 22px -8px rgb(0 0 0 / 0.5);
+}

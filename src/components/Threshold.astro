@@ -1,0 +1,217 @@
+---
+/**
+ * Section one: The Sealed Invitation.
+ * A sealed envelope on velvet; breaking the seal lifts the flap, draws out the
+ * invitation and leaves the guest with a card they can turn over and enlarge.
+ * The two faces are the original invitation images, untouched.
+ */
+import { getImage } from 'astro:assets';
+import frontSrc from '../assets/invitation/invitation-front.png';
+import backSrc from '../assets/invitation/invitation-back.png';
+import site from '../content/site.json';
+import Display from './Display.astro';
+import WaxSealDefs from './WaxSealDefs.astro';
+
+const widths = [480, 800, 1200, 1800, 2381];
+async function responsive(src: ImageMetadata) {
+  const images = await Promise.all(
+    widths.map((width) => getImage({ src, width, format: 'webp', quality: 88 }))
+  );
+  return {
+    src: images[1].src,
+    srcset: images.map((image, i) => `${image.src} ${widths[i]}w`).join(', '),
+  };
+}
+const front = await responsive(frontSrc);
+const back = await responsive(backSrc);
+const cardSizes = '(min-width: 60em) 34rem, 92vw';
+---
+
+<section class="threshold" id="invitation" data-threshold data-face="front" aria-labelledby="invitation-title">
+  <WaxSealDefs />
+  <h1 id="invitation-title" class="sr-only">The Velvet Cellar: your invitation</h1>
+
+  <div class="threshold-frame" aria-hidden="true">
+    {
+      ['tl', 'tr', 'bl', 'br'].map((corner) => (
+        <svg class:list={['corner', `corner--${corner}`]} viewBox="0 0 60 60" fill="none" focusable="false">
+          <g stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+            <path d="M2 58V20C2 10 10 2 20 2h38" />
+            <path d="M9 58V24c0-8.3 6.7-15 15-15h34" opacity="0.55" />
+            <path d="M20 20c6-8 14-8 20 0-6 8-14 8-20 0z" transform="rotate(45 30 20)" opacity="0.8" />
+            <path d="M2 30c7 0 12 5 12 12M30 2c0 7 5 12 12 12" opacity="0.7" />
+          </g>
+          <path d="M16 12l4 4-4 4-4-4z" fill="currentColor" />
+        </svg>
+      ))
+    }
+  </div>
+
+  <div class="stage" data-stage>
+    <!-- Layer one: the sealed envelope -->
+    <div class="layer sealed-layer" data-sealed-layer>
+      <p class="typed postmark" data-intro>Private Correspondence</p>
+      <div data-intro>
+        <Display as="p" class="invited" text="You are cordially invited." />
+      </div>
+
+      <div class="envelope" data-envelope>
+        <div class="env-back" data-env-piece></div>
+
+        <div class="flap" data-flap data-env-piece>
+          <div class="flap-face flap-outer">
+            <svg viewBox="0 0 720 310" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+              <path d="M0 1L360 309L720 1" fill="none" stroke="#fff6da" stroke-opacity="0.55" stroke-width="1.6" transform="translate(0 -2.5)" vector-effect="non-scaling-stroke"></path>
+              <path d="M0 1L360 309L720 1" fill="none" stroke="#5c421a" stroke-opacity="0.5" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
+            </svg>
+          </div>
+          <div class="flap-face flap-inner">
+            <div class="flap-lining"></div>
+          </div>
+          <div class="seal seal-upper" aria-hidden="true">
+            <svg viewBox="0 0 200 200" focusable="false"><use href="#vc-seal"></use></svg>
+          </div>
+        </div>
+
+        <div class="env-front" data-env-front data-env-piece>
+          <div class="pocket pocket--left"></div>
+          <div class="pocket pocket--right"></div>
+          <div class="pocket pocket--bottom"></div>
+          <svg class="pocket-seams" viewBox="0 0 720 500" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <g fill="none" vector-effect="non-scaling-stroke">
+              <path d="M0 0L360 270L720 0" stroke="#4d3612" stroke-opacity="0.55" stroke-width="1.3" vector-effect="non-scaling-stroke"></path>
+              <path d="M0 0L360 270L720 0" stroke="#fff6da" stroke-opacity="0.5" stroke-width="1.2" transform="translate(0 3)" vector-effect="non-scaling-stroke"></path>
+              <path d="M0 500L360 270L720 500" stroke="#4d3612" stroke-opacity="0.45" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
+              <path d="M0 500L360 270L720 500" stroke="#fff6da" stroke-opacity="0.55" stroke-width="1.2" transform="translate(0 -3)" vector-effect="non-scaling-stroke"></path>
+            </g>
+          </svg>
+          <div class="flap-shadow" data-flap-shadow></div>
+        </div>
+
+        <div class="seal seal-lower" data-seal-lower data-env-piece aria-hidden="true">
+          <svg viewBox="0 0 200 200" focusable="false"><use href="#vc-seal"></use></svg>
+        </div>
+        <div class="seal-glint" data-seal-glint aria-hidden="true"></div>
+        <div class="crumbs" aria-hidden="true">
+          <i data-crumb></i><i data-crumb></i><i data-crumb></i><i data-crumb></i>
+        </div>
+
+        <button class="seal-button" type="button" data-open>
+          <span class="sr-only">Break the seal to open your invitation</span>
+        </button>
+      </div>
+
+      <p class="instruction" data-intro>Break the seal to enter.</p>
+      <button class="btn btn--quiet skip" type="button" data-skip data-intro>Skip the opening</button>
+    </div>
+
+    <!-- Layer two: the invitation itself -->
+    <div class="layer viewer-layer" data-viewer-layer>
+      <div class="card-rig" data-card-rig>
+        <div class="card-lift" data-card-lift>
+          <div class="card-flip" data-card-flip>
+            <div class="card-face card-face--front" data-face-front>
+              <img
+                src={front.src}
+                srcset={front.srcset}
+                sizes={cardSizes}
+                width={frontSrc.width}
+                height={frontSrc.height}
+                alt={site.invitation.frontAlt}
+                decoding="async"
+                fetchpriority="high"
+                draggable="false"
+              />
+            </div>
+            <div class="card-face card-face--back" data-face-back aria-hidden="true">
+              <img
+                src={back.src}
+                srcset={back.srcset}
+                sizes={cardSizes}
+                width={backSrc.width}
+                height={backSrc.height}
+                alt={site.invitation.backAlt}
+                decoding="async"
+                draggable="false"
+              />
+            </div>
+          </div>
+        </div>
+        <button class="card-hit" type="button" data-enlarge data-viewer-control>
+          <span class="sr-only">Enlarge the invitation</span>
+        </button>
+      </div>
+
+      <div class="viewer-controls" data-viewer-controls>
+        <Display as="h2" class="viewer-heading" text="Your Invitation" />
+        <p class="viewer-hint">Turn the card to read the particulars, or select it to see it enlarged.</p>
+        <div class="viewer-row">
+          <button class="btn" type="button" data-turn data-viewer-control>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M4 12a8 8 0 0 1 13.7-5.6L20 8.6" />
+              <path d="M20 4v4.6h-4.6" />
+              <path d="M20 12a8 8 0 0 1-13.7 5.6L4 15.4" />
+              <path d="M4 20v-4.6h4.6" />
+            </svg>
+            Turn the card over
+          </button>
+          <button class="btn" type="button" data-enlarge data-viewer-control>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5" />
+            </svg>
+            Enlarge
+          </button>
+        </div>
+        <a class="btn btn--primary enter" href="#house-style" data-viewer-control>
+          Enter The Velvet Cellar
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M12 5v14M6 13l6 6 6-6" />
+          </svg>
+        </a>
+        <button class="btn btn--quiet replay" type="button" data-replay data-viewer-control>Replay the opening</button>
+      </div>
+      <p class="sr-only" aria-live="polite" data-announce></p>
+    </div>
+  </div>
+
+  <!-- Enlarged view -->
+  <dialog class="lightbox" data-lightbox aria-labelledby="lightbox-title">
+    <div class="lightbox-bar">
+      <p id="lightbox-title" class="typed"><span class="sr-only">The invitation, enlarged: </span>The <span data-lightbox-face>front</span></p>
+      <div class="lightbox-tools">
+        <button class="tool" type="button" data-zoom-out aria-label="Zoom out">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /></svg>
+        </button>
+        <button class="tool" type="button" data-zoom-in aria-label="Zoom in">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M5 12h14M12 5v14" /></svg>
+        </button>
+        <button class="tool" type="button" data-lightbox-turn aria-label="Turn the card over">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M4 12a8 8 0 0 1 13.7-5.6L20 8.6" /><path d="M20 4v4.6h-4.6" /><path d="M20 12a8 8 0 0 1-13.7 5.6L4 15.4" /><path d="M4 20v-4.6h4.6" />
+          </svg>
+        </button>
+        <button class="tool" type="button" data-lightbox-close aria-label="Close the enlarged invitation">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </div>
+    </div>
+    <div class="lightbox-scroll" data-lightbox-scroll tabindex="0" role="group" aria-label="Enlarged invitation. Scroll to move around the card.">
+      <img data-lightbox-img alt="" decoding="async" draggable="false" />
+    </div>
+  </dialog>
+</section>
+
+<script
+  is:inline
+  type="application/json"
+  id="invitation-data"
+  set:html={JSON.stringify({
+    front: { ...front, alt: site.invitation.frontAlt, width: frontSrc.width, height: frontSrc.height },
+    back: { ...back, alt: site.invitation.backAlt, width: backSrc.width, height: backSrc.height },
+  })}
+/>
+
+<script>
+  import { initInvitation } from '../scripts/invitation';
+  initInvitation();
+</script>

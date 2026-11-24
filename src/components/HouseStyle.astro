@@ -1,0 +1,158 @@
+---
+/**
+ * Checkpoint 2 review sheet: the visual identity laid out for approval.
+ * This is a working document for the host, not a section of the guest site.
+ * It is replaced by the homepage sections at Checkpoint 3.
+ */
+import site from '../content/site.json';
+import Display from './Display.astro';
+import Rule from './Rule.astro';
+
+const palette = [
+  { name: 'Deep burgundy', hex: '#490518', role: 'The ground, sampled from the invitation', light: false },
+  { name: 'Oxblood', hex: '#6E1225', role: 'Panels, linings, wax', light: false },
+  { name: 'Almost black', hex: '#16080D', role: 'Depth and contrast', light: false },
+  { name: 'Dark blood red', hex: '#7A0C17', role: 'Stamps and rare accents', light: false },
+  { name: 'Antique ivory', hex: '#F6ECD6', role: 'Lettering', light: true },
+  { name: 'Aged parchment', hex: '#E6D6B8', role: 'Documents and notices', light: true },
+  { name: 'Antique gold', hex: '#B89B62', role: 'Rules, borders, details', light: true },
+  { name: 'Muted bronze', hex: '#82673E', role: 'Shadowed metal', light: false },
+];
+const { event } = site;
+---
+
+<section class="sheet beyond" id="house-style" aria-labelledby="sheet-title">
+  <div class="sheet-inner">
+    <header class="sheet-head">
+      <p class="typed sheet-note">Review sheet for Checkpoint 2. Not part of the guest site.</p>
+      <Display as="h2" id="sheet-title" class="sheet-title" text="The House Style" />
+      <p class="sheet-lede">
+        The colours, lettering and materials from which the rest of The Velvet Cellar will be built. Everything here is
+        drawn from the invitation artwork and the approved brief.
+      </p>
+      <Rule />
+    </header>
+
+    <section class="sheet-block" aria-labelledby="sheet-palette">
+      <Display as="h3" id="sheet-palette" class="sheet-heading" text="The Palette" />
+      <ul class="swatches" role="list">
+        {
+          palette.map((colour) => (
+            <li class="swatch">
+              <span class:list={['swatch-chip', { 'swatch-chip--light': colour.light }]} style={`background:${colour.hex}`} />
+              <span class="swatch-name">{colour.name}</span>
+              <span class="typed swatch-hex">{colour.hex}</span>
+              <span class="swatch-role">{colour.role}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="sheet-block" aria-labelledby="sheet-lettering">
+      <Display as="h3" id="sheet-lettering" class="sheet-heading" text="The Lettering" />
+
+      <div class="specimen">
+        <Display as="p" class="specimen-display" text="Welcome to The Velvet Cellar" />
+        <p class="typed specimen-note">
+          Display. Smythe capitals with Elsie Swash initials. Titles, headings and invitation text.
+        </p>
+      </div>
+
+      <div class="specimen specimen--text">
+        <div class="specimen-body">
+          <p>
+            The year is 1925. Behind closed doors, champagne flows, fortunes are gambled and secrets are traded. Beneath
+            the glamour of the city’s most exclusive underground establishment, whispers of scandal are never far away.
+          </p>
+          <p>
+            <em>Dress accordingly. Trust carefully. And remember, not everything is quite as it seems.</em>
+          </p>
+        </div>
+        <p class="typed specimen-note">Text. EB Garamond. Paragraphs, instructions and practical information.</p>
+      </div>
+
+      <div class="specimen">
+        <p class="typed specimen-typed">File No. VC-1925-018 &nbsp;/&nbsp; Strictly confidential &nbsp;/&nbsp; Not to leave the premises</p>
+        <p class="typed specimen-note">Typewriter. Special Elite. Stamps, file numbers, notices and detective notes.</p>
+      </div>
+    </section>
+
+    <section class="sheet-block" aria-labelledby="sheet-materials">
+      <Display as="h3" id="sheet-materials" class="sheet-heading" text="Materials and Details" />
+      <ul class="materials" role="list">
+        <li>
+          <span class="material material--velvet"></span>
+          <span class="typed">Burgundy velvet</span>
+        </li>
+        <li>
+          <span class="material material--champagne"></span>
+          <span class="typed">Champagne stock</span>
+        </li>
+        <li>
+          <span class="material material--parchment"></span>
+          <span class="typed">Aged parchment</span>
+        </li>
+        <li>
+          <span class="material material--seal">
+            <svg viewBox="0 0 200 200" aria-hidden="true" focusable="false"><use href="#vc-seal"></use></svg>
+          </span>
+          <span class="typed">Wax seal, VC monogram</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="sheet-block" aria-labelledby="sheet-use">
+      <Display as="h3" id="sheet-use" class="sheet-heading" text="In Use" />
+      <p class="typed specimen-note sheet-caution">
+        Specimens only. The buttons below show the style and are not connected to anything yet.
+      </p>
+
+      <div class="in-use">
+        <article class="document">
+          <span class="stamp typed" aria-hidden="true">By invitation only</span>
+          <Display as="h4" class="document-title" text="The Evening’s Particulars" />
+          <Rule class="document-rule" />
+          <dl class="particulars">
+            <div>
+              <dt>The Occasion</dt>
+              <dd>{event.occasion}</dd>
+            </div>
+            <div>
+              <dt>The Date</dt>
+              <dd>{event.dateLabel}</dd>
+            </div>
+            <div>
+              <dt>The Hour</dt>
+              <dd>{event.hourLabel}</dd>
+            </div>
+            <div>
+              <dt>The Establishment</dt>
+              <dd>{event.venue}<br />{event.address}</dd>
+            </div>
+            <div>
+              <dt>The Attire</dt>
+              <dd>{event.attire}</dd>
+            </div>
+            <div>
+              <dt>Kindly Respond By</dt>
+              <dd>{event.rsvpBy}</dd>
+            </div>
+          </dl>
+        </article>
+
+        <div class="controls-specimen" aria-label="Button styles, for illustration">
+          <span class="btn btn--primary">Reserve your place</span>
+          <span class="btn">Add to calendar</span>
+          <span class="btn btn--quiet">A quieter link</span>
+        </div>
+      </div>
+    </section>
+
+    <footer class="sheet-foot">
+      <Rule />
+      <p class="typed">The complete homepage follows at Checkpoint 3, once this is approved.</p>
+      <a class="btn" href="#invitation">Return to the invitation</a>
+    </footer>
+  </div>
+</section>
