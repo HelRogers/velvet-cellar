@@ -739,7 +739,7 @@ html[data-view='dossier'] body {
 .board + .board {
   border-top: 3px double rgb(73 5 24 / 0.45);
 }
-.board--ladies {
+.board--second {
   background: linear-gradient(rgb(246 236 214 / 0.72), rgb(246 236 214 / 0.72)), url('../assets/textures/parchment.webp') 0 0 / 360px;
 }
 .board ::selection {
@@ -845,7 +845,7 @@ html[data-view='dossier'] body {
 }
 
 /* Board one: a wide opening photograph above three columns. */
-.board--cellar .plate-item:first-child {
+.board--first .plate-item:first-child {
   column-span: all;
 }
 @media (min-width: 48em) {
@@ -855,44 +855,44 @@ html[data-view='dossier'] body {
   .plate-item {
     margin-bottom: 1.25rem;
   }
-  .board--cellar .plates,
-  .board--gentlemen .plates {
+  .board--first .plates,
+  .board--third .plates {
     columns: 3;
   }
-  .board--ladies .plates {
+  .board--second .plates {
     columns: 3;
   }
 }
 @media (min-width: 62em) {
   /* Board one: heading in a narrow left column, beside the photographs. */
-  .board--cellar .board-page {
+  .board--first .board-page {
     grid-template-columns: minmax(0, 19rem) minmax(0, 1fr);
     gap: var(--space-8);
   }
-  .board--cellar .board-head,
-  .board--ladies .board-head {
+  .board--first .board-head,
+  .board--second .board-head {
     position: sticky;
     top: 5.5rem;
   }
   /* Board two: four narrow columns, heading on the right. */
-  .board--ladies .board-page {
+  .board--second .board-page {
     grid-template-columns: minmax(0, 1fr) minmax(0, 19rem);
     gap: var(--space-8);
   }
-  .board--ladies .board-head {
+  .board--second .board-head {
     order: 2;
   }
-  .board--ladies .plates {
+  .board--second .plates {
     columns: 4;
   }
   /* Board three: a centred masthead over three broad columns. */
-  .board--gentlemen .board-head {
+  .board--third .board-head {
     justify-items: center;
     text-align: center;
     padding-bottom: var(--space-5);
     border-bottom: 2px dotted rgb(73 5 24 / 0.45);
   }
-  .board--gentlemen .board-title {
+  .board--third .board-title {
     font-size: var(--step-4);
   }
 }

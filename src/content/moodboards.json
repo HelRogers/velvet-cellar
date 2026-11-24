@@ -1,5 +1,5 @@
 {
-  "_about": "Mood boards. The host chooses every image. To add one, put the file in src/assets/moodboards/<board id>/ and list it under that board with its file name, alt text and optional caption. Until images are supplied, each board shows the placeholder plates listed in \"placeholders\" (shape only).",
+  "_about": "Mood boards. The host chooses every image. To add one, put the file in src/assets/moodboards/<board id>/ and list it under that board with its file name, alt text and optional caption. Until images are supplied, each board shows the placeholder plates listed in \"placeholders\" (shape only). The boards appear in the order listed here. Each position has its own page layout (first, second, third), which does not move when boards are reordered.",
   "boards": [
     {
       "id": "cellar",
@@ -59,11 +59,44 @@
       ]
     },
     {
-      "id": "ladies",
-      "title": "The Ladies of The Velvet Cellar",
+      "id": "gentlemen",
+      "title": "The Gentlemen of The Velvet Cellar",
       "subtitle": "Costume inspiration",
-      "note": "Glamorous eveningwear, flapper dresses, satin and velvet, beading, pearls, long gloves, feathers, sharp tailoring and a little femme fatale.",
-      "images": [],
+      "note": "Three-piece suits, black tie, pinstripes, waistcoats, suspenders and bow ties, fedoras and flat caps, pocket watches, gamblers and gangsters.",
+      "images": [
+        {
+          "file": "01-four-in-flat-caps.jpg",
+          "alt": "Four young men in flat caps, three-piece suits and overcoats standing together at night with cigarettes, one in a brown corduroy suit with a watch chain."
+        },
+        {
+          "file": "02-fedora-and-braces.jpg",
+          "alt": "Sepia photograph of a man in a fedora, dark shirt, tie and braces leaning against a pillar on a street corner, holding a tommy gun."
+        },
+        {
+          "file": "03-dinner-jacket-candle.jpg",
+          "alt": "Black and white photograph of a man in a dinner jacket leaning across a candlelit dinner table to light his cigarette from a candle."
+        },
+        {
+          "file": "04-film-noir.jpg",
+          "alt": "Black and white film noir portrait of a man in a fedora, white shirt, dark tie and braces looking through venetian blinds with a revolver in his hand."
+        },
+        {
+          "file": "05-bow-tie-and-braces.jpg",
+          "alt": "Close-up of a white dress shirt with black studs, an untied black bow tie and navy striped braces with gold clips."
+        },
+        {
+          "file": "06-flat-cap-and-overcoat.jpg",
+          "alt": "A young man in a black flat cap, long black overcoat, grey waistcoat, patterned tie and black leather gloves, smoking outside at night with a drink in his hand."
+        },
+        {
+          "file": "07-waistcoats-at-night.jpg",
+          "alt": "Black and white photograph of four young men in flat caps, waistcoats and dark suits standing at a roadside at night, one wearing a watch chain."
+        },
+        {
+          "file": "08-fedora-portrait.jpg",
+          "alt": "Sepia studio portrait from the 1920s of a man in a tilted fedora, three-piece suit and striped tie, seated and looking to one side."
+        }
+      ],
       "placeholders": [
         "3/4",
         "4/5",
@@ -76,10 +109,10 @@
       ]
     },
     {
-      "id": "gentlemen",
-      "title": "The Gentlemen of The Velvet Cellar",
+      "id": "ladies",
+      "title": "The Ladies of The Velvet Cellar",
       "subtitle": "Costume inspiration",
-      "note": "Three-piece suits, black tie, pinstripes, waistcoats, suspenders and bow ties, fedoras and flat caps, pocket watches, gamblers and gangsters.",
+      "note": "Glamorous eveningwear, flapper dresses, satin and velvet, beading, pearls, long gloves, feathers, sharp tailoring and a little femme fatale.",
       "images": [],
       "placeholders": [
         "2/3",

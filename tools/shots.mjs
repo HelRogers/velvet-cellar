@@ -97,7 +97,7 @@ for (const v of viewports) {
     await shot('9-menu');
     await page.evaluate(() => document.querySelector('[data-nav-menu]').close());
   }
-  await page.evaluate(() => document.querySelector('#board-ladies [data-plate]').click());
+  await page.evaluate(() => document.querySelector('#board-gentlemen [data-plate]').click());
   await sleep(450);
   await shot('10-gallery');
   await page.evaluate(() => document.querySelector('[data-gallery]').close());

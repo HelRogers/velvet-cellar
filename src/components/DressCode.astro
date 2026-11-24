@@ -11,6 +11,8 @@ import Display from './Display.astro';
 
 const files = import.meta.glob<{ default: ImageMetadata }>('../assets/moodboards/**/*.{jpg,jpeg,png,webp}', { eager: true });
 const numerals = ['I', 'II', 'III', 'IV', 'V'];
+// Each position on the page has its own layout; the board shown there can change (see moodboards.json).
+const positions = ['first', 'second', 'third'];
 
 const boards = await Promise.all(
   data.boards.map(async (board, index) => {
@@ -26,7 +28,7 @@ const boards = await Promise.all(
       })
     );
     const images = supplied.filter((image): image is NonNullable<typeof image> => image !== null);
-    return { ...board, numeral: numerals[index], images };
+    return { ...board, numeral: numerals[index], position: positions[index] ?? 'third', images };
   })
 );
 ---
@@ -59,7 +61,7 @@ const boards = await Promise.all(
 
   {
     boards.map((board) => (
-      <article class:list={['board', `board--${board.id}`]} id={`board-${board.id}`} aria-labelledby={`board-title-${board.id}`} data-board>
+      <article class:list={['board', `board--${board.position}`]} id={`board-${board.id}`} aria-labelledby={`board-title-${board.id}`} data-board>
         <div class="wrap board-page">
           <header class="board-head">
             <p class="typed board-plate">Plate {board.numeral}</p>
@@ -79,7 +81,7 @@ const boards = await Promise.all(
                   <li class="plate-item">
                     <button class="plate-button" type="button" data-plate data-index={i} data-large={image.large} data-alt={image.alt} data-caption={image.caption ?? ''}>
                       {/* the full-width opening photograph of board one needs the larger file */}
-                      <img src={board.id === 'cellar' && i === 0 ? image.large : image.small} width={image.width} height={image.height} alt={image.alt} loading="lazy" decoding="async" />
+                      <img src={board.position === 'first' && i === 0 ? image.large : image.small} width={image.width} height={image.height} alt={image.alt} loading="lazy" decoding="async" />
                       <span class="sr-only">Enlarge this photograph</span>
                     </button>
                     {image.caption && <p class="plate-caption">{image.caption}</p>}
