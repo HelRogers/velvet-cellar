@@ -21,6 +21,7 @@ const check = (name, ok, detail = '') => {
 };
 
 const GUESTS = JSON.parse(readFileSync('src/content/guests.json', 'utf8')).guests;
+const SITE = JSON.parse(readFileSync('src/content/site.json', 'utf8'));
 const HTML = readFileSync(join(dir, 'index.html'), 'utf8');
 
 // ---------- The character records and what the built page gives away ----------
@@ -346,7 +347,7 @@ const visible = (page, selector) =>
     radio.buttons[0].text === 'Listen to The Gramophone' && radio.buttons[0].href === 'https://open.spotify.com/playlist/5n2F5zAvRoT4II9YKupx8s' && /gramophone/.test(radio.buttons[0].record) &&
     radio.buttons[1].text === 'Listen to After Hours' && radio.buttons[1].href === 'https://open.spotify.com/playlist/1t5P9HNkWKBWzx1d1JBhVt' && /after-hours/.test(radio.buttons[1].record), JSON.stringify(radio.buttons));
   check('playlist buttons open Spotify in a new tab, safely', radio.buttons.every((b) => b.target === '_blank' && /noopener/.test(b.rel)));
-  check('After Hours carries the host’s note beneath its button; the Gramophone has none', radio.note === 'Once the mystery is solved, the night is yours. Add your favourite party tracks using the Spotify collaboration invitation shared in our group chat.' && radio.noteBelowButton && !radio.gramophoneNote);
+  check('After Hours carries the host’s note beneath its button; the Gramophone has none', radio.note === SITE.playlists.afterHours.note && /Spotify collaboration invitation shared in our group chat/.test(radio.note) && !/Once the mystery/.test(radio.note) && radio.noteBelowButton && !radio.gramophoneNote);
   check('nothing plays or embeds audio on the page, and there is no song request form', radio.audio === 0 && (await page.evaluate(() => document.querySelectorAll('.radio form, .radio input').length)) === 0);
   const notices = await page.evaluate(() => [...document.querySelectorAll('.notice')].map((n) => ({ title: n.querySelector('h3').textContent.trim(), date: n.querySelector('time').textContent.trim(), stamp: n.querySelector('.notice-stamp')?.textContent.trim() ?? '', closing: n.querySelector('.notice-closing')?.textContent.trim(), italic: getComputedStyle(n.querySelector('.notice-closing')).fontStyle, link: n.querySelector('.notice-link')?.getAttribute('href'), text: n.textContent })));
   check('noticeboard: the host’s two notices, in her order, with no specimens left', notices.length === 2 && notices[0].title === 'An Invitation Has Arrived' && notices[1].title === 'A Word of Caution…' && notices.every((n) => n.date === '24 November 2026' && !/Specimen/i.test(n.text)) && !(await page.evaluate(() => /Nothing has been posted yet/.test(document.querySelector('#noticeboard').textContent))));
