@@ -299,9 +299,22 @@ const visible = (page, selector) =>
   check('Escape closes the dossier', await page.evaluate(() => document.querySelector('#dossier-kitty-adams').hidden));
 
   // ---------- Dress for the Decade ----------
-  const boards = await page.evaluate(() => [...document.querySelectorAll('[data-board]')].map((b) => ({ title: b.querySelector('h3').textContent.replace(/\s+/g, ' ').trim(), plates: b.querySelectorAll('[data-plate]').length, marked: /Placeholder plates/.test(b.textContent), images: b.querySelectorAll('img').length })));
-  check('three mood boards, each with its own number of plates', boards.length === 3 && boards.map((b) => b.plates).join(',') === '7,8,6', JSON.stringify(boards.map((b) => b.plates)));
-  check('every board is marked as awaiting the host’s photographs; none has an image', boards.every((b) => b.marked && b.images === 0));
+  const boards = await page.evaluate(() => [...document.querySelectorAll('[data-board]')].map((b) => ({ id: b.id, plates: b.querySelectorAll('[data-plate]').length, marked: /Placeholder plates/.test(b.textContent), images: b.querySelectorAll('img').length, described: [...b.querySelectorAll('img')].every((img) => img.alt.length > 40) })));
+  const BOARDS = JSON.parse(readFileSync('src/content/moodboards.json', 'utf8')).boards;
+  check('three mood boards, each showing the host’s photographs or, until supplied, marked placeholder plates', boards.length === 3 && BOARDS.every((b, i) => (b.images.length ? boards[i].plates === b.images.length && boards[i].images === b.images.length && !boards[i].marked && boards[i].described : boards[i].plates === b.placeholders.length && boards[i].images === 0 && boards[i].marked)), JSON.stringify(boards));
+  check('The Velvet Cellar board: ten photographs, the host’s chosen picture first and full width', await page.evaluate(async () => {
+    const board = document.querySelector('#board-cellar');
+    const first = board.querySelector('.plate-item img');
+    first.scrollIntoView({ block: 'center', behavior: 'instant' });
+    await first.decode().catch(() => {});
+    const list = board.querySelector('.plates').getBoundingClientRect();
+    return board.querySelectorAll('.plate-item img').length === 10 && /mantelpiece/.test(first.alt) && first.naturalWidth > 0 && Math.abs(first.getBoundingClientRect().width - list.width) < 2;
+  }));
+  await page.click('#board-cellar [data-plate]');
+  await sleep(500);
+  check('a photograph opens enlarged, with its description', await page.evaluate(() => { const g = document.querySelector('[data-gallery]'); const img = g.querySelector('img'); return g.open && img && /mantelpiece/.test(img.alt); }) && (await text(page, '[data-gallery-count]')) === '1 of 10');
+  await page.click('[data-gallery-close]');
+  await sleep(300);
   await page.evaluate(() => document.querySelector('#board-ladies [data-plate]').scrollIntoView({ block: 'center', behavior: 'instant' }));
   await page.click('#board-ladies [data-plate]');
   await sleep(400);

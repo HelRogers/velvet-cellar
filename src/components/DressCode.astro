@@ -78,7 +78,8 @@ const boards = await Promise.all(
               ? board.images.map((image, i) => (
                   <li class="plate-item">
                     <button class="plate-button" type="button" data-plate data-index={i} data-large={image.large} data-alt={image.alt} data-caption={image.caption ?? ''}>
-                      <img src={image.small} width={image.width} height={image.height} alt={image.alt} loading="lazy" decoding="async" />
+                      {/* the full-width opening photograph of board one needs the larger file */}
+                      <img src={board.id === 'cellar' && i === 0 ? image.large : image.small} width={image.width} height={image.height} alt={image.alt} loading="lazy" decoding="async" />
                       <span class="sr-only">Enlarge this photograph</span>
                     </button>
                     {image.caption && <p class="plate-caption">{image.caption}</p>}

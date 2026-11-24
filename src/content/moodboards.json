@@ -6,7 +6,48 @@
       "title": "The Velvet Cellar",
       "subtitle": "The overall aesthetic",
       "note": "Underground speakeasies, champagne towers, candlelight, burgundy velvet, jazz clubs, card tables and Art Deco interiors.",
-      "images": [],
+      "images": [
+        {
+          "file": "01-mantelpiece-party.jpg",
+          "alt": "Black and white photograph from the 1920s: a party in evening dress around a grand fireplace, with two women sitting up on the mantelpiece raising their glasses."
+        },
+        {
+          "file": "02-jazz-trio.jpg",
+          "alt": "A jazz trio with saxophone, double bass and drums playing in a small club draped in red velvet, lit by glowing table lamps."
+        },
+        {
+          "file": "03-champagne-tower.jpg",
+          "alt": "A woman in a gold fringed flapper dress, beaded headband and long gloves pouring fizz into a tower of coupe glasses."
+        },
+        {
+          "file": "04-card-table.jpg",
+          "alt": "Men in white shirts and braces laughing around a card table covered in chips, cards and banknotes, while a woman fans out a handful of notes."
+        },
+        {
+          "file": "05-prohibition-sign.jpg",
+          "alt": "Black and white photograph: revellers with bottles and a cigar holding a sign that reads “In compliance with the 18th Amendment no intoxicating liquor allowed on the premises”."
+        },
+        {
+          "file": "06-fireplace.jpg",
+          "alt": "Men in dinner jackets lounging in a smoky, candlelit room beside a blazing fire, with a woman in a gold dress stretched out on the rug among glasses and bottles."
+        },
+        {
+          "file": "07-table-setting.jpg",
+          "alt": "A dark wooden dinner table seen from above, laid with black plates, newspaper menus, tall candles in wine bottles, strings of pearls and white feathers."
+        },
+        {
+          "file": "08-killer-birthday-banner.jpg",
+          "alt": "A party backdrop: a red foil curtain hung with newspaper bunting painted with the words “Have a killer b’day”, beside a table set with candles."
+        },
+        {
+          "file": "09-gold-dress.jpg",
+          "alt": "A woman in a gold sequinned flapper dress, pearls and feathered headband lifted into the air by a cheering group of men in waistcoats and bow ties."
+        },
+        {
+          "file": "10-drawing-room.jpg",
+          "alt": "Black and white photograph of three women in flapper dresses and beaded headbands laughing beside three men in dark suits and flat caps, in a panelled drawing room."
+        }
+      ],
       "placeholders": [
         "16/9",
         "4/5",
