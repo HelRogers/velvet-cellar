@@ -26,12 +26,16 @@
     "visible": true
   },
   "playlists": {
+    "_about": "The two Spotify playlists. Each button opens its 'url' in Spotify; nothing plays on the site. 'note' is an optional line shown under the button. Guests add songs to After Hours through the collaboration invitation the host shares in the group chat (those invitations expire after seven days, so they are never placed on the site).",
     "gramophone": {
-      "url": ""
+      "url": "https://open.spotify.com/playlist/5n2F5zAvRoT4II9YKupx8s",
+      "action": "Listen to The Gramophone",
+      "note": ""
     },
     "afterHours": {
-      "url": "",
-      "suggestionFormUrl": ""
+      "url": "https://open.spotify.com/playlist/1t5P9HNkWKBWzx1d1JBhVt",
+      "action": "Listen to After Hours",
+      "note": "With the culprit unmasked, expect poker, flowing drinks and a little debauchery in every room of the house. Add your favourite party tracks using the Spotify collaboration invitation shared in our group chat."
     }
   },
   "voting": {
@@ -44,5 +48,5 @@
     "contributeUrl": "",
     "thankYou": ""
   },
-  "showSpecimens": true
+  "showSpecimens": false
 }

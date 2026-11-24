@@ -8,3 +8,6 @@ scratch/
 .env.*
 .netlify/
 .DS_Store
+
+# Review screenshots (may show private character text)
+shots/

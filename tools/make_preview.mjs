@@ -33,7 +33,7 @@ html = html.replace(/<script type="module" src="\/_astro\/([^"]+\.js)"><\/script
 // Everything else (images, textures) loads by relative path, from a folder
 // without a leading underscore (artifact hosting reserves that prefix).
 html = html.replaceAll('/_astro/', './assets/');
-html = html.replace('<title>The Velvet Cellar</title>', '<title>The Velvet Cellar: Checkpoint 3 preview</title>');
+html = html.replace('<title>The Velvet Cellar</title>', '<title>The Velvet Cellar: Checkpoint 4 preview</title>');
 // Mark the copy as a preview, so features that need the live site say so instead of pretending.
 html = html.replace('<html lang="en-GB"', '<html lang="en-GB" data-preview');
 if (!html.includes('data-preview')) throw new Error('Could not mark the page as a preview.');

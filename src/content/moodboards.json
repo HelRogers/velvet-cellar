@@ -1,12 +1,53 @@
 {
-  "_about": "Mood boards. The host chooses every image. To add one, put the file in src/assets/moodboards/<board id>/ and list it under that board with its file name, alt text and optional caption. Until images are supplied, each board shows the placeholder plates listed in \"placeholders\" (shape only).",
+  "_about": "Mood boards. The host chooses every image. To add one, put the file in src/assets/moodboards/<board id>/ and list it under that board with its file name, alt text and optional caption. Until images are supplied, each board shows the placeholder plates listed in \"placeholders\" (shape only). The boards appear in the order listed here. Each position has its own page layout (first, second, third), which does not move when boards are reordered.",
   "boards": [
     {
       "id": "cellar",
       "title": "The Velvet Cellar",
       "subtitle": "The overall aesthetic",
       "note": "Underground speakeasies, champagne towers, candlelight, burgundy velvet, jazz clubs, card tables and Art Deco interiors.",
-      "images": [],
+      "images": [
+        {
+          "file": "01-mantelpiece-party.jpg",
+          "alt": "Black and white photograph from the 1920s: a party in evening dress around a grand fireplace, with two women sitting up on the mantelpiece raising their glasses."
+        },
+        {
+          "file": "02-jazz-trio.jpg",
+          "alt": "A jazz trio with saxophone, double bass and drums playing in a small club draped in red velvet, lit by glowing table lamps."
+        },
+        {
+          "file": "03-champagne-tower.jpg",
+          "alt": "A woman in a gold fringed flapper dress, beaded headband and long gloves pouring fizz into a tower of coupe glasses."
+        },
+        {
+          "file": "04-card-table.jpg",
+          "alt": "Men in white shirts and braces laughing around a card table covered in chips, cards and banknotes, while a woman fans out a handful of notes."
+        },
+        {
+          "file": "05-prohibition-sign.jpg",
+          "alt": "Black and white photograph: revellers with bottles and a cigar holding a sign that reads “In compliance with the 18th Amendment no intoxicating liquor allowed on the premises”."
+        },
+        {
+          "file": "06-fireplace.jpg",
+          "alt": "Men in dinner jackets lounging in a smoky, candlelit room beside a blazing fire, with a woman in a gold dress stretched out on the rug among glasses and bottles."
+        },
+        {
+          "file": "07-table-setting.jpg",
+          "alt": "A dark wooden dinner table seen from above, laid with black plates, newspaper menus, tall candles in wine bottles, strings of pearls and white feathers."
+        },
+        {
+          "file": "08-killer-birthday-banner.jpg",
+          "alt": "A party backdrop: a red foil curtain hung with newspaper bunting painted with the words “Have a killer b’day”, beside a table set with candles."
+        },
+        {
+          "file": "09-gold-dress.jpg",
+          "alt": "A woman in a gold sequinned flapper dress, pearls and feathered headband lifted into the air by a cheering group of men in waistcoats and bow ties."
+        },
+        {
+          "file": "10-drawing-room.jpg",
+          "alt": "Black and white photograph of three women in flapper dresses and beaded headbands laughing beside three men in dark suits and flat caps, in a panelled drawing room."
+        }
+      ],
       "placeholders": [
         "16/9",
         "4/5",
@@ -18,11 +59,44 @@
       ]
     },
     {
-      "id": "ladies",
-      "title": "The Ladies of The Velvet Cellar",
+      "id": "gentlemen",
+      "title": "The Gentlemen of The Velvet Cellar",
       "subtitle": "Costume inspiration",
-      "note": "Glamorous eveningwear, flapper dresses, satin and velvet, beading, pearls, long gloves, feathers, sharp tailoring and a little femme fatale.",
-      "images": [],
+      "note": "Three-piece suits, black tie, pinstripes, waistcoats, suspenders and bow ties, fedoras and flat caps, pocket watches, gamblers and gangsters.",
+      "images": [
+        {
+          "file": "01-four-in-flat-caps.jpg",
+          "alt": "Four young men in flat caps, three-piece suits and overcoats standing together at night with cigarettes, one in a brown corduroy suit with a watch chain."
+        },
+        {
+          "file": "02-fedora-and-braces.jpg",
+          "alt": "Sepia photograph of a man in a fedora, dark shirt, tie and braces leaning against a pillar on a street corner, holding a tommy gun."
+        },
+        {
+          "file": "03-dinner-jacket-candle.jpg",
+          "alt": "Black and white photograph of a man in a dinner jacket leaning across a candlelit dinner table to light his cigarette from a candle."
+        },
+        {
+          "file": "04-film-noir.jpg",
+          "alt": "Black and white film noir portrait of a man in a fedora, white shirt, dark tie and braces looking through venetian blinds with a revolver in his hand."
+        },
+        {
+          "file": "05-bow-tie-and-braces.jpg",
+          "alt": "Close-up of a white dress shirt with black studs, an untied black bow tie and navy striped braces with gold clips."
+        },
+        {
+          "file": "06-flat-cap-and-overcoat.jpg",
+          "alt": "A young man in a black flat cap, long black overcoat, grey waistcoat, patterned tie and black leather gloves, smoking outside at night with a drink in his hand."
+        },
+        {
+          "file": "07-waistcoats-at-night.jpg",
+          "alt": "Black and white photograph of four young men in flat caps, waistcoats and dark suits standing at a roadside at night, one wearing a watch chain."
+        },
+        {
+          "file": "08-fedora-portrait.jpg",
+          "alt": "Sepia studio portrait from the 1920s of a man in a tilted fedora, three-piece suit and striped tie, seated and looking to one side."
+        }
+      ],
       "placeholders": [
         "3/4",
         "4/5",
@@ -35,11 +109,52 @@
       ]
     },
     {
-      "id": "gentlemen",
-      "title": "The Gentlemen of The Velvet Cellar",
+      "id": "ladies",
+      "title": "The Ladies of The Velvet Cellar",
       "subtitle": "Costume inspiration",
-      "note": "Three-piece suits, black tie, pinstripes, waistcoats, suspenders and bow ties, fedoras and flat caps, pocket watches, gamblers and gangsters.",
-      "images": [],
+      "note": "Glamorous eveningwear, flapper dresses, satin and velvet, beading, pearls, long gloves, feathers, sharp tailoring and a little femme fatale.",
+      "images": [
+        {
+          "file": "01-red-curtain-trio.jpg",
+          "alt": "Three women dressed as flappers, in beaded black and sheer ivory with pearls, headpieces and long gloves, holding cocktails and a paper fan in front of a red velvet curtain."
+        },
+        {
+          "file": "02-gold-and-silver-fringe.jpg",
+          "alt": "Two women in knee-length metallic fringed dresses, one gold and one silver, with jewelled hair clips and blue eyeshadow; one holds a glass of champagne."
+        },
+        {
+          "file": "03-ostrich-feather-fan.jpg",
+          "alt": "Black and white studio photograph from the 1920s of a woman in a beaded, feather-trimmed dress and headscarf, holding a huge white ostrich feather fan."
+        },
+        {
+          "file": "04-gold-fringe-dress.jpg",
+          "alt": "A gold beaded halter-neck mini dress covered in tiers of shimmering fringe, worn with long drop earrings."
+        },
+        {
+          "file": "05-lace-glove-and-coupe.jpg",
+          "alt": "Close-up of a hand in a black lace glove tilting a coupe of champagne to a woman’s lips; she wears a white heart-shaped earring."
+        },
+        {
+          "file": "06-evening-make-up.jpg",
+          "alt": "Close-up of dramatic evening make-up: smoky plum eyeshadow, glossy dark berry lips and a green jewelled earring."
+        },
+        {
+          "file": "07-beaded-gowns.jpg",
+          "alt": "Two women in bias-cut beaded evening gowns in a wood-panelled bar, one in dusky pink with silver beading, the other seen from behind in a low-backed grey dress."
+        },
+        {
+          "file": "08-pearls-and-chiffon.jpg",
+          "alt": "Two women in beaded 1920s-style dresses in a crowded club, one in pale pink chiffon with crystal trim, the other in gold with long ropes of pearls."
+        },
+        {
+          "file": "09-red-feathers-and-gloves.jpg",
+          "alt": "A woman in red feathers, long red satin gloves, a beaded headband and a crystal necklace, hiding her face behind her hand."
+        },
+        {
+          "file": "10-candlelit-flappers.jpg",
+          "alt": "Four women in sequins, pearls and feathered headbands laughing by candlelight, with cigarette holders, a lace fan and white ostrich feathers on the table."
+        }
+      ],
       "placeholders": [
         "2/3",
         "1/1",

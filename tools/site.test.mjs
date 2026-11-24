@@ -20,6 +20,27 @@ const check = (name, ok, detail = '') => {
   if (!ok || process.argv.includes('--verbose')) console.log(`${ok ? 'PASS' : 'FAIL'}  ${name}${detail ? '  (' + detail + ')' : ''}`);
 };
 
+const GUESTS = JSON.parse(readFileSync('src/content/guests.json', 'utf8')).guests;
+const SITE = JSON.parse(readFileSync('src/content/site.json', 'utf8'));
+const HTML = readFileSync(join(dir, 'index.html'), 'utf8');
+
+// ---------- The character records and what the built page gives away ----------
+{
+  const all = JSON.stringify(GUESTS);
+  const by = (guest) => GUESTS.find((g) => g.guest === guest);
+  check('27 records, each with every field filled', GUESTS.length === 27 && GUESTS.every((g) => g.slug && g.guest && g.character && g.occupation && g.publicStory && g.privateBackstory && g.booklet === 'sealed'));
+  check('guest names and dossier addresses are unique', new Set(GUESTS.map((g) => g.guest)).size === 27 && new Set(GUESTS.map((g) => g.slug)).size === 27);
+  check('host’s corrections: Freddy for Ollie (Max, Hugo), Willy for Ben (Luke), Adams with one D, Dr Wilfred spaced', by('Max').publicStory.includes('I’m Freddy Brooks') && by('Hugo').privateBackstory.includes('(maybe Freddy, maybe worse)') && by('Luke').privateBackstory.includes('Willy’s obsession with the toxicology report') && by('Carys').character === 'Cleo “Kitty” Adams' && by('Josh').character === 'Dr Wilfred “Willy” Hughes' && !/Ollie|Addams|Eleanor|Ellie|Benjamin|Dr\.Wilfred/.test(all));
+  check('Mina, who is not in the cast, is removed from Oliver’s backstory as the host asked; nothing else there changes', by('Oliver').privateBackstory.includes('your trusted lieutenants, Angelo, Marco, Jinx, and Dom, to work') && !/Mina/.test(all));
+  check('both “Red” characters are kept', by('Olivia E').character === 'Rosie “Red” O’Hara' && by('Emily').character === 'Ruby “Red” O’Connell');
+  const runs = (words, n = 6) => [0, Math.floor(words.length / 2) - 3, words.length - n].map((i) => words.slice(i, i + n).join(' '));
+  const leaks = GUESTS.flatMap((g) => runs(g.privateBackstory.split(' ')).filter((run) => HTML.includes(run)).map((run) => `${g.guest}: ${run}`));
+  check('no Private Backstory is readable in the page source', leaks.length === 0, leaks.slice(0, 3).join(' / '));
+  const shortened = GUESTS.filter((g) => g.occupation !== g.publicRole);
+  check('confidential role headings are not readable in the page source', shortened.length === 7 && shortened.every((g) => !HTML.includes(g.occupation)), shortened.filter((g) => HTML.includes(g.occupation)).map((g) => g.occupation).join(', '));
+  check('the supplied screenshots are not part of the site', !/IMG_90|c81b0697|4f8fd6ce|e7c2869c/.test(HTML));
+}
+
 /** A fresh visitor who has already opened the invitation. */
 async function visitor({ width = 390, height = 760, hash = '', before } = {}) {
   const context = await browser.createBrowserContext();
@@ -174,33 +195,103 @@ const visible = (page, selector) =>
   check('other guests’ responses appear nowhere on the page', !(await page.evaluate(() => document.body.innerText.includes('Test Guest'))));
 
   // ---------- The Confidential Archives ----------
-  const counts = await page.evaluate(() => ({ files: document.querySelectorAll('.file').length, real: document.querySelectorAll('[data-archive-item]').length }));
-  check('register holds 24 places: one approved example, 23 marked blanks', counts.files === 24 && counts.real === 1);
-  check('blank files are plainly marked and invent no names', await page.evaluate(() => [...document.querySelectorAll('[data-archive-blank]')].every((el) => /Name to be supplied/.test(el.textContent) && !el.querySelector('a'))));
+  const counts = await page.evaluate(() => ({ files: document.querySelectorAll('.file').length, real: document.querySelectorAll('[data-archive-item]').length, blanks: document.querySelectorAll('[data-archive-blank]').length }));
+  check('register holds all 27 guests and no blank files', counts.files === 27 && counts.real === 27 && counts.blanks === 0, JSON.stringify(counts));
+  const cards = await page.evaluate(() => [...document.querySelectorAll('[data-archive-item]')].map((el) => ({ guest: el.querySelector('.file-guest').textContent.trim(), character: el.querySelector('.file-character').textContent.trim(), role: el.querySelector('.file-role').textContent.trim(), href: el.querySelector('a').getAttribute('href') })));
+  check('every card shows the right guest, character and public role', GUESTS.every((g, i) => cards[i]?.guest === g.guest && cards[i].character === g.character && cards[i].role === (g.publicRole || 'Occupation withheld') && cards[i].href === `#dossier-${g.slug}`));
+  check('register is in alphabetical order of guest name', cards.map((c) => c.guest).join('|') === [...cards.map((c) => c.guest)].sort((a, b) => a.localeCompare(b)).join('|'));
+  check('Olivia E and Olivia S, and Jos and Josh, are separate entries', ['Olivia E', 'Olivia S', 'Jos', 'Josh'].every((name) => cards.filter((c) => c.guest === name).length === 1));
   await page.evaluate(() => document.querySelector('[data-archive-search]').scrollIntoView({ block: 'center', behavior: 'instant' }));
+  const search = async (query) => {
+    await page.$eval('[data-archive-search]', (el, q) => { el.value = q; el.dispatchEvent(new Event('input')); }, query);
+    return page.evaluate(() => [...document.querySelectorAll('.file')].filter((el) => !el.hidden).map((el) => el.querySelector('.file-guest').textContent.trim()));
+  };
   await page.type('[data-archive-search]', 'kitty');
   check('search finds a guest by character name', await page.evaluate(() => [...document.querySelectorAll('.file')].filter((el) => !el.hidden).length === 1) && (await text(page, '[data-archive-count]')) === '1 file found');
-  await page.$eval('[data-archive-search]', (el) => { el.value = 'zzz'; el.dispatchEvent(new Event('input')); });
+  check('search finds a guest by their own name', (await search('hugo')).join() === 'Hugo');
+  check('search for "olivia" finds both Olivias', (await search('Olivia')).join() === 'Olivia E,Olivia S');
+  check('search finds a guest by public occupation', (await search('flower seller')).join() === 'Daisy');
+  check('search cannot be used to look up a confidential role', (await search('informant')).length === 0 && (await search('undercover')).length === 0 && (await search('mob')).length === 0);
+  await search('zzz');
   check('search with no match says so', await visible(page, '[data-archive-empty]'));
-  await page.$eval('[data-archive-search]', (el) => { el.value = ''; el.dispatchEvent(new Event('input')); });
-  check('clearing the search restores the register', await page.evaluate(() => [...document.querySelectorAll('.file')].filter((el) => !el.hidden).length === 24));
+  await search('');
+  check('clearing the search restores the register', await page.evaluate(() => [...document.querySelectorAll('.file')].filter((el) => !el.hidden).length === 27));
 
-  // ---------- The example dossier ----------
-  await page.evaluate(() => document.querySelector('a.file-card').scrollIntoView({ block: 'center', behavior: 'instant' }));
-  await page.click('a.file-card');
-  await sleep(600);
+  // ---------- A dossier ----------
+  const KITTY = GUESTS.find((g) => g.slug === 'kitty-adams');
+  await page.evaluate(() => document.querySelector('a.file-card[href="#dossier-kitty-adams"]').scrollIntoView({ block: 'center', behavior: 'instant' }));
+  await page.click('a.file-card[href="#dossier-kitty-adams"]');
+  await sleep(700);
   check('selecting a file opens that dossier at its own address', await page.evaluate(() => location.hash === '#dossier-kitty-adams' && !document.querySelector('#dossier-kitty-adams').hidden));
   const dossier = await text(page, '#dossier-kitty-adams');
-  check('dossier shows guest, character and occupation as approved', ['Carys', 'Cleo “Kitty” Adams', 'Private Investigator'].every((s) => dossier.includes(s)));
-  check('dossier introduction is a marked placeholder, not invented text', /introduction for this character will appear here/.test(dossier));
-  check('booklet section is sealed with the approved wording', /Further Correspondence Sealed/i.test(dossier) && /certain matters remain confidential/.test(dossier));
+  check('dossier shows guest, character and occupation as supplied', ['Carys', 'Cleo “Kitty” Adams', 'Private Detective'].every((s) => dossier.includes(s)));
+  check('the Public Story is shown in full', dossier.includes(KITTY.publicStory));
+  check('booklet section is separate and sealed', /Further Correspondence Sealed/i.test(dossier) && /certain matters remain confidential/.test(dossier) && /further confidential instructions/.test(dossier));
   check('no booklet, link or download is offered', await page.evaluate(() => !document.querySelector('#dossier-kitty-adams a[href$=".pdf"], #dossier-kitty-adams [download]')));
   check('the page behind the dossier cannot be reached while it is open', await page.evaluate(() => document.querySelector('main').inert));
   check('keyboard focus moves into the dossier', await page.evaluate(() => document.querySelector('#dossier-kitty-adams').contains(document.activeElement)));
-  await page.click('[data-dossier-back]');
+
+  // ---------- The redacted Private Backstory ----------
+  const priv = '#dossier-kitty-adams [data-private]';
+  const phrase = 'Your brother was a victim';
+  const state = () => page.evaluate((s) => document.querySelector(s).dataset.state, priv);
+  const bodyOf = (sel = priv) => page.evaluate((s) => document.querySelector(`${s} [data-private-body]`).textContent.replace(/\s+/g, ' ').trim(), sel);
+  check('private backstory opens redacted, with the warning as worded by the host', (await state()) === 'redacted' && dossier.includes('For your eyes only') && dossier.includes('Reading another guest’s private backstory could compromise the investigation and spoil the mystery for everyone.') && dossier.includes('I confirm that I am the intended recipient of this dossier.') && /Unredact confidential information/i.test(dossier));
+  const redacted = await page.evaluate((s) => {
+    const body = document.querySelector(`${s} [data-private-body]`);
+    return { text: body.textContent.trim(), bars: body.querySelectorAll('.rw').length, hidden: body.getAttribute('aria-hidden'), height: body.getBoundingClientRect().height };
+  }, priv);
+  check('redacted: bars stand in for every word and the page holds none of the text', redacted.text === '' && redacted.bars === KITTY.privateBackstory.split(/\s+/).length && redacted.hidden === 'true', JSON.stringify(redacted));
+  check('redacted: text cannot be found in the page, by selecting everything, or by a screen reader', await (async () => {
+    const inPage = await page.evaluate((p) => document.documentElement.outerHTML.includes(p) || document.body.innerText.includes(p), phrase);
+    const selected = await page.evaluate(() => { getSelection().selectAllChildren(document.querySelector('#dossier-kitty-adams')); const t = getSelection().toString(); getSelection().removeAllRanges(); return t; });
+    const tree = JSON.stringify(await page.accessibility.snapshot({ interestingOnly: false }));
+    return !inPage && !selected.includes(phrase) && !tree.includes(phrase);
+  })());
+  check('redacted: keyboard focus never lands on the concealed text', await (async () => {
+    await page.focus('#dossier-kitty-adams [data-dossier-back]');
+    for (let i = 0; i < 8; i++) {
+      await page.keyboard.press('Tab');
+      if (await page.evaluate((s) => document.querySelector(`${s} [data-private-body]`).contains(document.activeElement), priv)) return false;
+    }
+    return true;
+  })());
+  await page.evaluate((s) => document.querySelector(`${s} [data-private-gate] button`).scrollIntoView({ block: 'center', behavior: 'instant' }), priv);
+  await page.click(`${priv} [data-private-gate] button`);
+  await sleep(300);
+  check('unredacting without ticking the confirmation is refused, with a reason', (await state()) === 'redacted' && (await visible(page, `${priv} [data-private-error]`)) && (await bodyOf()) === '' && (await page.evaluate((s) => document.activeElement === document.querySelector(`${s} [data-private-confirm]`), priv)));
+  await page.click(`${priv} [data-private-confirm]`);
+  await page.click(`${priv} [data-private-gate] button`);
+  await sleep(250);
+  check('confirming and pressing the button starts the unredaction', (await state()) === 'revealing');
+  await page.waitForFunction((s) => document.querySelector(s).dataset.state === 'revealed', { timeout: 6000 }, priv).catch(() => {});
+  const revealed = await page.evaluate((s) => {
+    const body = document.querySelector(`${s} [data-private-body]`);
+    return { state: document.querySelector(s).dataset.state, text: body.textContent.replace(/\s+/g, ' ').trim(), hidden: body.getAttribute('aria-hidden'), height: body.getBoundingClientRect().height, gate: document.querySelector(`${s} [data-private-gate]`).hidden, reseal: !document.querySelector(`${s} [data-private-after]`).hidden };
+  }, priv);
+  check('unredacted: the full Private Backstory is shown, word for word', revealed.state === 'revealed' && revealed.text === KITTY.privateBackstory);
+  check('unredacted: readable by screen readers, warning replaced by the reseal option', revealed.hidden === null && revealed.gate && revealed.reseal);
+  check('the bars match the text line for line (nothing jumps on reveal)', Math.abs(revealed.height - redacted.height) < 2, `${redacted.height} then ${revealed.height}`);
+  check('revealing one dossier reveals no other', await page.evaluate(() => [...document.querySelectorAll('[data-private]')].filter((el) => el.dataset.state !== 'redacted').length === 1 && [...document.querySelectorAll('[data-private-body]')].filter((el) => el.textContent.trim()).length === 1));
+  await page.evaluate((s) => document.querySelector(`${s} [data-private-reseal]`).scrollIntoView({ block: 'center', behavior: 'instant' }), priv);
+  await page.click(`${priv} [data-private-reseal]`);
+  await page.waitForFunction((s) => document.querySelector(s).dataset.state === 'redacted', { timeout: 4000 }, priv).catch(() => {});
+  check('reseal: the text is removed from the page again and the confirmation is cleared', (await state()) === 'redacted' && (await bodyOf()) === '' && !(await page.evaluate((p) => document.documentElement.outerHTML.includes(p), phrase)) && (await page.evaluate((s) => !document.querySelector(`${s} [data-private-confirm]`).checked && !document.querySelector(`${s} [data-private-gate]`).hidden, priv)));
+  // Reveal again, then leave: a dossier never stays open behind the guest.
+  await page.click(`${priv} [data-private-confirm]`);
+  await page.click(`${priv} [data-private-gate] button`);
+  await page.waitForFunction((s) => document.querySelector(s).dataset.state === 'revealed', { timeout: 6000 }, priv).catch(() => {});
+  await page.evaluate(() => (location.hash = '#dossier-sam-spade'));
+  await sleep(600);
+  check('opening another dossier: it starts redacted, and the one left behind is sealed again', (await page.evaluate(() => document.querySelector('#dossier-sam-spade [data-private]').dataset.state)) === 'redacted' && (await bodyOf('#dossier-sam-spade [data-private]')) === '' && (await bodyOf()) === '' && !(await page.evaluate((p) => document.documentElement.outerHTML.includes(p), phrase)));
+  await page.evaluate(() => (location.hash = '#dossier-kitty-adams'));
+  await sleep(600);
+  check('coming back to a dossier: it is redacted again', (await state()) === 'redacted' && (await bodyOf()) === '');
+
+  await page.click('#dossier-kitty-adams [data-dossier-back]');
   await sleep(500);
   check('"Return to the register" closes the dossier and returns to the archive', await page.evaluate(() => location.hash === '#archives' && document.querySelector('#dossier-kitty-adams').hidden && !document.querySelector('main').inert));
-  check('focus returns to the file that was opened', await page.evaluate(() => document.activeElement?.matches('a.file-card')));
+  check('focus returns to the file that was opened', await page.evaluate(() => document.activeElement?.matches('a.file-card[href="#dossier-kitty-adams"]')));
   await page.goBack();
   await sleep(400);
   check('browser back and forward reopen and close the dossier correctly', await page.evaluate(() => !document.querySelector('#dossier-kitty-adams').hidden));
@@ -209,35 +300,76 @@ const visible = (page, selector) =>
   check('Escape closes the dossier', await page.evaluate(() => document.querySelector('#dossier-kitty-adams').hidden));
 
   // ---------- Dress for the Decade ----------
-  const boards = await page.evaluate(() => [...document.querySelectorAll('[data-board]')].map((b) => ({ title: b.querySelector('h3').textContent.replace(/\s+/g, ' ').trim(), plates: b.querySelectorAll('[data-plate]').length, marked: /Placeholder plates/.test(b.textContent), images: b.querySelectorAll('img').length })));
-  check('three mood boards, each with its own number of plates', boards.length === 3 && boards.map((b) => b.plates).join(',') === '7,8,6', JSON.stringify(boards.map((b) => b.plates)));
-  check('every board is marked as awaiting the host’s photographs; none has an image', boards.every((b) => b.marked && b.images === 0));
-  await page.evaluate(() => document.querySelector('#board-ladies [data-plate]').scrollIntoView({ block: 'center', behavior: 'instant' }));
-  await page.click('#board-ladies [data-plate]');
-  await sleep(400);
-  check('selecting a plate opens the enlarged view', (await page.evaluate(() => document.querySelector('[data-gallery]').open)) && (await text(page, '[data-gallery-count]')) === '1 of 8');
+  const boards = await page.evaluate(() => [...document.querySelectorAll('[data-board]')].map((b) => ({ id: b.id, plates: b.querySelectorAll('[data-plate]').length, marked: /Placeholder plates/.test(b.textContent), images: b.querySelectorAll('img').length, described: [...b.querySelectorAll('img')].every((img) => img.alt.length > 40) })));
+  const BOARDS = JSON.parse(readFileSync('src/content/moodboards.json', 'utf8')).boards;
+  check('three mood boards, each showing the host’s photographs or, until supplied, marked placeholder plates', boards.length === 3 && BOARDS.every((b, i) => (b.images.length ? boards[i].plates === b.images.length && boards[i].images === b.images.length && !boards[i].marked && boards[i].described : boards[i].plates === b.placeholders.length && boards[i].images === 0 && boards[i].marked)), JSON.stringify(boards));
+  check('The Velvet Cellar board: ten photographs, the host’s chosen picture first and full width', await page.evaluate(async () => {
+    const board = document.querySelector('#board-cellar');
+    const first = board.querySelector('.plate-item img');
+    first.scrollIntoView({ block: 'center', behavior: 'instant' });
+    await first.decode().catch(() => {});
+    const list = board.querySelector('.plates').getBoundingClientRect();
+    return board.classList.contains('board--first') && board.querySelectorAll('.plate-item img').length === 10 && /mantelpiece/.test(first.alt) && first.naturalWidth > 0 && Math.abs(first.getBoundingClientRect().width - list.width) < 2;
+  }));
+  await page.click('#board-cellar [data-plate]');
+  await sleep(500);
+  check('a photograph opens enlarged, with its description', await page.evaluate(() => { const g = document.querySelector('[data-gallery]'); const img = g.querySelector('img'); return g.open && img && /mantelpiece/.test(img.alt); }) && (await text(page, '[data-gallery-count]')) === '1 of 10');
+  await page.click('[data-gallery-close]');
+  await sleep(300);
+  check('boards run in the host’s order: The Velvet Cellar, the Gentlemen, the Ladies', boards.map((b) => b.id).join(' ') === 'board-cellar board-gentlemen board-ladies' && (await page.evaluate(() => [...document.querySelectorAll('[data-board] h3')].map((h) => h.textContent.replace(/\s+/g, ' ').trim()).join('|'))).replace(/(\S+)\s+\1/g, '$1').includes('Gentlemen'));
+  const total = boards[1].plates;
+  await page.evaluate(() => document.querySelector('#board-gentlemen [data-plate]').scrollIntoView({ block: 'center', behavior: 'instant' }));
+  await page.click('#board-gentlemen [data-plate]');
+  await sleep(500);
+  check('selecting a plate opens the enlarged view', (await page.evaluate(() => document.querySelector('[data-gallery]').open)) && (await text(page, '[data-gallery-count]')) === `1 of ${total}`);
   await page.click('[data-gallery-next]');
-  await sleep(700);
-  check('next moves to the following plate', (await text(page, '[data-gallery-count]')) === '2 of 8');
+  await sleep(500);
+  check('next moves to the following plate', (await text(page, '[data-gallery-count]')) === `2 of ${total}`);
   await page.keyboard.press('ArrowRight');
-  await sleep(700);
-  check('arrow keys move between plates', (await text(page, '[data-gallery-count]')) === '3 of 8');
+  await sleep(500);
+  check('arrow keys move between plates', (await text(page, '[data-gallery-count]')) === `3 of ${total}`);
   await page.evaluate(() => { const t = document.querySelector('[data-gallery-track]'); t.scrollTo({ left: t.clientWidth * 5, behavior: 'instant' }); });
-  await sleep(400);
-  check('swiping (scrolling) the view updates the position', (await text(page, '[data-gallery-count]')) === '6 of 8');
+  await sleep(500);
+  check('swiping (scrolling) the view updates the position', (await text(page, '[data-gallery-count]')) === `6 of ${total}`);
   await page.click('[data-gallery-close]');
 
   // ---------- Radio, noticeboard, questions, sealed sections ----------
-  const radio = await page.evaluate(() => ({ records: document.querySelectorAll('.record').length, links: document.querySelectorAll('.radio a[href]').length, awaiting: document.querySelectorAll('.radio .is-awaiting[aria-disabled=true]').length, audio: document.querySelectorAll('audio, video, iframe').length }));
-  check('two playlists, each awaiting its Spotify link; no invented links', radio.records === 2 && radio.links === 0 && radio.awaiting === 2);
-  check('nothing plays or embeds audio on the page', radio.audio === 0);
-  const notices = await page.evaluate(() => ({ all: document.querySelectorAll('.notice').length, specimens: [...document.querySelectorAll('.notice')].filter((n) => /Specimen/i.test(n.textContent)).length, empty: /Nothing has been posted yet/.test(document.querySelector('.baize').textContent) }));
-  check('noticeboard: no real notices, and every sample is stamped Specimen', notices.empty && notices.all === notices.specimens && notices.all === 2);
+  const radio = await page.evaluate(() => ({
+    records: document.querySelectorAll('.record').length,
+    buttons: [...document.querySelectorAll('.radio a.btn')].map((a) => ({ text: a.childNodes[0].textContent.trim(), href: a.href, target: a.target, rel: a.rel, record: a.closest('.record').className })),
+    awaiting: document.querySelectorAll('.radio .is-awaiting').length,
+    note: document.querySelector('.record--after-hours .record-note')?.textContent.trim(),
+    noteBelowButton: (() => { const n = document.querySelector('.record--after-hours .record-note'); const b = document.querySelector('.record--after-hours a.btn'); return n && b && n.getBoundingClientRect().top >= b.getBoundingClientRect().bottom; })(),
+    gramophoneNote: document.querySelector('.record--gramophone .record-note'),
+    audio: document.querySelectorAll('audio, iframe, video, embed').length,
+  }));
+  check('two playlists, each with the host’s button wording and her Spotify link', radio.records === 2 && radio.awaiting === 0 && radio.buttons.length === 2 &&
+    radio.buttons[0].text === 'Listen to The Gramophone' && radio.buttons[0].href === 'https://open.spotify.com/playlist/5n2F5zAvRoT4II9YKupx8s' && /gramophone/.test(radio.buttons[0].record) &&
+    radio.buttons[1].text === 'Listen to After Hours' && radio.buttons[1].href === 'https://open.spotify.com/playlist/1t5P9HNkWKBWzx1d1JBhVt' && /after-hours/.test(radio.buttons[1].record), JSON.stringify(radio.buttons));
+  check('playlist buttons open Spotify in a new tab, safely', radio.buttons.every((b) => b.target === '_blank' && /noopener/.test(b.rel)));
+  check('After Hours carries the host’s note beneath its button; the Gramophone has none', radio.note === SITE.playlists.afterHours.note && /Spotify collaboration invitation shared in our group chat/.test(radio.note) && !/Once the mystery/.test(radio.note) && radio.noteBelowButton && !radio.gramophoneNote);
+  check('nothing plays or embeds audio on the page, and there is no song request form', radio.audio === 0 && (await page.evaluate(() => document.querySelectorAll('.radio form, .radio input').length)) === 0);
+  const notices = await page.evaluate(() => [...document.querySelectorAll('.notice')].map((n) => ({ title: n.querySelector('h3').textContent.trim(), date: n.querySelector('time').textContent.trim(), stamp: n.querySelector('.notice-stamp')?.textContent.trim() ?? '', closing: n.querySelector('.notice-closing')?.textContent.trim(), italic: getComputedStyle(n.querySelector('.notice-closing')).fontStyle, link: n.querySelector('.notice-link')?.getAttribute('href'), text: n.textContent })));
+  check('noticeboard: the host’s two notices, in her order, with no specimens left', notices.length === 2 && notices[0].title === 'An Invitation Has Arrived' && notices[1].title === 'A Word of Caution…' && notices.every((n) => n.date === '24 November 2026' && !/Specimen/i.test(n.text)) && !(await page.evaluate(() => /Nothing has been posted yet/.test(document.querySelector('#noticeboard').textContent))));
+  check('noticeboard: only the first notice carries the Important stamp', notices[0].stamp === 'Important' && notices[1].stamp === '');
+  check('noticeboard: each closing sentence is in italics', notices[0].closing === 'Your presence is eagerly anticipated.' && notices[1].closing === 'After all, curiosity can be a dangerous thing.' && notices.every((n) => n.italic === 'italic'));
+  await page.evaluate(() => document.querySelector('.notice-link[data-rsvp-open]').scrollIntoView({ block: 'center', behavior: 'instant' }));
+  await page.click('.notice-link[data-rsvp-open]');
+  await sleep(400);
+  check('noticeboard: the first notice’s link opens the RSVP slip', await page.evaluate(() => document.querySelector('[data-rsvp-dialog]').open));
+  await page.keyboard.press('Escape');
+  await sleep(300);
+  await page.evaluate(() => document.querySelector('.notice-link[href="#archives"]').scrollIntoView({ block: 'center', behavior: 'instant' }));
+  await page.click('.notice-link[href="#archives"]');
+  const atArchives = await page.waitForFunction(() => location.hash === '#archives' && Math.abs(document.querySelector('#archives').getBoundingClientRect().top) < 160, { timeout: 4000 }).then(() => true, () => false);
+  check('noticeboard: the second notice’s link goes to the Confidential Archives', atArchives, await page.evaluate(() => `${location.hash} ${Math.round(document.querySelector('#archives').getBoundingClientRect().top)}`));
   const faqs = await page.evaluate(() => document.querySelectorAll('.ledger-entry').length);
-  check('ten approved questions', faqs === 10);
+  const FAQS = JSON.parse(readFileSync('src/content/faqs.json', 'utf8'));
+  const asked = await page.evaluate(() => [...document.querySelectorAll('.ledger-entry')].map((el) => el.textContent.replace(/\s+/g, ' ')));
+  check('eleven questions as the host has them: no acting question, plus what to bring and whether we are going out', faqs === 11 && FAQS.length === 11 && FAQS.every((f, i) => asked[i].includes(f.question) && asked[i].includes(f.answer)) && !asked.some((t) => /acting experience/i.test(t)) && asked.some((t) => /What should I bring\?/.test(t) && /bottle/.test(t)) && asked.some((t) => /Are we going out to an event\?/.test(t) && /poker/.test(t)));
   await page.evaluate(() => document.querySelector('.ledger-entry summary').scrollIntoView({ block: 'center', behavior: 'instant' }));
   await page.click('.ledger-entry summary');
-  check('a question opens to show its answer', await page.evaluate(() => document.querySelector('.ledger-entry').open && /No\. The murder mystery is designed/.test(document.querySelector('.ledger-answer').textContent)));
+  check('a question opens to show its answer', await page.evaluate((answer) => document.querySelector('.ledger-entry').open && document.querySelector('.ledger-answer').textContent.includes(answer), FAQS[0].answer));
   await page.focus('.ledger-entry:nth-of-type(2) summary');
   await page.keyboard.press('Enter');
   check('questions open from the keyboard', await page.evaluate(() => document.querySelector('.ledger-entry:nth-of-type(2)').open));
@@ -260,6 +392,84 @@ const visible = (page, selector) =>
   const { context, page } = await visitor({ hash: '#dossier-kitty-adams' });
   await sleep(400);
   check('a dossier address opens that dossier directly', await page.evaluate(() => !document.querySelector('#dossier-kitty-adams').hidden));
+  check('opened directly, it is still redacted', await page.evaluate(() => document.querySelector('#dossier-kitty-adams [data-private]').dataset.state === 'redacted' && !document.querySelector('#dossier-kitty-adams [data-private-body]').textContent.trim()));
+  await context.close();
+}
+
+// ---------- Every dossier against its record (with reduced motion, so the reveal is immediate) ----------
+{
+  const { context, page, errors } = await visitor({ width: 820, height: 1100 });
+  await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
+  const wrong = [];
+  for (const g of GUESTS) {
+    const id = `#dossier-${g.slug}`;
+    await page.evaluate((hash) => (location.hash = hash), id);
+    await page.waitForFunction((s) => !document.querySelector(s).hidden && document.querySelectorAll(`${s} .rw`).length > 0, { timeout: 4000 }, id).catch(() => {});
+    const before = await page.evaluate((s) => {
+      const el = document.querySelector(s);
+      const fact = (label) => [...el.querySelectorAll('.dossier-facts div')].find((d) => d.querySelector('dt').textContent.trim() === label)?.querySelector('dd').textContent.trim();
+      return { title: el.querySelector('h2 .sr-only').textContent.trim(), guest: fact('Guest'), role: fact('Occupation'), story: el.querySelector('.public-story')?.textContent.replace(/\s+/g, ' ').trim(), recipient: el.querySelector('.private-head .typed').textContent.trim(), body: el.querySelector('[data-private-body]').textContent.replace(/\s+/g, ' ').trim(), all: el.textContent };
+    }, id);
+    await page.evaluate((s) => { document.querySelector(`${s} [data-private-confirm]`).click(); document.querySelector(`${s} [data-private-gate]`).requestSubmit(); }, id);
+    await page.waitForFunction((s) => document.querySelector(`${s} [data-private]`).dataset.state === 'revealed', { timeout: 4000 }, id).catch(() => {});
+    const after = await page.evaluate((s) => document.querySelector(`${s} [data-private-body]`).textContent.replace(/\s+/g, ' ').trim(), id);
+    const roleLine = g.occupation !== g.publicRole ? `Role on file ${g.occupation}` : '';
+    const ok =
+      before.title === g.character && before.guest === g.guest && before.role === (g.publicRole || 'Withheld') && before.story === `“${g.publicStory}”` &&
+      before.recipient === `Classified. Recipient: ${g.guest}` && (before.body === '' || before.body === 'Role on file') &&
+      (g.occupation === g.publicRole || !before.all.includes(g.occupation)) && after === roleLine + g.privateBackstory;
+    if (!ok) wrong.push(g.guest);
+  }
+  check('all 27 dossiers: right guest, character, public role and Public Story; redacted on opening; unredacting shows that guest’s own Private Backstory word for word', wrong.length === 0, wrong.join(', '));
+  check('with reduced motion, reveal and reseal still work', await (async () => {
+    const s = '#dossier-muscle-deluca [data-private]';
+    await page.evaluate((sel) => document.querySelector(`${sel} [data-private-reseal]`).click(), s);
+    await sleep(200);
+    return page.evaluate((sel) => document.querySelector(sel).dataset.state === 'redacted' && !document.querySelector(`${sel} [data-private-body]`).textContent.trim(), s);
+  })());
+  const pictures = await page.evaluate(async () => {
+    const out = [];
+    for (const el of document.querySelectorAll('[data-dossier]')) {
+      const img = el.querySelector('.dossier-portrait img');
+      if (!img) { out.push({ id: el.id, missing: true }); continue; }
+      el.hidden = false;
+      await img.decode().catch(() => {});
+      out.push({ id: el.id, ok: img.naturalWidth === 640 && img.naturalHeight === 800, alt: img.alt });
+      el.hidden = true;
+    }
+    return out;
+  });
+  check('every dossier has its own portrait, upright and loading, described for screen readers', pictures.length === 27 && GUESTS.every((g) => { const p = pictures.find((x) => x.id === `dossier-${g.slug}`); return p && p.ok && p.alt === `Portrait of ${g.character}`; }), JSON.stringify(pictures.filter((x) => !x.ok).slice(0, 4)));
+  check('each portrait file is used by exactly one dossier', new Set(GUESTS.map((g) => g.portrait)).size === 27 && GUESTS.every((g) => g.portrait === `${g.slug}.jpg`));
+  check('no script errors while opening every dossier', errors.length === 0, errors.join(' | '));
+  await context.close();
+}
+
+// ---------- Long backstories at phone, tablet and desktop widths ----------
+for (const [label, width, height] of [['small phone', 360, 740], ['phone', 390, 844], ['tablet', 820, 1180], ['desktop', 1440, 900]]) {
+  const { context, page } = await visitor({ width, height, hash: '#dossier-jinx-jameson' });
+  const s = '#dossier-jinx-jameson';
+  await page.waitForFunction((sel) => document.querySelectorAll(`${sel} .rw`).length > 0, { timeout: 4000 }, s).catch(() => {});
+  const measure = () => page.evaluate((sel) => {
+    const el = document.querySelector(sel);
+    const body = el.querySelector('[data-private-body]');
+    const sheet = el.querySelector('[data-private]').getBoundingClientRect();
+    const inside = [...body.querySelectorAll('.rw, p')].every((n) => { const r = n.getBoundingClientRect(); return r.left >= sheet.left - 1 && r.right <= sheet.right + 1; });
+    const p = body.querySelector('p:last-child');
+    return { overflow: el.scrollWidth > el.clientWidth + 1, inside, height: body.getBoundingClientRect().height, font: parseFloat(getComputedStyle(p).fontSize), measure: p.getBoundingClientRect().width };
+  }, s);
+  const before = await measure();
+  await page.evaluate((sel) => { document.querySelector(`${sel} [data-private-confirm]`).click(); document.querySelector(`${sel} [data-private-gate]`).requestSubmit(); }, s);
+  await page.waitForFunction((sel) => document.querySelector(`${sel} [data-private]`).dataset.state === 'revealed', { timeout: 6000 }, s).catch(() => {});
+  const after = await measure();
+  check(`${label}: longest backstory fits its sheet, redacted and revealed, with no sideways scroll`, !before.overflow && !after.overflow && before.inside && after.inside);
+  check(`${label}: bars and text occupy the same lines`, Math.abs(before.height - after.height) < 2, `${before.height} then ${after.height}`);
+  check(`${label}: text is a comfortable size and line length`, after.font >= 18 && after.measure / after.font <= 38, `${after.font}px, ${(after.measure / after.font).toFixed(1)}em`);
+  check(`${label}: checkbox and buttons are large enough to tap`, await page.evaluate((sel) => {
+    const el = document.querySelector(sel);
+    el.querySelector('[data-private-reseal]').click();
+    return [...el.querySelectorAll('.gate-check, .private-gate .btn, .private-after .btn')].every((n) => n.hidden || n.closest('[hidden]') || n.getBoundingClientRect().height >= 44);
+  }, s));
   await context.close();
 }
 

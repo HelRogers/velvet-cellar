@@ -4,17 +4,34 @@
  * from the register as a full-screen file (address: #dossier-<slug>, so the
  * browser's back button returns to the register).
  *
- * Stage one: public identity only. The introduction must be the host's approved,
- * spoiler-free text; where none has been supplied the page says so rather than
- * inventing one. The confidential booklet stays sealed until Release Two.
+ * Each file has three separate parts:
+ *   1. The public sheet: identity and the Public Story, in the character's own words.
+ *   2. The Private Backstory, redacted until the guest confirms the file is theirs.
+ *      The text is not written into the page as readable text (see src/lib/seal.ts),
+ *      so it cannot be found by searching, selecting the bars or a screen reader
+ *      before the reveal. This is a courtesy barrier agreed with the host, not security.
+ *   3. The full character booklet, which stays sealed until the host releases it.
  */
 import data from '../content/guests.json';
 import Display from './Display.astro';
+import { seal } from '../lib/seal';
 
 const guests = data.guests;
 const fileNumber = (i: number) => `VC-1925-${String(i + 1).padStart(3, '0')}`;
 const portraits = import.meta.glob<{ default: ImageMetadata }>('../assets/portraits/*.{jpg,jpeg,png,webp}', { eager: true });
 const portraitFor = (file: string) => (file ? portraits[`../assets/portraits/${file}`]?.default : undefined);
+// Stage directions in a Public Story, such as [blow a kiss to the crowd], are set apart from the speech.
+const storyParts = (story: string) =>
+  story
+    .split(/(\[[^\]]+\])/)
+    .filter(Boolean)
+    .map((part) => ({ text: part, direction: part.startsWith('[') }));
+// What the redacted section holds: the backstory, and the original role where the public one was shortened.
+const sealedFor = (guest: (typeof guests)[number]) =>
+  seal(
+    JSON.stringify({ role: guest.occupation !== guest.publicRole ? guest.occupation : '', text: guest.privateBackstory }),
+    guest.slug,
+  );
 // A fingerprint: nested, slightly irregular loops.
 const whorls = Array.from({ length: 9 }, (_, i) => {
   const r = 8 + i * 6.5;
@@ -34,7 +51,7 @@ const whorls = Array.from({ length: 9 }, (_, i) => {
             </svg>
             Return to the register
           </a>
-          <span class="typed dossier-ref">File No. {fileNumber(i)}</span>
+          <span class="typed dossier-ref"><span class="dossier-ref-prefix">File No. </span>{fileNumber(i)}</span>
         </div>
 
         <div class="dossier-folder">
@@ -66,7 +83,7 @@ const whorls = Array.from({ length: 9 }, (_, i) => {
                   </div>
                   <div>
                     <dt class="typed">Occupation</dt>
-                    <dd>{guest.occupation}</dd>
+                    <dd>{guest.publicRole ? guest.publicRole : <span class="typed withheld">Withheld</span>}</dd>
                   </div>
                   <div>
                     <dt class="typed">Establishment</dt>
@@ -80,15 +97,17 @@ const whorls = Array.from({ length: 9 }, (_, i) => {
               </div>
             </div>
 
-            <section class="dossier-intro" aria-label="Introduction">
-              <h3 class="typed dossier-label">What is publicly known</h3>
-              {guest.introduction ? (
-                <p>{guest.introduction}</p>
+            <section class="dossier-story" aria-labelledby={`story-title-${guest.slug}`}>
+              <h3 class="typed dossier-label" id={`story-title-${guest.slug}`}>Public Story</h3>
+              <p class="story-note">What is publicly known, in the subject’s own words.</p>
+              {guest.publicStory ? (
+                <blockquote class="public-story">
+                  <p>
+                    “{storyParts(guest.publicStory).map((part) => (part.direction ? <span class="direction">{part.text}</span> : part.text))}”
+                  </p>
+                </blockquote>
               ) : (
-                <p class="placeholder-text typed">
-                  [ The host’s approved, spoiler-free introduction for this character will appear here. None has been
-                  supplied yet. ]
-                </p>
+                <p class="placeholder-text typed">[ The host’s approved Public Story for this character will appear here. None has been supplied yet. ]</p>
               )}
             </section>
 
@@ -99,14 +118,63 @@ const whorls = Array.from({ length: 9 }, (_, i) => {
             </svg>
           </div>
 
+          {guest.privateBackstory && (
+            <section
+              class="dossier-private"
+              aria-labelledby={`private-title-${guest.slug}`}
+              data-private
+              data-state="redacted"
+              data-key={guest.slug}
+              data-sealed={sealedFor(guest)}
+            >
+              <span class="stamp stamp--large stamp--secret typed" aria-hidden="true">Top Secret</span>
+              <div class="private-head" tabindex="-1" data-private-focus>
+                <p class="typed dossier-label">Classified. Recipient: {guest.guest}</p>
+                <Display as="h3" id={`private-title-${guest.slug}`} class="private-title" text="Private Backstory" />
+              </div>
+              <p class="sr-only" data-private-note>
+                This part of the file is redacted. Confirm below that the dossier is yours to reveal it.
+              </p>
+
+              <div class="private-body" data-private-body aria-hidden="true" />
+              <noscript>
+                <p class="placeholder-text typed">[ Revealing a private backstory needs JavaScript to be switched on in your browser. ]</p>
+              </noscript>
+
+              <form class="private-gate" data-private-gate novalidate>
+                <p class="typed gate-title">For your eyes only</p>
+                <p>
+                  The information concealed within this dossier is strictly confidential. Reading another guest’s private
+                  backstory could compromise the investigation and spoil the mystery for everyone.
+                </p>
+                <p>Please only proceed if this is your assigned character.</p>
+                <label class="gate-check">
+                  <input type="checkbox" name="recipient" data-private-confirm aria-describedby={`gate-error-${guest.slug}`} />
+                  <span>I confirm that I am the intended recipient of this dossier.</span>
+                </label>
+                <p class="gate-error" id={`gate-error-${guest.slug}`} role="alert" data-private-error hidden>
+                  Tick the box to confirm this dossier is yours before unredacting it.
+                </p>
+                <button class="btn btn--ink" type="submit">Unredact confidential information</button>
+              </form>
+
+              <div class="private-after" data-private-after hidden>
+                <p>This dossier is open. Reseal it once you have finished reading.</p>
+                <button class="btn btn--paper" type="button" data-private-reseal>Reseal this dossier</button>
+              </div>
+              <p class="sr-only" role="status" aria-live="polite" data-private-status />
+            </section>
+          )}
+
           <section class="dossier-sealed" aria-labelledby={`sealed-title-${guest.slug}`}>
             <svg class="sealed-wax" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><use href="#vc-seal"></use></svg>
             <div>
+              <p class="typed sealed-label">Character booklet</p>
               <Display as="h3" id={`sealed-title-${guest.slug}`} class="sealed-title" text="Further Correspondence Sealed" />
               <p>Your identity has been revealed. However, certain matters remain confidential.</p>
               <p>
-                Your full character booklet, private information and instructions for the evening will become available
-                here before The Velvet Cellar opens its doors.
+                Your full character booklet, with further confidential instructions for the evening, will be released here
+                before The Velvet Cellar opens its doors.
               </p>
               <p class="redactions" aria-hidden="true">
                 <span style="width:78%" /><span style="width:92%" /><span style="width:54%" />

@@ -130,6 +130,15 @@
 .record-body > p:not(.record-strap):not(.awaiting) {
   color: var(--text-soft);
 }
+/* A line beneath the button, such as how to add songs. */
+.record-body > .record-note {
+  max-width: 26rem;
+  margin-top: 1rem;
+  font-size: 1.02rem;
+  font-style: italic;
+  line-height: 1.4;
+  opacity: 0.92;
+}
 .record-body .btn,
 .awaiting {
   margin-top: 0.5rem;
@@ -228,7 +237,19 @@
 .notice-body {
   line-height: 1.45;
 }
+.notice-body + .notice-body {
+  margin-top: 0.7em;
+}
+.notice-closing {
+  font-style: italic;
+}
+.notice-action {
+  margin-top: 0.5rem;
+}
 .notice-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   color: var(--burgundy);
   font-weight: 600;
 }
@@ -255,6 +276,12 @@
   font-family: var(--font-type);
   font-size: 0.98rem;
   line-height: 1.6;
+}
+/* The typewriter face has no true italic, so a telegram signs off in the text face. */
+.notice--telegram .notice-closing {
+  font-family: var(--font-text);
+  font-size: 1.12rem;
+  line-height: 1.4;
 }
 @media (max-width: 30em) {
   .notice-stamp {

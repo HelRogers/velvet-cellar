@@ -7,6 +7,8 @@
  * supplied a link) the page says so.
  */
 
+import { initRedaction } from './redaction';
+
 const root = document.documentElement;
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 /** True in the private review copy, which is not served by Netlify. */
@@ -180,7 +182,8 @@ function initRsvp() {
 
   // Every RSVP control (beneath the particulars, in the bar, in the menu) opens the same slip.
   all('[data-rsvp-open]').forEach((opener) =>
-    opener.addEventListener('click', () => {
+    opener.addEventListener('click', (event) => {
+      event.preventDefault(); // a link that opens the slip (in a notice) should not also jump down the page
       const menu = one<HTMLDialogElement>('[data-nav-menu]');
       if (menu?.open) menu.close();
       form.hidden = false;
@@ -281,12 +284,15 @@ function initDossiers() {
   if (!dossiers.length) return;
   const backdrop = all('main, .site-nav, .beyond-footer');
   let lastOpened: string | null = null;
+  const redaction = initRedaction();
 
   const sync = () => {
     const id = decodeURIComponent(location.hash.slice(1));
     const target = root.dataset.invite === 'opened' ? dossiers.find((dossier) => dossier.id === id) : undefined;
     dossiers.forEach((dossier) => (dossier.hidden = dossier !== target));
     backdrop.forEach((el) => (el.inert = Boolean(target)));
+    // Every dossier opens redacted; leaving one reseals it.
+    redaction.show(target);
     if (target) {
       root.dataset.view = 'dossier';
       lastOpened = target.id;

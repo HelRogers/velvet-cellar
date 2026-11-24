@@ -1,8 +1,8 @@
 ---
 /**
  * Section eight: The Velvet Cellar Radio. Two records, two moods.
- * The Spotify links come from src/content/site.json and are never invented:
- * until the host supplies them the buttons are shown as awaiting a link.
+ * The Spotify links, button wording and notes come from src/content/site.json and are
+ * never invented: without a link a button is shown as awaiting one.
  * Nothing plays on this page; the buttons open Spotify.
  */
 import site from '../content/site.json';
@@ -14,8 +14,9 @@ const records = [
     title: 'The Gramophone',
     strap: 'Sounds of the Roaring Twenties',
     text: 'Step back in time with the sounds of the Jazz Age. A collection of music to accompany whispered secrets, raised glasses and an evening of intrigue.',
-    action: 'Listen to the Gramophone',
+    action: site.playlists.gramophone.action,
     url: site.playlists.gramophone.url,
+    note: site.playlists.gramophone.note,
     side: 'Side A',
   },
   {
@@ -23,8 +24,9 @@ const records = [
     title: 'After Hours',
     strap: 'When the formalities are over…',
     text: 'Once the mystery has been solved, the rules of 1925 no longer apply. Add the songs you want to hear when the night really gets going.',
-    action: 'Add your tracks',
+    action: site.playlists.afterHours.action,
     url: site.playlists.afterHours.url,
+    note: site.playlists.afterHours.note,
     side: 'Side B',
   },
 ];
@@ -71,6 +73,7 @@ const grooves = [92, 86, 80, 74, 68, 62, 56, 50];
               {record.url ? (
                 <a class="btn btn--primary" href={record.url} target="_blank" rel="noopener noreferrer">
                   {record.action}
+                  <span class="sr-only"> (opens Spotify in a new tab)</span>
                 </a>
               ) : (
                 <p class="awaiting">
@@ -80,6 +83,7 @@ const grooves = [92, 86, 80, 74, 68, 62, 56, 50];
                   <span class="typed placeholder-note">Spotify link to be supplied by the host</span>
                 </p>
               )}
+              {record.note && <p class="record-note">{record.note}</p>}
             </div>
           </article>
         ))
