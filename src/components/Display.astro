@@ -1,0 +1,42 @@
+---
+/**
+ * Display lettering: condensed capitals with a swash initial on each principal
+ * word, matching the structure of the invitation's lettering.
+ * Screen readers get the plain text; the styled letters are decorative.
+ */
+interface Props {
+  text: string;
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span';
+  id?: string;
+  class?: string;
+  /** Words that keep a plain initial (articles and joining words). */
+  plain?: string[];
+}
+const { text, id, as: Tag = 'p', class: className = '', plain = ['of', 'the', 'to', 'a', 'an', 'and', 'for', 'in', 'at'] } = Astro.props;
+const words = text.split(/\s+/).filter(Boolean);
+const isSwash = (word: string, i: number) =>
+  /^[A-Za-zÀ-ÿ]/.test(word) && (i === 0 || !plain.includes(word.toLowerCase()));
+---
+
+<Tag id={id} class:list={['display', className]}>
+  <span class="sr-only">{text}</span>
+  <span aria-hidden="true">
+    {
+      words.map((word, i) => (
+        <>
+          <span class="word">
+            {isSwash(word, i) ? (
+              <>
+                <span class="swash">{word[0]}</span>
+                {word.slice(1)}
+              </>
+            ) : (
+              word
+            )}
+          </span>
+          {i < words.length - 1 ? ' ' : ''}
+        </>
+      ))
+    }
+  </span>
+</Tag>
