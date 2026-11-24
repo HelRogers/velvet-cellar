@@ -194,6 +194,11 @@ const visible = (page, selector) =>
   await page.keyboard.press('Escape');
   check('other guests’ responses appear nowhere on the page', !(await page.evaluate(() => document.body.innerText.includes('Test Guest'))));
 
+  // ---------- The house rules ----------
+  const rules = await page.evaluate(() => [...document.querySelectorAll('.rules-list li')].map((li) => li.textContent.trim()));
+  const answers = JSON.parse(readFileSync('src/content/faqs.json', 'utf8')).map((f) => f.answer);
+  check('house rules: the hosts’ nine pub-style rules, none repeating a question and answer', rules.length === 9 && /poker/.test(rules.join(' ')) && /balcony/.test(rules.join(' ')) && /solve the murder/.test(rules.join(' ')) && !/acting experience|memorise|booklet/i.test(rules.join(' ')) && rules.every((r) => !answers.some((a) => a.includes(r))));
+
   // ---------- The Confidential Archives ----------
   const counts = await page.evaluate(() => ({ files: document.querySelectorAll('.file').length, real: document.querySelectorAll('[data-archive-item]').length, blanks: document.querySelectorAll('[data-archive-blank]').length }));
   check('register holds all 27 guests and no blank files', counts.files === 27 && counts.real === 27 && counts.blanks === 0, JSON.stringify(counts));
