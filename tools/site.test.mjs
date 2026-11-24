@@ -364,7 +364,9 @@ const visible = (page, selector) =>
   const atArchives = await page.waitForFunction(() => location.hash === '#archives' && Math.abs(document.querySelector('#archives').getBoundingClientRect().top) < 160, { timeout: 4000 }).then(() => true, () => false);
   check('noticeboard: the second notice’s link goes to the Confidential Archives', atArchives, await page.evaluate(() => `${location.hash} ${Math.round(document.querySelector('#archives').getBoundingClientRect().top)}`));
   const faqs = await page.evaluate(() => document.querySelectorAll('.ledger-entry').length);
-  check('ten approved questions', faqs === 10);
+  const FAQS = JSON.parse(readFileSync('src/content/faqs.json', 'utf8'));
+  const asked = await page.evaluate(() => [...document.querySelectorAll('.ledger-entry')].map((el) => el.textContent.replace(/\s+/g, ' ')));
+  check('eleven questions as the host has them: no acting question, plus what to bring and whether we are going out', faqs === 11 && FAQS.length === 11 && FAQS.every((f, i) => asked[i].includes(f.question) && asked[i].includes(f.answer)) && !asked.some((t) => /acting experience/i.test(t)) && asked.some((t) => /What should I bring\?/.test(t) && /bottle/.test(t)) && asked.some((t) => /Are we going out to an event\?/.test(t) && /poker/.test(t)));
   await page.evaluate(() => document.querySelector('.ledger-entry summary').scrollIntoView({ block: 'center', behavior: 'instant' }));
   await page.click('.ledger-entry summary');
   check('a question opens to show its answer', await page.evaluate(() => document.querySelector('.ledger-entry').open && /No\. The murder mystery is designed/.test(document.querySelector('.ledger-answer').textContent)));

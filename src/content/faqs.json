@@ -1,9 +1,5 @@
 [
   {
-    "question": "Do I need acting experience?",
-    "answer": "No. The murder mystery is designed to be accessible to everyone. Your character booklet and the hosts will guide you through the evening."
-  },
-  {
     "question": "Do I need to memorise anything?",
     "answer": "No. You will have instructions and information in your character booklet, which you can refer to throughout the event."
   },
@@ -14,6 +10,10 @@
   {
     "question": "Does my outfit need to be historically accurate?",
     "answer": "No. The aim is to embrace the general Roaring Twenties aesthetic and your character’s personality."
+  },
+  {
+    "question": "What should I bring?",
+    "answer": "A bottle of whatever you would like to drink on the night. Some drinks will be provided, but probably not enough to last a whole evening of debauchery, as we are staying in."
   },
   {
     "question": "When will I receive my full character booklet?",
@@ -38,5 +38,9 @@
   {
     "question": "What happens after the murder mystery?",
     "answer": "The birthday celebrations continue, accompanied by the After Hours playlist."
+  },
+  {
+    "question": "Are we going out to an event?",
+    "answer": "Not this time. We have spent so many nights out together that we wanted to do something a little different, so we are staying in. Expect plenty of games, poker among them, and a few other things in store."
   }
 ]
