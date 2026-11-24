@@ -1,27 +1,34 @@
 {
-  "_about": "Announcements from the hosts. Only entries with \"published\": true are shown. Entries marked \"specimen\": true are design samples and are shown only while site.json has \"showSpecimens\": true.",
+  "_about": "Announcements from the hosts, shown newest first (notices with the same date keep the order below). Only entries with \"published\": true are built into the page. \"body\" may hold several paragraphs separated by a blank line; \"closing\" is the sign-off line, set in italics. \"link\" takes a label and a url (a section of the site such as #archives, or a full web address); add \"opensRsvp\": true for a link that opens the RSVP slip. \"style\" is \"note\" or \"telegram\". Before launch: if the site goes live on a different day, change these dates to the launch date, and if the RSVP date changes, update the wording of the first notice.",
   "notices": [
     {
-      "title": "How a notice will look",
+      "title": "An Invitation Has Arrived",
       "date": "2026-11-24",
-      "body": "This is a specimen, not a real announcement. Notices from the hosts will be pinned here as they are posted: reminders, booklet releases and anything that changes.",
-      "style": "note",
-      "important": false,
-      "link": null,
-      "image": null,
-      "published": true,
-      "specimen": true
-    },
-    {
-      "title": "And a more urgent one",
-      "date": "2026-11-24",
-      "body": "Specimen only. Important notices can carry a red stamp. Nothing here is a real instruction.",
+      "body": "The guest register is officially open. Discover your assigned identity, begin preparing your finest attire and kindly reserve your place at The Velvet Cellar by 28th November.",
+      "closing": "Your presence is eagerly anticipated.",
       "style": "telegram",
       "important": true,
-      "link": null,
+      "link": {
+        "label": "Reserve your place",
+        "url": "#particulars",
+        "opensRsvp": true
+      },
       "image": null,
-      "published": true,
-      "specimen": true
+      "published": true
+    },
+    {
+      "title": "A Word of Caution…",
+      "date": "2026-11-24",
+      "body": "Every guest has a story, and every story has its secrets. Your personal dossier awaits in the Confidential Archives, but do resist the temptation to delve into anyone else’s affairs.",
+      "closing": "After all, curiosity can be a dangerous thing.",
+      "style": "note",
+      "important": false,
+      "link": {
+        "label": "Open the Confidential Archives",
+        "url": "#archives"
+      },
+      "image": null,
+      "published": true
     }
   ]
 }

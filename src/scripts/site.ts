@@ -182,7 +182,8 @@ function initRsvp() {
 
   // Every RSVP control (beneath the particulars, in the bar, in the menu) opens the same slip.
   all('[data-rsvp-open]').forEach((opener) =>
-    opener.addEventListener('click', () => {
+    opener.addEventListener('click', (event) => {
+      event.preventDefault(); // a link that opens the slip (in a notice) should not also jump down the page
       const menu = one<HTMLDialogElement>('[data-nav-menu]');
       if (menu?.open) menu.close();
       form.hidden = false;

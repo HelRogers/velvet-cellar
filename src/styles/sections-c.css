@@ -228,7 +228,19 @@
 .notice-body {
   line-height: 1.45;
 }
+.notice-body + .notice-body {
+  margin-top: 0.7em;
+}
+.notice-closing {
+  font-style: italic;
+}
+.notice-action {
+  margin-top: 0.5rem;
+}
 .notice-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   color: var(--burgundy);
   font-weight: 600;
 }
@@ -255,6 +267,12 @@
   font-family: var(--font-type);
   font-size: 0.98rem;
   line-height: 1.6;
+}
+/* The typewriter face has no true italic, so a telegram signs off in the text face. */
+.notice--telegram .notice-closing {
+  font-family: var(--font-text);
+  font-size: 1.12rem;
+  line-height: 1.4;
 }
 @media (max-width: 30em) {
   .notice-stamp {

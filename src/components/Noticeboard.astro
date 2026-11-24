@@ -10,9 +10,21 @@ import data from '../content/notices.json';
 import Display from './Display.astro';
 
 const formatDate = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/London' });
-const notices = data.notices
+type Notice = {
+  title: string;
+  date: string;
+  body: string;
+  closing?: string;
+  style: string;
+  important: boolean;
+  link: { label: string; url: string; opensRsvp?: boolean } | null;
+  published: boolean;
+  specimen?: boolean;
+};
+const notices = (data.notices as Notice[])
   .filter((notice) => notice.published && (!notice.specimen || site.showSpecimens))
   .sort((a, b) => b.date.localeCompare(a.date));
+const paragraphs = (text: string) => text.split(/\n\s*\n/).map((part) => part.trim()).filter(Boolean);
 const real = notices.filter((notice) => !notice.specimen);
 ---
 
@@ -44,11 +56,12 @@ const real = notices.filter((notice) => !notice.specimen);
                   <time datetime={notice.date}>{formatDate.format(new Date(`${notice.date}T12:00:00Z`))}</time>
                 </p>
                 <h3 class="notice-title">{notice.title}</h3>
-                <p class="notice-body">{notice.body}</p>
+                {paragraphs(notice.body).map((text) => <p class="notice-body">{text}</p>)}
+                {notice.closing && <p class="notice-body notice-closing">{notice.closing}</p>}
                 {notice.link && (
-                  <p>
-                    <a class="notice-link" href={(notice.link as { url: string }).url}>
-                      {(notice.link as { label: string }).label}
+                  <p class="notice-action">
+                    <a class="notice-link" href={notice.link.url} data-rsvp-open={notice.link.opensRsvp ? '' : undefined}>
+                      {notice.link.label}
                     </a>
                   </p>
                 )}
