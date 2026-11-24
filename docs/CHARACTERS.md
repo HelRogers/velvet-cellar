@@ -16,6 +16,7 @@ organised and checked for name consistency only.
 | Luke | Samuel “Sam” Spade | Private Backstory | “Ben’s obsession” to “Willy’s obsession” |
 | Carys | Cleo “Kitty” Adams | Heading | “Addams” to “Adams” |
 | Josh | Dr Wilfred “Willy” Hughes | Heading | “Dr.Wilfred” to “Dr Wilfred” |
+| Oliver | Vincent “The Viper” Valenti | Private Backstory | “Mina” removed from the list of lieutenants, as she is not in the cast of 27 (host's decision, 24 Nov 2026). The list now reads “Angelo, Marco, Jinx, and Dom”. |
 
 Renamed characters: Eleanor “Ellie” Adams is Cleo “Kitty” Adams; Dr Benjamin “Ben” Hughes is
 Dr Wilfred “Willy” Hughes; Oliver “Ollie” Brooks is Freddy “Flash” Brooks. No old name remains in
@@ -23,8 +24,6 @@ any record. The guests Ben and Oliver keep their real names.
 
 ## Left exactly as supplied, awaiting the host
 
-- **Mina.** Oliver's Private Backstory (Vincent Valenti) lists “Angelo, Marco, Mina, Jinx, and Dom”.
-  Mina is not in the cast of 27. Unchanged.
 - **Carys's occupation.** The supplied heading says “Private Detective”; the master brief's example
   said “Private Investigator”. The supplied heading is used.
 - **Stage directions.** Freya's Public Story (Gloria Delaney) contains “[Smile slowly and sultrily]”
@@ -33,6 +32,8 @@ any record. The guests Ben and Oliver keep their real names.
   supplied; the rest of the site is in British English.
 
 ## Occupations shown publicly
+
+The host confirmed on 24 November 2026 that these stay shortened or withheld for now.
 
 `occupation` holds the original heading. `publicRole` is what the register, the search and the
 public sheet show. Where the heading gives away something the Public Story does not, the public
@@ -55,7 +56,7 @@ Tom (“Young Enforcer & Vincent’s Bodyguard”), Georgina (“Former Gang Mem
 ## Name-consistency observations
 
 - Every character named in a Public Story or Private Backstory is in the cast of 27, or is
-  Johnny McGraw, except Mina (above).
+  Johnny McGraw.
 - Clara “Hope” Bennett and Josephine “Josie” Bennett share a surname. Unchanged.
 - Rosie “Red” O’Hara and Ruby “Red” O’Connell share a nickname, intentionally. Unchanged.
 - The coded alias “FR” appears in three Private Backstories (Hugo, Emma, Olivia S). It has been

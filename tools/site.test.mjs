@@ -31,7 +31,7 @@ const HTML = readFileSync(join(dir, 'index.html'), 'utf8');
   check('27 records, each with every field filled', GUESTS.length === 27 && GUESTS.every((g) => g.slug && g.guest && g.character && g.occupation && g.publicStory && g.privateBackstory && g.booklet === 'sealed'));
   check('guest names and dossier addresses are unique', new Set(GUESTS.map((g) => g.guest)).size === 27 && new Set(GUESTS.map((g) => g.slug)).size === 27);
   check('host’s corrections: Freddy for Ollie (Max, Hugo), Willy for Ben (Luke), Adams with one D, Dr Wilfred spaced', by('Max').publicStory.includes('I’m Freddy Brooks') && by('Hugo').privateBackstory.includes('(maybe Freddy, maybe worse)') && by('Luke').privateBackstory.includes('Willy’s obsession with the toxicology report') && by('Carys').character === 'Cleo “Kitty” Adams' && by('Josh').character === 'Dr Wilfred “Willy” Hughes' && !/Ollie|Addams|Eleanor|Ellie|Benjamin|Dr\.Wilfred/.test(all));
-  check('the flagged reference to Mina is left exactly as supplied', by('Oliver').privateBackstory.includes('Angelo, Marco, Mina, Jinx, and Dom'));
+  check('Mina, who is not in the cast, is removed from Oliver’s backstory as the host asked; nothing else there changes', by('Oliver').privateBackstory.includes('your trusted lieutenants, Angelo, Marco, Jinx, and Dom, to work') && !/Mina/.test(all));
   check('both “Red” characters are kept', by('Olivia E').character === 'Rosie “Red” O’Hara' && by('Emily').character === 'Ruby “Red” O’Connell');
   const runs = (words, n = 6) => [0, Math.floor(words.length / 2) - 3, words.length - n].map((i) => words.slice(i, i + n).join(' '));
   const leaks = GUESTS.flatMap((g) => runs(g.privateBackstory.split(' ')).filter((run) => HTML.includes(run)).map((run) => `${g.guest}: ${run}`));
