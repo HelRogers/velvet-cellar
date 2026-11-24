@@ -34,7 +34,10 @@ const google = `https://calendar.google.com/calendar/render?action=TEMPLATE&text
           <div><dt>Kindly Respond By</dt><dd>{event.rsvpBy}</dd></div>
         </dl>
       </article>
-      <button class="btn btn--primary reserve" type="button" data-rsvp-open>Reserve your place</button>
+      <button class="reserve" type="button" data-rsvp-open>
+        <span class="reserve-label">Reserve your place</span>
+        <span class="typed reserve-sub">Kindly respond by {event.rsvpBy}</span>
+      </button>
     </div>
     <div class="desk">
       <Display as="h3" class="desk-title" text="Reservations" />

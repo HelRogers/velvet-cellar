@@ -2,7 +2,7 @@
 // RSVP, archive, dossier, mood boards, questions and layout.
 // Usage: npm run build && node tools/site.test.mjs [dir]
 import puppeteer from 'puppeteer-core';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { startServer } from './serve.mjs';
 
@@ -64,6 +64,8 @@ const visible = (page, selector) =>
   check('all sections present, in the approved order', order.join(' ') === 'invitation welcome particulars countdown intrigue archives dress radio noticeboard faqs verdict remember', order.join(' '));
   check('one main heading, sections headed in order', await page.evaluate(() => document.querySelectorAll('h1').length === 1 && document.querySelectorAll('main h2').length >= 11));
   check('footer carries the closing lines', /Est\. 1925/.test(await text(page, '.site-footer')) && /Strictly for invited guests/.test(await text(page, '.site-footer')));
+  check('the build carries Netlify\'s no-index header rules', /X-Robots-Tag: noindex/.test(readFileSync(join(dir, '_headers'), 'utf8')));
+  check('the parked entrance page is not in the build', !existsSync(join(dir, 'door')));
   check('search engines are told not to index the page', await page.evaluate(() => /noindex/.test(document.querySelector('meta[name=robots]').content)));
   check('page title and description reveal nothing private', await page.evaluate(() => !/Carys|Thomas|Trelawney|birthday/i.test(document.title + document.querySelector('meta[name=description]').content)));
   check('nothing is loaded from other websites (no trackers, no font services)', outside.length === 0, outside.join(', '));
@@ -104,9 +106,17 @@ const visible = (page, selector) =>
   check('particulars are real text with every confirmed detail', ['Friday 18th December 2026', '7 o’clock in the evening', ADDRESS, 'Roaring Twenties eveningwear', '28th November 2026'].every((s) => particulars.includes(s)));
   check('the RSVP button sits directly beneath the particulars', await page.evaluate(() => {
     const doc = document.querySelector('.particulars-card .document').getBoundingClientRect();
-    const btn = document.querySelector('[data-rsvp-open]').getBoundingClientRect();
+    const btn = document.querySelector('.reserve').getBoundingClientRect();
     return btn.top >= doc.bottom - 40 && btn.top <= doc.bottom + 10;
   }));
+  const prominence = await page.evaluate(() => {
+    const area = (el) => { const r = el.getBoundingClientRect(); return r.width * r.height; };
+    const reserve = document.querySelector('.reserve');
+    const others = [...document.querySelectorAll('main .beyond .btn')].filter((el) => el.getBoundingClientRect().width > 0);
+    const r = reserve.getBoundingClientRect();
+    return { width: Math.round(r.width), height: Math.round(r.height), largest: others.every((el) => area(el) < area(reserve) * 0.75), text: reserve.textContent.replace(/\s+/g, ' ').trim() };
+  });
+  check('the RSVP button is the largest control on the page and states the reply date', prominence.height >= 80 && prominence.width >= 300 && prominence.largest && /Reserve your place/.test(prominence.text) && /28th November 2026/.test(prominence.text), JSON.stringify(prominence));
   await page.evaluate(() => document.querySelector('[data-copy-address]').scrollIntoView({ block: 'center', behavior: 'instant' }));
   await page.click('[data-copy-address]');
   await sleep(300);
@@ -118,8 +128,21 @@ const visible = (page, selector) =>
   check('Google Calendar link carries the same date and place', /dates=20261218T190000Z/.test(google) && decodeURIComponent(google).includes(ADDRESS));
 
   // ---------- RSVP ----------
-  await page.evaluate(() => document.querySelector('[data-rsvp-open]').scrollIntoView({ block: 'center', behavior: 'instant' }));
-  await page.click('[data-rsvp-open]');
+  // The shortcuts: in the bar, and at the top of the menu.
+  check('an RSVP shortcut stays in the navigation bar', await visible(page, '.nav-rsvp'));
+  await page.click('.nav-rsvp');
+  await sleep(300);
+  check('the RSVP shortcut in the bar opens the reservation slip', await page.evaluate(() => document.querySelector('[data-rsvp-dialog]').open));
+  await page.keyboard.press('Escape');
+  await page.click('[data-nav-open]');
+  await sleep(300);
+  await page.click('.nav-menu-rsvp');
+  await sleep(300);
+  check('the RSVP button in the menu closes the menu and opens the slip', await page.evaluate(() => document.querySelector('[data-rsvp-dialog]').open && !document.querySelector('[data-nav-menu]').open));
+  await page.keyboard.press('Escape');
+
+  await page.evaluate(() => document.querySelector('.reserve').scrollIntoView({ block: 'center', behavior: 'instant' }));
+  await page.click('.reserve');
   await sleep(350);
   check('RSVP opens as a reservation slip', await page.evaluate(() => document.querySelector('[data-rsvp-dialog]').open));
   check('the slip asks only for name, attendance and an optional message', await page.evaluate(() => [...document.querySelectorAll('[data-rsvp-form] [name]')].map((el) => el.name).filter((n, i, a) => a.indexOf(n) === i).join(',') === 'form-name,bot-field,name,attending,message'));
@@ -140,7 +163,7 @@ const visible = (page, selector) =>
   check('accepted: the slip is posted with the form name Netlify expects', Boolean(sent) && sent.path === '/' && /form-name=rsvp/.test(sent.body) && /name=Test\+Guest/.test(sent.body) && /attending=Attending/.test(sent.body));
   check('accepted (attending): the approved confirmation is shown', /Your place at The Velvet Cellar has been reserved/.test(await text(page, '[data-rsvp-result-text]')));
   await page.click('[data-rsvp-result] [data-rsvp-close]');
-  await page.click('[data-rsvp-open]');
+  await page.click('.reserve');
   await sleep(300);
   await page.type('#rsvp-name', 'Second Guest');
   await page.click('input[name=attending][value="Unable to attend"]');
@@ -246,6 +269,7 @@ const visible = (page, selector) =>
   await page.evaluate(() => document.querySelector('#welcome').scrollIntoView({ behavior: 'instant' }));
   await sleep(500);
   check('desktop: section links are shown inline, without a menu button', (await visible(page, '.nav-inline')) && !(await visible(page, '[data-nav-open]')));
+  check('desktop: the RSVP shortcut sits in the bar beside the links', await visible(page, '.nav-rsvp'));
   await page.click('.nav-inline a[href="#radio"]');
   check('desktop: a navigation link goes to its section', await arrivesAt(page, '#radio'));
   await context.close();

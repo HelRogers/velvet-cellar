@@ -178,13 +178,18 @@ function initRsvp() {
     error.hidden = false;
   };
 
-  one('[data-rsvp-open]')?.addEventListener('click', () => {
-    form.hidden = false;
-    result.hidden = true;
-    error.hidden = true;
-    dialog.showModal();
-    nameField.focus();
-  });
+  // Every RSVP control (beneath the particulars, in the bar, in the menu) opens the same slip.
+  all('[data-rsvp-open]').forEach((opener) =>
+    opener.addEventListener('click', () => {
+      const menu = one<HTMLDialogElement>('[data-nav-menu]');
+      if (menu?.open) menu.close();
+      form.hidden = false;
+      result.hidden = true;
+      error.hidden = true;
+      dialog.showModal();
+      nameField.focus();
+    })
+  );
   all('[data-rsvp-close]', dialog).forEach((el) => el.addEventListener('click', () => dialog.close()));
   dialog.addEventListener('click', (event) => event.target === dialog && dialog.close());
 

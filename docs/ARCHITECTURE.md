@@ -2,6 +2,33 @@
 
 Approved by the host on 24 November 2026 (Checkpoint 1). Items marked *planned* are not built yet.
 
+## Decisions revised by the host, 24 November 2026 (afternoon)
+
+These replace anything below that says otherwise.
+
+- **No door password, no accounts.** The site launches as an unlisted address with search
+  indexing switched off (`public/_headers`, the robots meta tag and `robots.txt`). This is
+  not access protection: anyone who has or guesses the address can read the site. The host
+  has accepted that for a party of about 24 trusted friends.
+- **The access gate is parked**, not deleted: see `parked/access-gate/`. It could give
+  guests one-click access from a private invitation link, but it needs edge functions,
+  which manual uploads cannot deploy.
+- **Manual deployment for now.** The host uploads a ZIP of the built site to the Netlify
+  project (see `docs/DEPLOYING.md`). GitHub can be connected later without changing the
+  address.
+- **Character booklets will be trust-based.** At Release Two each released booklet is an
+  individual PDF, opened from the guest's dossier after a themed warning that the guest
+  must acknowledge. This is a courtesy barrier, not security, and the site must never
+  describe it as protection. Unreleased booklets are never uploaded.
+- **Any host administration page must still be genuinely authenticated.** That needs
+  serverless functions, so it depends on GitHub (or command-line) deploys being in place.
+  Until then, content changes are made in `src/content/` and uploaded as a new ZIP.
+- **Calendar entries have no end time**, because none is confirmed. The calendar file
+  omits it. Google's link format requires one, so it is set equal to the start.
+- **Address:** `https://the-velvet-cellar.netlify.app`, approved as permanent.
+- **Production updates always need the host's approval.** With manual upload that is
+  inherent; with GitHub later, publishing is to be locked in Netlify.
+
 ## Shape
 
 - **Astro static site.** Content sits in simple files under `src/content/`, separate from layout.
@@ -22,18 +49,18 @@ A dedicated free Netlify account is expected to be enough for about 24 guests:
 - If the allowance ever looked tight in December, the fallback is one month of the Personal
   plan. That needs the host's approval and is not expected.
 
-## Access protection (built and logic-tested at Checkpoint 3; platform test pending)
+## The access gate (built and logic-tested at Checkpoint 3; now parked)
 
 Requirement: nothing sensitive (invitation images, address, guest names, APIs, documents)
 is served to anyone without the invitation link or password, on previews and production alike.
 
 How it works:
 
-- `netlify/edge-functions/gate.ts` runs in front of every request, including image files.
+- `gate.ts` (now under `parked/access-gate/netlify/edge-functions/`) runs in front of every request, including image files.
   Without a valid pass, a browser is shown the entrance page (`/door/`) and every other
   request is refused with 401. The only open files are the entrance, the fonts and the four
   material textures, none of which hold anything private.
-- `netlify/edge-functions/door.ts` checks the password, from the entrance form
+- `door.ts` (same folder) checks the password, from the entrance form
   (`POST /enter`) or from the private invitation link (`/enter?key=PASSWORD`). It is rate
   limited to 10 attempts a minute per visitor.
 - A correct password sets a pass cookie: signed (HMAC-SHA256), HTTP-only, Secure,
@@ -43,7 +70,7 @@ How it works:
   32 or more). Neither is in the repository. If either is missing the site serves nothing.
 - Changing `SITE_SESSION_SECRET` and redeploying revokes every pass already issued.
 
-Tested (`npm run test:gate`, 60 checks): every built file requested directly without a
+Tested (60 checks, in `parked/access-gate/tools/gate.test.mjs`): every built file requested directly without a
 pass; forged, expired and mis-signed passes; wrong, empty and nearly-right passwords; the
 invitation link; missing or weak secrets; and that the open files contain nothing private.
 

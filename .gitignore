@@ -1,6 +1,7 @@
 node_modules/
 dist/
 preview/
+deploy/
 .astro/
 scratch/
 .env

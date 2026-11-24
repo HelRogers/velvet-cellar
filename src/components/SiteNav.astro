@@ -26,12 +26,15 @@ const links = [
       {links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
     </ul>
   </nav>
-  <button class="nav-toggle" type="button" data-nav-open aria-haspopup="dialog">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false">
-      <path d="M4 7h16M4 12h16M4 17h16" />
-    </svg>
-    Menu
-  </button>
+  <div class="nav-actions">
+    <button class="nav-rsvp" type="button" data-rsvp-open aria-haspopup="dialog">RSVP</button>
+    <button class="nav-toggle" type="button" data-nav-open aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+      <span class="nav-toggle-word">Menu</span>
+    </button>
+  </div>
 </header>
 
 <dialog class="nav-menu" data-nav-menu aria-label="Menu">
@@ -42,6 +45,7 @@ const links = [
       </svg>
     </button>
     <p class="typed nav-menu-mark">The Velvet Cellar</p>
+    <button class="btn btn--primary nav-menu-rsvp" type="button" data-rsvp-open>Reserve your place</button>
     <nav aria-label="Sections">
       <ul role="list">
         {links.map((link) => <li><a href={link.href} data-nav-link>{link.label}</a></li>)}
