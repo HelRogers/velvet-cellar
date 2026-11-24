@@ -1,0 +1,9 @@
+node_modules/
+dist/
+preview/
+.astro/
+scratch/
+.env
+.env.*
+.netlify/
+.DS_Store

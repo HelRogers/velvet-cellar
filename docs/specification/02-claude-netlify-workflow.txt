@@ -1,0 +1,80 @@
+ADDITIONAL DEVELOPMENT INSTRUCTIONS: CLAUDE & NETLIFY WORKFLOW
+
+I have an existing paid Claude subscription and intend to use Netlify to host this website. Where available, use Claude’s integrated design, coding and Netlify deployment capabilities to create and maintain one persistent website project.
+
+Development methodology
+
+* Act as both an experienced creative director specialising in luxury editorial and immersive digital experiences, and a senior full-stack web developer.
+* Treat the preceding master prompt as the approved project specification.
+* Use a single persistent codebase throughout development. Do not create a separate, unrelated website for each revision.
+* Prioritise bespoke visual quality over generic website templates and default UI components.
+* Separate website content from the underlying design and functionality so assets, guest information and announcements can be updated easily.
+* Retain access to the complete source code.
+* Use version control where practical so previously approved versions can be restored.
+* Choose a simple, maintainable technical architecture rather than introducing unnecessary complexity.
+
+Initial design and development priorities
+
+Begin by establishing the visual design system and developing the sealed-envelope experience.
+
+The invitation animation is a particularly important feature. It should resemble a physical luxury stationery experience, with layered paper, realistic lighting and shadows, a burgundy wax seal, a moving envelope flap and a smooth invitation extraction.
+
+Use my original artwork as actual image assets. Do not redraw or regenerate it.
+
+Create an interactive prototype that I can genuinely use and review, not simply a static mock-up or screenshot.
+
+Once the opening experience is established, develop the complete homepage framework and one example character dossier using the approved specification.
+
+Preview and deployment
+
+* Create a new, separate Netlify project specifically for The Velvet Cellar.
+* Do not modify any existing websites or projects in the connected Netlify account.
+* Use a private local or appropriately protected preview during development.
+* Do not publish real guest names, private addresses, confidential documents or other sensitive information to an unrestricted preview.
+* Do not deploy to production without my explicit approval.
+* Keep one permanent website address for all future releases.
+* Avoid unnecessary production deployments and monitor hosting usage.
+* Do not purchase services, enable paid usage or incur additional charges without approval.
+
+Quality assurance
+
+Before presenting a version for review, inspect the rendered website across mobile, tablet and desktop sizes.
+
+Where available, use browser-based testing and screenshots to identify and correct visual issues.
+
+Test interactions rather than assuming that visually complete features work.
+
+Clearly distinguish between:
+
+1. Fully implemented and tested functionality.
+2. Functionality awaiting supplied content.
+3. Functionality requiring external service configuration.
+4. Functionality deliberately deferred until a later release.
+
+Do not represent placeholder buttons, mock forms or simulated authentication as functioning production features.
+
+Privacy and spoiler protection
+
+My Claude project may contain original murder mystery materials, including documents containing the final solution.
+
+Do not inspect, summarise or use the final reveal, solution pages or private character information when designing the initial website.
+
+Only use the approved public-facing information supplied within the master prompt and any subsequently approved character introductions.
+
+Never include the full murder mystery kit or its solution in the website codebase, hosting storage, database, public preview or downloadable files.
+
+I am participating in the murder mystery and must remain completely unaware of the solution.
+
+Before publishing any confidential character materials, establish and test the agreed security mechanism. Password protection must be genuine, not simply a client-side visual barrier.
+
+First deliverable
+
+Proceed with Development Stage A from the master brief.
+
+Create the actual interactive website framework, incorporating the supplied invitation artwork, while leaving clearly identified placeholders for the assets I will provide later.
+
+The first version should allow me to assess the quality of the design, envelope animation, navigation, responsive layouts, character dossier template, mood boards and both playlist sections.
+
+Do not treat the initial design as approved until I have personally reviewed it.
+
+Throughout the project, preserve all previously approved features unless I explicitly request changes.

@@ -1,0 +1,1769 @@
+THE VELVET CELLAR
+
+Master Website Design, Development & Functionality Brief
+
+1. Project overview
+
+I want to create a premium, immersive, private event website for a joint 21st birthday celebration and interactive 1920s murder mystery party for approximately 24 guests.
+
+The website will be called The Velvet Cellar, the fictional underground speakeasy in which our murder mystery takes place.
+
+This should not feel like a conventional birthday invitation, wedding website, event management platform or generic party website. It should feel as though guests have been personally invited into an exclusive, clandestine establishment in 1925, where glamour, champagne, jazz, gambling, secrets and suspicion coexist.
+
+The website will act as the central hub for the entire party experience, from receiving the original invitation through to discovering character identities, preparing costumes, accessing confidential murder mystery booklets, receiving announcements, voting on the night and eventually sharing photographs.
+
+Guests will receive a single website link before the party. This same website and URL must remain in use throughout the entire process, with new information and functionality becoming available at different stages.
+
+The experience should be exceptionally well designed, atmospheric, functional, responsive and easy to navigate, while remaining as inexpensive as possible to operate.
+
+⸻
+
+PART ONE: EVENT INFORMATION
+
+2. Confirmed event details
+
+Use the following information consistently throughout the website:
+
+* Event: Carys & Thomas’ Joint 21st Birthday Celebration
+* Venue name: The Velvet Cellar
+* Date: Friday 18th December 2026
+* Start time: 7:00 PM
+* Time zone: Europe/London
+* Address: 49 Trelawney Road, Redland, Bristol
+* RSVP deadline: Saturday 28th November 2026
+* Theme: The Roaring Twenties, underground speakeasies, 1920s glamour, prohibition-era organised crime, jazz and casinos.
+* Entertainment: An interactive murder mystery, followed by birthday celebrations and an after-party.
+* Dress code: 1920s-inspired outfits, appropriate to guests’ assigned characters.
+* Number of guests: Approximately 24.
+* Fictional setting: The Velvet Cellar, an underground speakeasy in 1925.
+
+Ensure there is a clear distinction between the fictional 1925 setting and the actual event date in December 2026.
+
+Use British English throughout.
+
+3. Murder mystery context
+
+The party uses a purchased murder mystery game called Death in the Roaring 20s by The Obituary Club, which is being customised for our particular group of friends.
+
+Each guest will be assigned an individual fictional character, with their own identity, personality, background, relationships, secrets, objectives and instructions for the evening.
+
+The murder mystery takes place across a series of guided rounds, during which guests will interact with each other, investigate evidence, discover clues, solve puzzles or coded messages where applicable, question suspects, exchange information and attempt to determine who committed the murder.
+
+The evening concludes with accusations, voting and the final reveal.
+
+Awards include:
+
+* Best Detective
+* Best Dressed
+* Best Actor
+
+An important feature of this particular murder mystery is that even the person playing the murderer does not know they are the murderer until the final reveal.
+
+ABSOLUTE SPOILER PROTECTION REQUIREMENT
+
+I am participating in the murder mystery myself and do not want to know the solution.
+
+Do not reveal, infer, summarise, hint at or identify the murderer, their motive or the final solution at any stage of website development.
+
+Never upload the final narration, final reveal or solution documents to the guest website, public storage, website source code, database or downloadable assets.
+
+All initial character introductions must be based exclusively on approved, spoiler-free public character information. Do not use private character backgrounds, objectives, relationships, evidence or confidential information when creating initial introductions.
+
+I will supply the individual approved character files and summaries when required.
+
+⸻
+
+PART TWO: CREATIVE DIRECTION
+
+4. Overall design vision
+
+The website should feel like a combination of:
+
+* An exclusive 1920s private members’ club.
+* Luxury vintage invitation stationery.
+* A prohibition-era underground speakeasy.
+* A sophisticated murder mystery.
+* A confidential archive of personal dossiers.
+* An editorial-style vintage fashion and lifestyle magazine.
+
+The primary aesthetic should be luxurious 1920s speakeasy glamour. Murder mystery references should add intrigue and tension without overwhelming the elegance.
+
+The website must feel bespoke and carefully art-directed, rather than like a standard template with vintage colours applied.
+
+Avoid:
+
+* Generic Great Gatsby templates.
+* Excessive glitter and gold effects.
+* Cartoon gangsters or novelty murder mystery graphics.
+* Halloween-style horror.
+* Excessively bright colours.
+* Modern corporate website styling.
+* Generic rounded SaaS-style cards throughout the guest-facing experience.
+* Stock icons that clash with the period aesthetic.
+* Overly busy layouts.
+* Excessive animations that make the site difficult to navigate.
+* Obvious AI-generated-looking imagery.
+
+The desired feeling is exclusive, atmospheric, sophisticated, mysterious, cinematic and slightly illicit.
+
+5. Colour palette
+
+Build the visual identity around the existing invitation artwork.
+
+Suggested starting palette:
+
+* Deep burgundy: #4B091C
+* Oxblood: #701426
+* Antique ivory: #F5E8D0
+* Aged parchment: #E5D4B5
+* Antique gold: #B49A66
+* Muted bronze: #82673E
+* Almost-black: #170E12
+* Dark blood red: #790C17
+
+These are indicative colours and should be refined by sampling the original invitation artwork.
+
+Burgundy, ivory and antique gold should dominate. Darker colours should create atmosphere and contrast, while parchment backgrounds can be used for confidential documents, announcements and practical information.
+
+Use blood-red accents sparingly.
+
+6. Typography
+
+Use a carefully selected combination of:
+
+Decorative display typography
+
+Ornate, historically inspired lettering that complements the existing invitations. It may incorporate elements of Art Deco, Art Nouveau, vintage engraved typography and early twentieth-century print design.
+
+Use this for:
+
+* Main titles.
+* Section headings.
+* The Velvet Cellar branding.
+* Invitation-related text.
+* Short atmospheric statements.
+
+Readable supporting typography
+
+An elegant, readable serif for longer paragraphs, instructions and important practical information.
+
+Additional period typography
+
+Occasionally use typewriter-inspired or handwritten lettering for:
+
+* Confidential stamps.
+* Dossier reference numbers.
+* Detective notes.
+* Noticeboard announcements.
+* Secret correspondence.
+
+Do not use decorative fonts for lengthy body text if this compromises readability.
+
+Use appropriately licensed fonts, preferably free fonts that can be hosted reliably.
+
+7. Textures, imagery and decorative details
+
+Incorporate subtle, realistic visual textures, including:
+
+* Burgundy velvet.
+* Antique parchment and aged paper.
+* Embossed stationery.
+* Brushed or aged gold.
+* Brass fittings.
+* Wax seals.
+* Vintage ink.
+* Fine paper grain.
+* Ornate borders.
+* Art Deco and Art Nouveau flourishes.
+* Vintage photographic treatments.
+
+Throughout the website, occasionally introduce subtle suggestions of the murder mystery:
+
+* A restrained dark-red blood splatter.
+* A suspicious fingerprint on a document.
+* A faint bloodstained handprint.
+* Confidential stamps.
+* Redacted text.
+* Mysterious handwritten annotations.
+* A torn piece of paper.
+* An ominous message.
+* A sealed evidence envelope.
+
+These details should feel intentionally placed, not randomly scattered across every section.
+
+The website should look like a beautiful speakeasy that happens to conceal a dark secret, not a horror website.
+
+8. Existing invitation artwork
+
+I have already designed the front and back of the invitation.
+
+I will provide:
+
+1. The original front invitation image.
+2. The original back invitation image.
+3. A screen recording demonstrating the type of animated envelope-opening experience I like.
+
+Use the actual supplied invitation images.
+
+Do not recreate them using generative AI, reinterpret their typography, redraw their illustrations or unnecessarily alter their composition.
+
+Preserve their original aspect ratio, quality and legibility.
+
+The current invitation artwork may contain minor wording errors and an instruction to RSVP by email. Before final launch, I may supply a corrected version that directs guests to the website RSVP functionality.
+
+Use the current artwork as a development asset until I provide any replacement. Do not independently redesign it.
+
+⸻
+
+PART THREE: WEBSITE STRUCTURE & GUEST EXPERIENCE
+
+9. Overall website architecture
+
+Create a hybrid website consisting of:
+
+An immersive opening experience, leading to a beautifully designed main scrolling homepage.
+
+A main homepage containing the principal invitation, event information, character register, mood boards, playlist links and other important sections.
+
+Separate dedicated pages or expandable interfaces for individual character dossiers and, where appropriate, the full photo gallery or forms.
+
+An optional private administration area for the host, if this can be achieved securely and affordably.
+
+The homepage should follow a logical narrative journey, rather than feeling like a collection of disconnected features.
+
+Recommended homepage sequence:
+
+1. The sealed invitation.
+2. Welcome to The Velvet Cellar.
+3. The Evening’s Particulars and RSVP.
+4. Live countdown.
+5. An Evening of Intrigue.
+6. The Confidential Archives.
+7. Dress for the Decade.
+8. The Velvet Cellar Radio.
+9. The Noticeboard.
+10. Frequently Asked Questions.
+11. The Final Verdict.
+12. A Night to Remember.
+13. Closing footer.
+
+Include a discreet, elegantly styled navigation menu that allows returning visitors to jump directly to important sections.
+
+Suggested navigation labels:
+
+* Invitation
+* The Evening
+* Your Character
+* Dress Code
+* The Radio
+* Noticeboard
+* FAQs
+
+Voting and gallery navigation items should become available when their respective sections are activated.
+
+Navigation must work equally well on mobile phones, tablets and desktop computers.
+
+⸻
+
+10. Section one: The Sealed Invitation
+
+This is the most important first impression and must receive particular attention.
+
+When a guest first opens the website, they should be presented with an immersive, almost full-screen scene.
+
+The scene should contain:
+
+* A dark burgundy velvet or similarly luxurious background.
+* An elegant gold or antique champagne-coloured envelope.
+* Realistic paper texture and soft shadows.
+* A deep burgundy wax seal.
+* An embossed V or VC monogram on the seal.
+* Subtle atmospheric lighting.
+* Restrained ornamental details.
+
+Suggested introductory copy:
+
+PRIVATE CORRESPONDENCE
+
+You are cordially invited.
+
+Break the seal to enter.
+
+The envelope or wax seal should clearly indicate that it is interactive.
+
+When tapped or clicked, create a smooth, realistic animation in which:
+
+1. The wax seal appears to break or release.
+2. The envelope flap lifts naturally.
+3. The invitation slides slowly out of the envelope.
+4. The front of the supplied invitation is revealed.
+5. The invitation settles into a clear, readable position.
+6. The guest can manually turn the card over to reveal the back.
+
+The animation should feel like interacting with a physical luxury invitation.
+
+Use layered HTML, CSS, SVG, JavaScript or another appropriate deterministic animation technique where possible, rather than relying on generative video that may distort the invitation artwork.
+
+The envelope opening should feel elegant and deliberate, not excessively fast.
+
+Invitation viewer requirements:
+
+* Display the original front and back images in high quality.
+* Allow guests to flip between the front and back as many times as they wish.
+* Use a smooth, realistic card-flip transition.
+* Include a clear indication that the card can be turned over.
+* Allow tapping or clicking to zoom or enlarge the invitation.
+* Provide an accessible fullscreen or expanded viewing option.
+* Never crop important information.
+* Do not automatically advance between the front and back.
+* Do not impose a reading time limit.
+* Include a way to replay the envelope opening.
+* Allow users to skip the animation if desired.
+* Respect reduced-motion accessibility preferences.
+
+Once the invitation has been opened, reveal or provide access to the main website beneath it.
+
+On subsequent visits, remember locally that the invitation has already been opened where possible. Guests should be able to go directly to the main website without repeatedly sitting through the animation.
+
+The opening animation must remain available to replay.
+
+⸻
+
+11. Section two: Welcome to The Velvet Cellar
+
+Create a cinematic editorial-style introduction that sets the scene for the party.
+
+Potential introductory copy:
+
+WELCOME TO THE VELVET CELLAR
+
+The year is 1925.
+
+Behind closed doors, champagne flows, fortunes are gambled and secrets are traded. Beneath the glamour of the city’s most exclusive underground establishment, whispers of scandal are never far away.
+
+For one evening only, The Velvet Cellar opens its doors to a select gathering of guests in celebration of Carys and Thomas turning twenty-one.
+
+Dress accordingly. Trust carefully. And remember… not everything is quite as it seems.
+
+Refine the writing if necessary, while retaining the atmosphere and avoiding any actual murder mystery spoilers.
+
+This section should feel cinematic, with sophisticated typography, generous spacing and atmospheric visual details.
+
+It may feature a speakeasy-inspired background or photographic composition, provided the text remains clearly readable.
+
+⸻
+
+12. Section three: The Evening’s Particulars
+
+Create a permanently accessible, easily readable section containing all essential practical information.
+
+This should resemble an elegant printed reservation card, private club announcement or formal invitation insert.
+
+Suggested presentation:
+
+THE EVENING’S PARTICULARS
+
+The Occasion
+Carys & Thomas’ 21st Birthday Celebration
+
+The Date
+Friday 18th December 2026
+
+The Hour
+7 o’clock in the evening
+
+The Establishment
+The Velvet Cellar
+49 Trelawney Road, Redland, Bristol
+
+The Attire
+Roaring Twenties eveningwear
+
+Kindly Respond By
+28th November 2026
+
+Include the RSVP button directly underneath these details.
+
+Additional functionality:
+
+* Add to Calendar button, using the correct event date, local time and location.
+* Support Apple Calendar, Google Calendar and other calendar applications through appropriate links or a downloadable calendar file.
+* Copy Address button with clear confirmation that the address has been copied.
+* Ensure all practical information is presented as real, selectable website text, not solely embedded within images.
+
+Do not invent an event end time, food arrangements, transport information or additional party details that have not been supplied.
+
+⸻
+
+13. Section four: Reservations / RSVP
+
+Create an elegant and prominent RSVP experience.
+
+Suggested button wording:
+
+RESERVE YOUR PLACE
+
+or
+
+KINDLY RESPOND
+
+The button should open an RSVP form styled as a vintage reservation slip or guest register.
+
+Suggested form fields:
+
+* Guest name.
+* Whether they will be attending.
+* Optional message to the hosts.
+
+Allow additional questions to be added later if required.
+
+The host must be able to view and manage responses privately.
+
+After successful submission, display an appropriate confirmation message.
+
+For guests attending:
+
+Your place at The Velvet Cellar has been reserved. Further confidential correspondence will follow.
+
+For guests unable to attend:
+
+Your response has been received. You will be missed at The Velvet Cellar.
+
+Where a custom form is unnecessary or complicated, use a free Google Form connected to a Google Sheet.
+
+The RSVP form can be embedded or linked externally, depending on which approach provides the most reliable experience.
+
+Do not require guests to create an account simply to RSVP.
+
+Do not collect unnecessary personal information.
+
+Do not display other guests’ responses publicly.
+
+If I have not supplied the final RSVP form link, create the correctly styled button and configuration placeholder during development. The actual link will be added before launch.
+
+Do not simulate successful RSVP submissions if no working response system has been connected.
+
+⸻
+
+14. Section five: Live countdown
+
+Create a themed live countdown to:
+
+Friday 18th December 2026 at 7:00 PM, Europe/London.
+
+Suggested heading:
+
+UNTIL THE CELLAR OPENS ITS DOORS
+
+Display:
+
+* Days.
+* Hours.
+* Minutes.
+* Seconds.
+
+The countdown should feel like a vintage clock, engraved timepiece or elegant Art Deco display, rather than a generic digital timer.
+
+It must update accurately in real time.
+
+Once the party starts, replace the countdown with a message such as:
+
+THE DOORS ARE OPEN
+
+Welcome to The Velvet Cellar.
+
+After the event, allow the host to replace or hide this section.
+
+⸻
+
+15. Section six: An Evening of Intrigue
+
+Create an accessible introduction explaining how the murder mystery will work.
+
+Most of the guests will be unfamiliar with interactive murder mystery games. The explanation should make them feel excited rather than intimidated or confused.
+
+Suggested introductory copy:
+
+AN EVENING OF INTRIGUE
+
+An invitation to The Velvet Cellar comes with more than a dress code. Each guest will assume a character, harbour their own secrets and become part of a mystery that unfolds throughout the evening.
+
+Explain the following through beautifully styled sections or illustrated steps:
+
+1. Assume your identity
+
+Every guest will receive their own fictional character, complete with a name, occupation, personality and personal background.
+
+2. Receive your confidential instructions
+
+Before the event, guests will receive their individual character booklet. This will contain important information, secrets, personal objectives, relationships and instructions for different stages of the evening.
+
+3. Mingle amongst suspects
+
+Throughout the party, guests will interact with each other in character, ask questions, exchange information, make alliances and investigate suspicious behaviour.
+
+4. Follow the evidence
+
+As the evening progresses, guests will discover physical evidence, investigate clues, solve puzzles or coded messages where applicable, and attempt to piece together what happened.
+
+5. Complete your objectives
+
+Each guest has their own character-specific tasks and things to accomplish throughout the guided rounds. Their personal booklet will explain what they need to do and when.
+
+6. Deliver your verdict
+
+At the end of the investigation, guests will make accusations, cast votes and discover the truth behind the murder.
+
+Explain that:
+
+* No acting experience is required.
+* Guests do not need to memorise a script.
+* The evening will be guided by the hosts.
+* Character booklets provide the necessary instructions.
+* Guests are encouraged to stay in character but should not feel pressured to perform perfectly.
+* Everyone is a potential suspect.
+* Even the murderer does not know their identity until the final reveal.
+* Reading someone else’s confidential booklet may spoil the experience.
+* Awards will be given for Best Detective, Best Dressed and Best Actor.
+
+The overall tone should be reassuring, exciting and immersive.
+
+Do not include any actual evidence, puzzle solutions, hidden identities or murder mystery spoilers.
+
+⸻
+
+16. Section seven: The Confidential Archives
+
+This will be one of the website’s most important interactive features.
+
+Create a themed guest register where each guest can discover and subsequently access their own character dossier.
+
+Suggested section title:
+
+THE CONFIDENTIAL ARCHIVES
+
+Suggested introductory copy:
+
+Every guest at The Velvet Cellar has a story. Some are more truthful than others.
+
+Locate your name below to uncover your identity. The contents of each dossier are intended strictly for its assigned recipient.
+
+The visual design should resemble an archive of confidential detective files, aged folders, classified correspondence or sealed personal dossiers.
+
+Each guest entry should display:
+
+* Their real first name or approved display name.
+* Their assigned fictional character name.
+* Their character’s occupation or public role.
+* Optionally, one representative character portrait.
+* An indication of whether further information is sealed, available or awaiting release.
+
+Support approximately 24 guests, with the ability to add, remove or update entries.
+
+On mobile phones, use an appropriately sized grid or list with clear touch targets. On tablets and desktops, arrange the dossiers in multiple columns.
+
+Include a name search or similarly convenient way to locate a particular guest if useful.
+
+Do not invent the guest list, fictional character assignments or character biographies.
+
+I will provide the final guest register and approved character information separately.
+
+Individual character pages
+
+When a guest selects their entry, open a dedicated character page or carefully designed full-screen dossier interface.
+
+Each dossier should feel like opening an individual classified document.
+
+Possible decorative elements:
+
+* Aged paper.
+* Confidential stamps.
+* File reference numbers.
+* Typewriter-style labels.
+* Ink annotations.
+* Paper clips.
+* Sealed correspondence.
+* Vintage character portrait.
+
+Each character page should support:
+
+* Real guest name.
+* Fictional character name.
+* Occupation or public role.
+* Short public character introduction.
+* Optional single character portrait.
+* Confidential information status.
+* A character booklet section.
+* A return link to the guest register.
+
+For example, one confirmed character is:
+
+Guest: Carys
+Character: Cleo “Kitty” Adams
+Occupation: Private Investigator
+
+This example establishes the required information structure only. All final descriptions must be supplied or approved by me.
+
+Do not create individual character costume mood boards. A single representative character image is sufficient.
+
+Stage one: Initial character reveal
+
+The character register and introductory character pages must be included in the first guest-facing release.
+
+At this stage, each guest should be able to discover:
+
+* Their assigned fictional identity.
+* Their occupation.
+* A short, approved, spoiler-free introduction.
+* An optional character portrait.
+
+Do not include private objectives, secret relationships, clues, private backstories or instructions for the different rounds at this stage.
+
+Instead, show a sealed section with wording such as:
+
+FURTHER CORRESPONDENCE SEALED
+
+Your identity has been revealed. However, certain matters remain confidential.
+
+Your full character booklet, private information and instructions for the evening will become available here before The Velvet Cellar opens its doors.
+
+This will allow guests to start preparing their costumes while giving me time to finalise and upload the complete game materials.
+
+Stage two: Confidential booklet release
+
+Later, I will provide individual character booklets, most likely in PDF format.
+
+Each guest’s dossier should then support:
+
+* Opening their own booklet.
+* Viewing their booklet on a mobile phone, tablet or desktop where supported.
+* Downloading their booklet.
+* Reopening their booklet at any time after release.
+
+The host should be able to update, replace or withdraw individual files if character assignments change.
+
+Never publish a combined master PDF containing every guest’s character information.
+
+Only individual approved character files should be uploaded.
+
+⸻
+
+17. Individual character security and access codes
+
+I would ideally like every guest to have their own unique access code to protect their confidential character materials.
+
+The priority is to prevent guests from accidentally or deliberately reading another person’s private booklet and spoiling the mystery.
+
+However, this is a small private event, and I trust my friends. Security should be implemented sensibly without unnecessarily increasing costs or delaying the website’s development.
+
+Use the following order of preference.
+
+Preferred approach: Secure individual access codes
+
+When a guest attempts to open their full confidential booklet, display a themed access screen.
+
+Suggested wording:
+
+RESTRICTED ACCESS
+
+This dossier contains strictly confidential information. Enter your personal access code to retrieve its contents.
+
+Each guest should receive a unique, randomly generated code, which I will send to them privately.
+
+If the correct code is entered:
+
+* Validate the code securely.
+* Grant access only to that specific guest’s authorised document.
+* Display or provide an authorised download of their booklet.
+* Show an atmospheric confirmation, such as Identity verified. Dossier unlocked.
+
+If an incorrect code is entered:
+
+* Deny access.
+* Display a clear but appropriately themed error.
+* Limit repeated guessing attempts where supported.
+
+Suggested technical requirements:
+
+* Server-side validation.
+* Private file storage.
+* Secure access controls.
+* Appropriately hashed access codes or equivalent secure authentication.
+* Rate limiting.
+* Short-lived authorised file URLs where appropriate.
+* No confidential documents or access-code lists exposed in publicly downloadable website files or client-side code.
+* The ability to regenerate or revoke an individual guest’s access code.
+
+A free-tier service such as Supabase may be considered, or another suitable secure alternative.
+
+Do not introduce a complex membership system with unnecessary account creation, email verification or multiple login steps for every guest.
+
+Preferred fallback: Individually encrypted PDFs
+
+If a fully integrated access-code system is unnecessarily complex, unreliable or expensive, use individually password-encrypted PDF booklets.
+
+Each guest’s introductory character page can remain accessible to invited guests, while their actual confidential booklet requires a unique password.
+
+Use proper PDF encryption, not simply a visual password overlay or editing restriction.
+
+This is an acceptable alternative if it makes the website substantially easier to build and maintain.
+
+Final fallback: Trust-based access
+
+If neither secure method can be implemented reliably within the available budget, a trust-based system may be considered, subject to my approval.
+
+Before opening a booklet, display a warning such as:
+
+A WORD OF WARNING…
+
+The contents of this dossier are strictly confidential. Opening another guest’s file may spoil the mystery, not only for yourself but for everyone attending.
+
+Honour the secrets of The Velvet Cellar. Please access only your own assigned dossier.
+
+Require the guest to acknowledge the warning before proceeding.
+
+Be transparent that this approach does not provide technical security.
+
+Do not implement a fake password screen or claim that a publicly accessible document is securely protected.
+
+If secure dossier functionality is not ready for the initial website release, launch with the public character introductions and sealed booklet placeholders. Do not delay the entire invitation launch unnecessarily.
+
+⸻
+
+18. Section eight: Dress for the Decade
+
+Create a beautifully curated, editorial-style mood board area.
+
+This should be one of the most visually engaging parts of the website.
+
+Suggested heading:
+
+DRESS FOR THE DECADE
+
+Suggested introduction:
+
+The Velvet Cellar expects its guests to dress for the occasion. From sophisticated socialites and glamorous performers to sharp-suited gamblers and mysterious figures of the underworld, take inspiration from the styles of the Roaring Twenties.
+
+Create three distinct mood board collections.
+
+Mood board A: The Velvet Cellar — The Overall Aesthetic
+
+This mood board will communicate the general atmosphere and aesthetic of the party.
+
+Possible themes include:
+
+* Underground speakeasies.
+* Champagne coupe towers.
+* Candlelight.
+* Burgundy velvet.
+* Jazz clubs.
+* Poker and casino tables.
+* Vintage glamour.
+* Prohibition-era nightlife.
+* Art Deco interiors.
+* Antique gold.
+* Cigars.
+* Suspense and mystery.
+
+Mood board B: The Ladies of The Velvet Cellar
+
+This mood board will provide female costume inspiration.
+
+It should allow for a broad range of 1920s-inspired looks, rather than assuming everyone must wear a fringed flapper dress.
+
+Possible themes include:
+
+* Glamorous eveningwear.
+* Flapper dresses.
+* Satin and velvet.
+* Beading and embellishment.
+* Pearls.
+* Long gloves.
+* Feather accessories.
+* Vintage hairstyles.
+* Sophisticated tailoring.
+* Glamorous detectives and spies.
+* Singers and socialites.
+* Darker femme fatale-inspired styling.
+
+Mood board C: The Gentlemen of The Velvet Cellar
+
+This mood board will provide male costume inspiration.
+
+Possible themes include:
+
+* Three-piece suits.
+* Black tie.
+* Pinstripe tailoring.
+* Waistcoats.
+* Suspenders.
+* Bow ties.
+* Fedoras.
+* Flat caps.
+* Pocket watches.
+* Peaky Blinders-inspired tailoring.
+* Gangsters and bodyguards.
+* Gamblers.
+* More relaxed period-appropriate outfits.
+
+IMPORTANT IMAGE CURATION REQUIREMENT
+
+I want to personally select all the final mood board imagery.
+
+Do not independently source, generate or select the final photographs.
+
+During the initial development stage, create the three complete mood board layouts using clearly identified temporary placeholders.
+
+Once I approve the website’s design, I will supply the images I have selected, including inspiration from Pinterest and other sources where appropriate.
+
+The layout must support:
+
+* Different numbers of images in each collection.
+* Mixed image proportions.
+* Portrait and landscape photography.
+* Editorial or masonry-style arrangements.
+* Adding, removing and reordering images.
+* Tapping or clicking individual images to expand them.
+* Swiping between enlarged images on mobile where appropriate.
+* Clear section headings and optional short captions.
+* Responsive layouts without unwanted cropping.
+* Appropriate image optimisation and lazy loading.
+
+Use imagery that I supply or have permission to use. Do not rely on fragile Pinterest hotlinks for essential website content.
+
+The mood boards should feel like pages from a premium vintage fashion and lifestyle editorial, not a generic image grid.
+
+⸻
+
+19. Section nine: The Velvet Cellar Radio
+
+Create a vintage music-themed section that visually resembles a gramophone, record collection, speakeasy radio or antique record player.
+
+Suggested main heading:
+
+THE VELVET CELLAR RADIO
+
+Suggested introductory copy:
+
+Every great establishment needs a soundtrack. A little jazz before the doors open, and something rather less respectable once the night is underway.
+
+This section must contain two distinct playlists.
+
+Playlist one: The Gramophone
+
+THE GRAMOPHONE
+
+Sounds of the Roaring Twenties
+
+An authentic 1920s-inspired jazz and swing playlist intended to establish the speakeasy atmosphere before the party and during the murder mystery.
+
+Suggested description:
+
+Step back in time with the sounds of the Jazz Age. A collection of music to accompany whispered secrets, raised glasses and an evening of intrigue.
+
+Suggested button:
+
+LISTEN TO THE GRAMOPHONE
+
+This should link to my chosen Spotify playlist.
+
+Playlist two: After Hours
+
+AFTER HOURS
+
+When the formalities are over…
+
+A collaborative, modern party playlist for the celebrations following the murder mystery.
+
+Suggested description:
+
+Once the mystery has been solved, the rules of 1925 no longer apply. Add the songs you want to hear when the night really gets going.
+
+Suggested button:
+
+ADD YOUR TRACKS
+
+This should link to my chosen collaborative Spotify playlist or its appropriate collaboration invitation.
+
+Guests should be able to contribute their favourite party songs if Spotify’s collaboration functionality and the supplied link allow this.
+
+If direct collaboration is unavailable, offer a simple alternative, such as a song suggestion form, which allows guests to submit track names for the hosts to add.
+
+Do not fabricate either Spotify link. I will provide them later.
+
+Both playlists should have distinct visual identities while remaining part of the same overall section.
+
+Optional visual details:
+
+* Vintage record sleeves.
+* Spinning vinyl.
+* Gramophone illustrations.
+* Antique brass controls.
+* Period-inspired music labels.
+
+If background website music is included, it must be optional, user-activated, easy to pause and accompanied by a visible sound control.
+
+Do not automatically play music when guests open the website.
+
+Do not embed copyrighted recordings directly without appropriate permission. Spotify links or authorised embeds are sufficient.
+
+⸻
+
+20. Section ten: The Noticeboard
+
+Create an atmospheric announcement area.
+
+Suggested heading:
+
+THE CELLAR NOTICEBOARD
+
+This should resemble a private speakeasy noticeboard, with announcements attached as vintage paper notices, telegrams, handwritten letters or sealed correspondence.
+
+It should be possible to add multiple announcements over time.
+
+Potential uses include:
+
+* Character assignments becoming available.
+* RSVP reminders.
+* Confidential booklets being released.
+* Costume updates.
+* Playlist contributions.
+* Final party reminders.
+* Changes to event information.
+* Announcements on the night.
+* Post-party updates.
+
+Each announcement should support:
+
+* Title.
+* Date.
+* Short message.
+* Optional link.
+* Optional image.
+* Published or unpublished status.
+
+Display the newest announcements prominently.
+
+Where appropriate, important notices may have a subtle red confidential stamp or wax-seal detail.
+
+Do not create fictional party updates that could confuse guests. All actual announcements must be supplied or approved by me.
+
+⸻
+
+21. Section eleven: Frequently Asked Questions
+
+Create a stylish, expandable FAQ section.
+
+Suggested heading:
+
+A FEW MATTERS OF BUSINESS
+
+Alternatively, use a clearer heading such as Frequently Asked Questions with a themed subtitle.
+
+Use an accessible accordion design so guests can expand the questions relevant to them.
+
+Initial questions should include:
+
+Do I need acting experience?
+
+No. The murder mystery is designed to be accessible to everyone. Your character booklet and the hosts will guide you through the evening.
+
+Do I need to memorise anything?
+
+No. You will have instructions and information in your character booklet, which you can refer to throughout the event.
+
+How will I know what to wear?
+
+Your assigned character and the website’s costume mood boards will help you prepare your 1920s-inspired outfit.
+
+Does my outfit need to be historically accurate?
+
+No. The aim is to embrace the general Roaring Twenties aesthetic and your character’s personality.
+
+When will I receive my full character booklet?
+
+Your initial character identity will be available when the website launches. Your full confidential booklet will be released later through your personal dossier.
+
+Can I read someone else’s character booklet?
+
+Please do not. Each character has private information, and reading someone else’s booklet may spoil the murder mystery.
+
+Will I know if I am the murderer?
+
+No. Even the murderer will not know their identity until the final reveal.
+
+How does the murder mystery work?
+
+The evening will involve guided rounds, character objectives, conversations, clues, puzzles where applicable, investigation, accusations and voting.
+
+Do I have to stay in character all evening?
+
+Guests are encouraged to embrace their roles during the murder mystery, but the most important thing is to participate and enjoy themselves.
+
+What happens after the murder mystery?
+
+The birthday celebrations continue, accompanied by the After Hours playlist.
+
+Allow the host to edit, add or remove questions later.
+
+Do not invent answers about food, drinks, parking, overnight accommodation, additional guests or other arrangements that have not yet been confirmed.
+
+⸻
+
+22. Section twelve: The Final Verdict
+
+Create a dedicated section for the voting stage of the murder mystery.
+
+Suggested heading:
+
+THE FINAL VERDICT
+
+Suggested description:
+
+The evidence has been examined. The suspects have spoken. Now it is time to deliver your verdict.
+
+This section will eventually contain a button or embedded Google Form allowing guests to vote on the night.
+
+Voting categories will include:
+
+* Who they believe committed the murder.
+* Best Detective.
+* Best Dressed.
+* Best Actor.
+
+I will create and supply the final voting form.
+
+The website must be capable of activating this feature at the appropriate point during the evening.
+
+Before activation, either hide the section or display a small, atmospheric placeholder:
+
+THE VERDICT REMAINS SEALED
+
+Voting will open when the investigation draws to a close.
+
+The voting form must not be available prematurely.
+
+Do not display voting responses, results or any automatically calculated indication of the murderer to guests.
+
+Voting responses must remain privately accessible to the hosts.
+
+Do not upload the actual murder solution to enable automated scoring.
+
+⸻
+
+23. Section thirteen: A Night to Remember
+
+Create a post-party photo gallery that can be activated after the event.
+
+Suggested heading:
+
+A NIGHT TO REMEMBER
+
+Suggested introductory copy:
+
+The doors may have closed, but the secrets, scandals and memories of The Velvet Cellar live on.
+
+This section should eventually allow guests to:
+
+* View approved party photographs.
+* Open individual photographs at a larger size.
+* Contribute their own photographs.
+* Revisit memories of the evening.
+
+Optional additions include:
+
+* A thank-you message from the hosts.
+* Photographs of costumes.
+* Award winners.
+* Group photographs.
+* Highlights from the evening.
+
+The simplest implementation may be a private shared photo album with a contribution link.
+
+A custom upload system is optional and should only be implemented if it can be done securely and affordably.
+
+If a custom upload system is used:
+
+* Restrict contributions to authorised guests.
+* Restrict file types and sizes.
+* Provide host moderation and deletion controls.
+* Protect private photographs from public access.
+* Avoid exposing unrestricted upload endpoints.
+* Obtain appropriate permission before sharing photographs.
+
+I will supply the album link or photographs later.
+
+Do not activate or populate this section before the party.
+
+⸻
+
+24. Footer
+
+Create a restrained and elegant closing section.
+
+Suggested wording:
+
+THE VELVET CELLAR
+
+Est. 1925
+
+Private correspondence. Strictly for invited guests.
+
+Carys & Thomas — Twenty-One
+
+Use subtle decorative flourishes, an optional wax-seal monogram and a return-to-top link.
+
+Avoid modern-looking website footers filled with unnecessary links.
+
+⸻
+
+PART FOUR: TECHNICAL REQUIREMENTS
+
+25. Responsive design
+
+The website must be fully responsive and carefully designed for:
+
+* iPhone and Android mobile phones.
+* Small and large mobile screens.
+* iPads and other tablets.
+* Tablet portrait and landscape orientations.
+* Laptop computers.
+* Large desktop monitors.
+
+Mobile-first does not mean mobile-only.
+
+The desktop and tablet layouts must feel intentionally designed for their respective screen sizes.
+
+On mobile:
+
+* Use a vertical, immersive scrolling experience.
+* Keep the invitation large and readable.
+* Ensure buttons and controls are easy to tap.
+* Avoid horizontal scrolling.
+* Provide convenient navigation.
+* Ensure PDF and image viewing works reliably.
+
+On tablets:
+
+* Use larger invitation artwork.
+* Take advantage of additional horizontal space.
+* Use multi-column character registers.
+* Create more spacious editorial mood board layouts.
+* Support both portrait and landscape viewing.
+
+On desktop:
+
+* Use generous spacing and sophisticated compositions.
+* Make appropriate use of wider imagery.
+* Consider carefully designed two-column sections.
+* Avoid simply displaying a narrow mobile layout in the middle of the screen.
+* Keep long text readable through sensible maximum text widths.
+
+Test the website at representative widths, including approximately 360px, 390px, 768px, 1024px, 1440px and larger desktop sizes.
+
+No text, artwork, buttons or section headings should overlap, overflow or become partially obscured.
+
+26. Navigation and usability
+
+The website should be immersive but never confusing.
+
+Requirements:
+
+* Clear navigation menu.
+* Section anchor links.
+* Functional back-to-register navigation from character pages.
+* A discreet return-to-top function.
+* Easy access to practical party details.
+* Ability to revisit the invitation.
+* Ability to skip or replay the opening animation.
+* Clear indications of clickable elements.
+* Meaningful loading, empty and error states.
+* A consistent navigation system across pages.
+* Correct browser back-button behaviour.
+
+Avoid scroll hijacking, compulsory lengthy animations or unnecessary transitions that slow down returning visitors.
+
+27. Website privacy
+
+The website contains a private residential address, guest names and eventually personal photographs and confidential murder mystery information.
+
+It should therefore be treated as a private invitation-only website, rather than a public promotional website.
+
+Where technically feasible, implement a shared invitation access code or a securely validated private invitation link.
+
+The invitation link should remain convenient to open and share with the intended guests, while discouraging access by unrelated visitors.
+
+Where a shared site access mechanism is implemented, preserve the visual experience by incorporating it into the themed entrance or invitation reveal.
+
+Requirements:
+
+* No search engine indexing.
+* Appropriate noindex directives.
+* Avoid publishing private content in public previews or social-sharing metadata.
+* Securely restrict access to private documents and photographs.
+* Use HTTPS.
+* Minimise personal data collection.
+* Do not expose private guest information unnecessarily.
+* Avoid third-party tracking or advertising scripts.
+
+Understand that an unlisted URL and noindex directives alone do not provide genuine access protection.
+
+If proper website-wide access protection is not feasible for the chosen free setup, explain the limitations clearly and propose an appropriate alternative before launch.
+
+28. Accessibility
+
+The website should remain usable by all guests.
+
+Requirements include:
+
+* Readable colour contrast.
+* Adequate body text size.
+* Keyboard-accessible navigation.
+* Accessible labels on buttons and forms.
+* Alternative text for meaningful images.
+* Reduced-motion support.
+* Visible focus states.
+* Clear form validation.
+* Accessible image viewing.
+* Music disabled by default.
+* No essential information communicated solely through colour.
+* Important event details available as selectable text.
+* Proper page headings and semantic website structure.
+
+Decorative flourishes must not compromise usability.
+
+29. Performance
+
+The website should load smoothly on mobile data and ordinary home Wi-Fi.
+
+Use:
+
+* Optimised image formats.
+* Responsive image sizing.
+* Lazy loading of lower-page imagery.
+* Efficient CSS and JavaScript.
+* Sensible animation techniques.
+* Limited unnecessary third-party dependencies.
+* Optimised font loading.
+* Appropriate caching.
+
+Do not unnecessarily reduce the quality of invitation artwork to the point where its text becomes difficult to read.
+
+Avoid large video backgrounds or unnecessarily heavy animated assets.
+
+⸻
+
+PART FIVE: HOST ADMINISTRATION & CONTENT MANAGEMENT
+
+30. Private host administration area
+
+If feasible within a free or very inexpensive setup, create a separate private host administration area.
+
+This should be visually simple, functional and easy to use. It does not need to reproduce every decorative element of the guest-facing website.
+
+Potential functionality:
+
+Guest management
+
+* Add and remove guests.
+* Update guest display names.
+* Assign and change fictional characters.
+* Update occupations and approved character introductions.
+* Upload character portraits.
+* Manage guest records.
+
+RSVP management
+
+* View attendance responses.
+* Review submitted messages.
+* Export or access responses through Google Sheets.
+
+Character dossier management
+
+* Upload individual PDF booklets.
+* Replace existing PDFs.
+* Associate booklets with the correct guests.
+* Set each booklet’s release status.
+* Generate or reset access codes.
+* Revoke access where necessary.
+
+Mood board management
+
+* Upload images.
+* Assign images to one of the three collections.
+* Reorder images.
+* Edit captions.
+* Remove and replace photographs.
+
+Website content management
+
+* Update event information.
+* Edit FAQs.
+* Add announcements.
+* Update playlist links.
+* Update RSVP and voting links.
+* Manage the photo gallery link.
+* Replace invitation artwork.
+
+Release management
+
+* Publish or unpublish sections.
+* Activate confidential booklets.
+* Activate voting.
+* Activate the photo gallery.
+* Preview changes before publishing where practical.
+
+The administration area must use proper authentication and authorisation.
+
+Do not simply hide the administration URL or place its password in publicly accessible JavaScript.
+
+31. Simpler administration fallback
+
+A custom administration dashboard is desirable but not essential.
+
+Do not let it significantly increase the cost, complexity or development time of the website.
+
+If necessary, use a simpler combination of:
+
+* Editable website configuration files.
+* A structured content file or lightweight content management system.
+* Updates through the website builder.
+* Google Forms and Google Sheets for RSVPs and voting.
+* Private file storage or encrypted PDFs.
+* A private shared album for party photographs.
+
+Regardless of the chosen method, make future content updates straightforward.
+
+Where possible, separate content from the website’s visual layout so that changing a character assignment or playlist link does not require rewriting entire pages.
+
+Provide clear documentation explaining where each piece of content is stored and how I can update it.
+
+The host should not need to rebuild the entire website whenever new information becomes available.
+
+32. Costs and hosting
+
+This is a private celebration for approximately 24 people, not a commercial website.
+
+Prioritise free and low-cost solutions.
+
+A combination of free website hosting and free-tier supporting services may be appropriate, for example:
+
+* Netlify or another suitable static website host.
+* Supabase or another suitable backend if required.
+* Google Forms for RSVP and voting.
+* Google Sheets for response management.
+* Spotify playlist links.
+* A private shared photo album.
+
+These are possible options, not mandatory technology choices.
+
+Choose the simplest reliable architecture that meets the requirements.
+
+Before selecting services, consider:
+
+* Current free-tier limits.
+* Hosting and storage allowances.
+* File security.
+* Ease of maintenance.
+* Account requirements.
+* Whether inactive projects may pause.
+* Any unexpected charges.
+* Whether I will retain access to the website and its content.
+
+Do not purchase a domain name, subscribe to paid services or introduce chargeable features without my explicit approval.
+
+A free hosting subdomain is acceptable.
+
+Provide a deployment-ready project, with access to its source files and clear instructions for updating and maintaining it.
+
+Where backend credentials are required, use secure environment variables and do not include private credentials in the client-side website.
+
+⸻
+
+PART SIX: STAGED DEVELOPMENT & RELEASE PLAN
+
+33. Essential development workflow
+
+Do not attempt to complete, populate and launch the entire website in one uncontrolled step.
+
+The website must be developed through a series of clearly defined stages, with opportunities for me to review and approve the work.
+
+Development Stage A: Build the design framework
+
+The first task is to create the complete initial website framework.
+
+This should include:
+
+* The overall visual identity.
+* The Velvet Cellar branding.
+* The responsive homepage layout.
+* The sealed-envelope opening animation.
+* The interactive invitation viewer.
+* The welcome section.
+* Event particulars.
+* RSVP interface.
+* Live countdown.
+* Murder mystery explanation.
+* Confidential Archives layout.
+* Individual character page template.
+* Three mood board layouts.
+* Two playlist layouts.
+* Noticeboard.
+* FAQs.
+* Voting placeholder.
+* Photo gallery placeholder.
+* Navigation and footer.
+
+Use the supplied invitation artwork wherever possible.
+
+For any other assets or content I have not yet provided, use clearly labelled placeholders during development.
+
+Do not invent guest identities, character information, final mood board photographs, playlist links, voting forms or confidential content.
+
+It is acceptable to use one approved or clearly identified example character to demonstrate the dossier page template.
+
+The website should be visually cohesive and sufficiently complete for me to judge the design and guest experience before supplying every final asset.
+
+Stop for my design approval before treating this framework as the finished guest-facing website.
+
+Development Stage B: Populate approved launch content
+
+After I approve the visual framework, I will provide the remaining first-release assets.
+
+These may include:
+
+* Corrected final invitation images.
+* Final guest register.
+* Character names.
+* Character occupations.
+* Approved spoiler-free character summaries.
+* Optional character portraits.
+* Personally selected overall aesthetic mood board images.
+* Personally selected female costume mood board images.
+* Personally selected male costume mood board images.
+* RSVP form details.
+* Authentic jazz Spotify playlist link.
+* Collaborative After Hours Spotify playlist link.
+* Initial announcements.
+* Additional approved party information.
+
+Populate the existing website without unnecessarily changing the approved design.
+
+Release One: The Grand Invitation
+
+The first guest-facing release must include:
+
+* Private invitation entrance.
+* Animated envelope opening.
+* Interactive front-and-back invitation.
+* Welcome to The Velvet Cellar.
+* Confirmed party details.
+* Working RSVP button or form.
+* Live countdown.
+* Murder mystery explanation.
+* Initial character register.
+* Individual spoiler-free character introductions.
+* Sealed confidential booklet placeholders.
+* All three approved mood boards.
+* The two Velvet Cellar Radio playlists.
+* Noticeboard.
+* FAQs.
+
+The voting and post-party gallery features should remain hidden or appropriately sealed.
+
+The intended launch is before the RSVP deadline of 28th November 2026.
+
+Release Two: Confidential Correspondence
+
+Following the initial launch and confirmation of attendance:
+
+* Finalise character assignments.
+* Make any necessary changes to the guest register.
+* Upload individual approved character booklets.
+* Implement and test secure individual access or the agreed fallback.
+* Distribute individual access codes or PDF passwords privately if applicable.
+* Release booklets when I choose.
+* Add announcements explaining that the confidential information is available.
+
+Guests must use the same original website link.
+
+Release Three: Final Preparations
+
+Closer to the party:
+
+* Update the Noticeboard with final reminders.
+* Add or amend practical information.
+* Confirm costume guidance.
+* Check that every character booklet opens correctly.
+* Confirm RSVP records.
+* Check both Spotify links.
+* Ensure that any required private storage or backend service is active.
+* Test the website again across devices.
+
+Release Four: The Doors Open
+
+On Friday 18th December 2026:
+
+* Allow the countdown to transition to its event-start state.
+* Keep event details and individual dossiers accessible.
+* Activate the Google Form voting link only when required during the murder mystery.
+* Keep voting results private.
+
+Do not automate or publish the final murder reveal.
+
+Release Five: A Night to Remember
+
+After the event:
+
+* Add a thank-you message.
+* Activate the photo gallery.
+* Add the private photograph contribution link.
+* Upload approved photographs.
+* Optionally publish award winners.
+* Retain the website as a private digital keepsake.
+
+The website address should remain consistent throughout all stages.
+
+⸻
+
+PART SEVEN: CONTENT & ASSETS I WILL PROVIDE
+
+34. Asset requirements
+
+Design the website so the following assets can be supplied and incorporated progressively.
+
+Asset	Development status
+Invitation front image	Supplied initially
+Invitation back image	Supplied initially
+Envelope animation reference video	Supplied initially
+Corrected invitation artwork	To be supplied if required
+Final guest list	To be supplied
+Character assignments	To be supplied
+Public character introductions	To be supplied
+Character portraits	Optional, to be supplied or approved
+Overall aesthetic mood board images	Personally selected by me later
+Female costume mood board images	Personally selected by me later
+Male costume mood board images	Personally selected by me later
+RSVP form or response system	To be configured
+The Gramophone Spotify playlist	Link to be supplied
+After Hours collaborative playlist	Link to be supplied
+Individual confidential character PDFs	To be supplied after the initial launch
+Individual access codes	To be securely generated if applicable
+Voting Google Form	Link to be supplied before the party
+Announcements	To be supplied progressively
+Party photographs	To be supplied after the event
+Private photo contribution link	To be supplied after the event
+
+Build a flexible system that allows these assets to be added later without redesigning the website.
+
+Do not assume that all final assets must be supplied before the first design preview can be produced.
+
+⸻
+
+PART EIGHT: TESTING & QUALITY ASSURANCE
+
+35. Mandatory testing
+
+Before asking me to approve any development stage, test the functionality relevant to that stage.
+
+Visual testing
+
+* Consistent colour palette.
+* Consistent typography.
+* Appropriate spacing.
+* No overlapping content.
+* No clipped headings.
+* No distorted images.
+* No broken layouts.
+* No inappropriate generic placeholder visuals in the final release.
+* Consistent speakeasy atmosphere throughout.
+
+Responsive testing
+
+* Mobile portrait.
+* Tablet portrait.
+* Tablet landscape.
+* Desktop.
+* Safari and Chrome where possible.
+* Touchscreen interactions.
+
+Invitation testing
+
+* Envelope opens successfully.
+* Wax-seal interaction works.
+* Card animation is smooth.
+* Both original invitation images display correctly.
+* Card can be flipped repeatedly.
+* Images can be enlarged.
+* There is no forced reading time limit.
+* Replay and skip controls work.
+* Returning visitors can bypass the opening animation.
+
+General functionality testing
+
+* Navigation links.
+* Section anchor links.
+* RSVP form submission.
+* RSVP confirmation.
+* Calendar links.
+* Copy Address button.
+* Accurate countdown.
+* Guest register.
+* Individual character pages.
+* Mood board image expansion.
+* Spotify links.
+* FAQ accordions.
+* Noticeboard updates.
+* Voting activation.
+* Photo gallery links.
+
+Security testing, where applicable
+
+* Guests cannot access another guest’s protected booklet using their own access code.
+* Incorrect access codes are rejected.
+* Access-code validation is not solely client-side.
+* Private PDF files cannot be retrieved through an unrestricted public URL.
+* Unpublished content is not merely visually hidden while remaining publicly retrievable.
+* Host administration requires proper authentication and authorisation.
+* No access-code lists or private credentials are exposed.
+* Confidential files are associated with the correct guest.
+* No murder solution or final reveal materials are present anywhere in the website project or its storage.
+
+Only claim that functionality works after it has been implemented and tested.
+
+If a feature cannot be tested or is not yet connected, clearly identify it as incomplete.
+
+36. Design review expectations
+
+When presenting the first version, I want to be able to:
+
+1. Open and interact with the website.
+2. Experience the invitation animation.
+3. Inspect the homepage.
+4. Navigate to an example character page.
+5. Review the three mood board layouts.
+6. Review the two playlist sections.
+7. Understand how future content will be added.
+8. Inspect mobile, tablet and desktop layouts.
+9. Request design changes before final content is populated.
+10. Understand which technical features are working and which require additional assets or configuration.
+
+Where a live interactive preview is possible, provide one rather than only screenshots.
+
+Do not deploy private event details publicly without my approval.
+
+⸻
+
+PART NINE: FEATURE PRIORITIES
+
+37. Non-negotiable requirements
+
+The following are essential:
+
+* Outstanding and cohesive visual design.
+* The Velvet Cellar’s distinctive vintage speakeasy aesthetic.
+* Original invitation artwork.
+* Interactive envelope-opening experience.
+* Manual front-and-back invitation viewing.
+* Clear practical event information.
+* Working RSVP functionality at launch.
+* Accurate countdown.
+* Clear murder mystery explanation.
+* Initial character reveal in the first release.
+* Ability to add individual confidential booklets later.
+* Three mood boards containing my personally selected imagery.
+* Two distinct playlist sections.
+* Noticeboard.
+* FAQs.
+* Dedicated provision for the voting link.
+* Fully responsive mobile, tablet and desktop design.
+* Future content updates using the same website URL.
+* Absolute protection against revealing the murder mystery solution to me.
+
+38. Strongly preferred but flexible features
+
+Implement these if they can be delivered reliably without disproportionate cost or complexity:
+
+* Secure individual guest access codes.
+* Secure overall website access.
+* Private host administration dashboard.
+* Integrated character PDF viewer.
+* Editable content management interface.
+* Optional website background music.
+* Integrated photograph contribution functionality.
+* Automatic release scheduling.
+
+Use simpler alternatives where necessary, but do not silently remove agreed features or falsely claim to have implemented them.
+
+39. Features deliberately excluded
+
+Do not include:
+
+* Personalised welcome messages for every guest.
+* Individual character costume mood boards.
+* A digital investigation notebook.
+* A complete online murder mystery gameplay platform.
+* Automated murder-solution analysis.
+* AI-generated replacement invitation artwork.
+* Unnecessary user accounts or subscriptions.
+* Public guest contact information.
+* Public voting results.
+* Publicly accessible confidential character materials.
+* Any final murder reveal or solution content.
+
+⸻
+
+PART TEN: INITIAL TASK & DELIVERABLES
+
+40. Begin the project
+
+Start by reviewing this complete brief alongside the supplied invitation artwork and reference animation.
+
+Choose a suitable technical architecture that prioritises:
+
+1. Design quality.
+2. Ease of use.
+3. Reliable functionality.
+4. Responsive layouts.
+5. Phased content releases.
+6. Appropriate privacy and spoiler protection.
+7. Low or zero ongoing cost.
+8. Straightforward future maintenance.
+
+Then proceed with Development Stage A: Build the Design Framework.
+
+Do not respond solely with a general website proposal or a list of ideas. Begin creating the actual interactive website where the platform allows this.
+
+Use sensible creative judgement for decorative details, layout, spacing and animation techniques, while remaining faithful to the approved vision.
+
+Do not ask me to provide every missing content asset before starting. The ability to add these assets later is an intentional part of the development workflow.
+
+For the initial design review, provide:
+
+* A functioning website preview.
+* The complete homepage framework.
+* The interactive envelope and invitation viewer.
+* An example character dossier page.
+* All planned content sections.
+* Responsive layouts.
+* Clearly identified placeholders for assets I will supply.
+* A concise explanation of the chosen technology and hosting approach.
+* A summary of any services that require configuration.
+* A clear assessment of whether individual access codes and a host dashboard can be implemented affordably and securely.
+* Instructions for what I need to supply next.
+
+Do not publish the final guest-facing website until I have reviewed the initial framework, approved the design and supplied the necessary launch content.
+
+⸻
+
+FINAL CREATIVE PRINCIPLE
+
+Everything should serve the feeling that guests have been granted exclusive access to a secret establishment.
+
+The website should be beautiful enough to feel like an experience in itself, practical enough to become the single source of information for the party, and mysterious enough that the murder mystery begins the moment a guest receives their invitation.
+
+This is not simply a birthday website.
+
+This is The Velvet Cellar.
+
+Break the seal. Assume your identity. Trust no one.
