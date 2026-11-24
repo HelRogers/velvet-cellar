@@ -9,3 +9,7 @@
 # Fingerprinted assets never change, so browsers may keep them.
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
+
+# The music file. A week, so a replacement track is picked up in good time.
+/audio/*
+  Cache-Control: public, max-age=604800

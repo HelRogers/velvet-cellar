@@ -2,7 +2,7 @@
 // RSVP, archive, dossier, mood boards, questions and layout.
 // Usage: npm run build && node tools/site.test.mjs [dir]
 import puppeteer from 'puppeteer-core';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { startServer } from './serve.mjs';
 
@@ -194,6 +194,11 @@ const visible = (page, selector) =>
   await page.keyboard.press('Escape');
   check('other guests’ responses appear nowhere on the page', !(await page.evaluate(() => document.body.innerText.includes('Test Guest'))));
 
+  // ---------- The house rules ----------
+  const rules = await page.evaluate(() => [...document.querySelectorAll('.rules-list li')].map((li) => li.textContent.trim()));
+  const answers = JSON.parse(readFileSync('src/content/faqs.json', 'utf8')).map((f) => f.answer);
+  check('house rules: the hosts’ nine pub-style rules, none repeating a question and answer', rules.length === 9 && /poker/.test(rules.join(' ')) && /balcony/.test(rules.join(' ')) && /solve the murder/.test(rules.join(' ')) && !/acting experience|memorise|booklet/i.test(rules.join(' ')) && rules.every((r) => !answers.some((a) => a.includes(r))));
+
   // ---------- The Confidential Archives ----------
   const counts = await page.evaluate(() => ({ files: document.querySelectorAll('.file').length, real: document.querySelectorAll('[data-archive-item]').length, blanks: document.querySelectorAll('[data-archive-blank]').length }));
   check('register holds all 27 guests and no blank files', counts.files === 27 && counts.real === 27 && counts.blanks === 0, JSON.stringify(counts));
@@ -348,7 +353,7 @@ const visible = (page, selector) =>
     radio.buttons[1].text === 'Listen to After Hours' && radio.buttons[1].href === 'https://open.spotify.com/playlist/1t5P9HNkWKBWzx1d1JBhVt' && /after-hours/.test(radio.buttons[1].record), JSON.stringify(radio.buttons));
   check('playlist buttons open Spotify in a new tab, safely', radio.buttons.every((b) => b.target === '_blank' && /noopener/.test(b.rel)));
   check('After Hours carries the host’s note beneath its button; the Gramophone has none', radio.note === SITE.playlists.afterHours.note && /Spotify collaboration invitation shared in our group chat/.test(radio.note) && !/Once the mystery/.test(radio.note) && radio.noteBelowButton && !radio.gramophoneNote);
-  check('nothing plays or embeds audio on the page, and there is no song request form', radio.audio === 0 && (await page.evaluate(() => document.querySelectorAll('.radio form, .radio input').length)) === 0);
+  check('the Radio embeds no players and has no song request form', radio.audio === 0 && (await page.evaluate(() => document.querySelectorAll('.radio form, .radio input').length)) === 0);
   const notices = await page.evaluate(() => [...document.querySelectorAll('.notice')].map((n) => ({ title: n.querySelector('h3').textContent.trim(), date: n.querySelector('time').textContent.trim(), stamp: n.querySelector('.notice-stamp')?.textContent.trim() ?? '', closing: n.querySelector('.notice-closing')?.textContent.trim(), italic: getComputedStyle(n.querySelector('.notice-closing')).fontStyle, link: n.querySelector('.notice-link')?.getAttribute('href'), text: n.textContent })));
   check('noticeboard: the host’s two notices, in her order, with no specimens left', notices.length === 2 && notices[0].title === 'An Invitation Has Arrived' && notices[1].title === 'A Word of Caution…' && notices.every((n) => n.date === '24 November 2026' && !/Specimen/i.test(n.text)) && !(await page.evaluate(() => /Nothing has been posted yet/.test(document.querySelector('#noticeboard').textContent))));
   check('noticeboard: only the first notice carries the Important stamp', notices[0].stamp === 'Important' && notices[1].stamp === '');
@@ -385,6 +390,68 @@ const visible = (page, selector) =>
   const { context, page } = await visitor({ before: () => { const real = Date.now; Date.now = () => Date.parse('2026-12-18T19:00:05Z') + (real() % 1000); } });
   check('at 7 pm on the night the countdown gives way to "The doors are open"', (await visible(page, '[data-countdown-open]')) && !(await visible(page, '[data-countdown-running]')) && /Doors Are Open/i.test(await text(page, '[data-countdown-open]')));
   await context.close();
+}
+
+// ---------- Music ----------
+{
+  const MUSIC = SITE.music;
+  check('the music file is part of the site and under 5 MB', existsSync(join(dir, 'audio', MUSIC.file)) && statSync(join(dir, 'audio', MUSIC.file)).size < 5 * 1024 * 1024);
+  // A first-time guest: sealed invitation, no sound until the seal is broken.
+  const context = await browser.createBrowserContext();
+  const page = await context.newPage();
+  const errors = [];
+  page.on('pageerror', (e) => errors.push(String(e)));
+  await page.setViewport({ width: 390, height: 760, deviceScaleFactor: 1 });
+  await page.evaluateOnNewDocument(() => { window.__plays = 0; const real = HTMLMediaElement.prototype.play; HTMLMediaElement.prototype.play = function () { window.__plays++; window.__track = this; return real.call(this); }; });
+  await page.goto(server.base, { waitUntil: 'networkidle0' });
+  const music = () => page.evaluate(() => ({ state: document.documentElement.dataset.music, plays: window.__plays, paused: window.__track ? window.__track.paused : null, loop: window.__track?.loop, src: window.__track?.src, pressed: document.querySelector('[data-music-toggle]').getAttribute('aria-pressed'), label: document.querySelector('[data-music-label]').textContent, saved: localStorage.getItem('velvet-cellar:music') }));
+  const before = await music();
+  check('sealed: no music yet, and the sound button is out of sight', before.plays === 0 && before.state === 'paused' && !(await visible(page, '[data-music-toggle]')));
+  await page.click('[data-open]');
+  await page.waitForFunction(() => document.documentElement.dataset.music === 'playing', { timeout: 5000 }).catch(() => {});
+  const started = await music();
+  check('breaking the seal starts the music, looping', started.state === 'playing' && started.plays === 1 && started.paused === false && started.loop === true && started.src.endsWith(`audio/${MUSIC.file}`), JSON.stringify(started));
+  check('the sound button appears and says how to turn it off', (await visible(page, '[data-music-toggle]')) && started.pressed === 'true' && started.label === 'Turn the music off');
+  check('during the opening, the sound button keeps clear of the skip button', await page.evaluate(() => { const b = document.querySelector('[data-music-toggle]').getBoundingClientRect(); const k = document.querySelector('[data-skip]').getBoundingClientRect(); return k.width === 0 || k.right <= b.left || k.left >= b.right || k.bottom <= b.top || k.top >= b.bottom; }));
+  await page.waitForFunction(() => document.documentElement.dataset.invite === 'opened', { timeout: 12000 }).catch(() => {});
+  check('the music reaches the host’s volume', await page.evaluate((v) => new Promise((resolve) => setTimeout(() => resolve(Math.abs(window.__track.volume - v) < 0.01), 1200)), MUSIC.volume));
+  const size = await page.evaluate(() => { const r = document.querySelector('[data-music-toggle]').getBoundingClientRect(); return { w: r.width, h: r.height, right: innerWidth - r.right, bottom: innerHeight - r.bottom }; });
+  check('the sound button is large enough to tap and sits clear of the screen edge', size.w >= 44 && size.h >= 44 && size.right >= 8 && size.bottom >= 8, JSON.stringify(size));
+  check('the sound button does not cover the invitation controls', await page.evaluate(() => { const b = document.querySelector('[data-music-toggle]').getBoundingClientRect(); return [...document.querySelectorAll('[data-viewer-control]')].every((el) => { const r = el.getBoundingClientRect(); return r.right <= b.left || r.left >= b.right || r.bottom <= b.top || r.top >= b.bottom; }); }));
+  await page.click('[data-music-toggle]');
+  await sleep(300);
+  const off = await music();
+  check('the button turns the music off, and the choice is remembered', off.state === 'paused' && off.paused === true && off.pressed === 'false' && off.label === 'Turn the music on' && off.saved === 'off');
+  await page.click('[data-music-toggle]');
+  await page.waitForFunction(() => document.documentElement.dataset.music === 'playing', { timeout: 5000 }).catch(() => {});
+  const on = await music();
+  check('the button turns it back on', on.state === 'playing' && on.saved === 'on');
+  // Opening a Spotify playlist pauses the site's own music.
+  await page.evaluate(() => { const link = document.querySelector('.radio a[data-music-pause]'); link.addEventListener('click', (e) => e.preventDefault()); link.click(); });
+  await sleep(300);
+  check('opening a Spotify playlist pauses the music', (await music()).state === 'paused' && (await music()).saved === 'on');
+  // The dossier view keeps the button in reach.
+  await page.evaluate(() => (location.hash = '#dossier-kitty-adams'));
+  await sleep(600);
+  check('the sound button stays in reach inside a dossier', await page.evaluate(() => { const b = document.querySelector('[data-music-toggle]'); const r = b.getBoundingClientRect(); const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return b.contains(top); }));
+  // Returning with the music switched off: breaking the seal again stays silent.
+  await page.evaluate(() => { localStorage.setItem('velvet-cellar:music', 'off'); localStorage.removeItem('velvet-cellar:invitation-opened'); });
+  await page.goto(server.base, { waitUntil: 'networkidle0' });
+  await page.click('[data-open]');
+  await sleep(800);
+  check('a guest who turned the music off is not played it again', (await music()).plays === 0 && (await music()).state === 'paused');
+  check('no script errors with music', errors.length === 0, errors.join(' | '));
+  await context.close();
+
+  // A returning guest (invitation already opened, music never switched off): it joins in at their first tap.
+  const back = await visitor({ before: () => { window.__plays = 0; const real = HTMLMediaElement.prototype.play; HTMLMediaElement.prototype.play = function () { window.__plays++; return real.call(this); }; } });
+  check('returning guest: silent until they touch the page', (await back.page.evaluate(() => window.__plays)) === 0);
+  await back.page.click('#welcome');
+  await back.page.waitForFunction(() => document.documentElement.dataset.music === 'playing', { timeout: 5000 }).catch(() => {});
+  check('returning guest: the music joins in at their first tap', await back.page.evaluate(() => document.documentElement.dataset.music === 'playing' && window.__plays === 1));
+  const credit = await back.page.evaluate(() => { const p = document.querySelector('.footer-credit'); return p ? { text: p.textContent.replace(/\s+/g, ' ').trim(), links: [...p.querySelectorAll('a')].map((a) => a.href) } : null; });
+  check('the footer credits the track, its composer and its licence', credit && credit.text.includes(`“${MUSIC.title}” by ${MUSIC.artist}`) && credit.text.includes(MUSIC.licence) && credit.links.some((l) => l.startsWith(MUSIC.creditUrl)) && credit.links.includes(MUSIC.licenceUrl), JSON.stringify(credit));
+  await back.context.close();
 }
 
 // ---------- A dossier address opened directly ----------

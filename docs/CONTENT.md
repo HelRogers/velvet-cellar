@@ -43,3 +43,15 @@ Faces are marked by eye in `tools/portraits-faces.json` (x, y, width, height in 
 To move a crop, adjust that guest's entry and run the command again. To replace a portrait, put the new
 file in `originals/portraits/` under the guest's name and update their entry.
 
+## Background music
+
+Settings are under `music` in `src/content/site.json`; the file itself is in `public/audio/`. The track
+starts when a guest breaks the seal on the invitation, loops, and is switched on and off with the round
+sound button, whose state is remembered on that guest's device. Opening a Spotify playlist pauses it.
+
+- To change the track: put the new MP3 in `public/audio/` (192 kbps is plenty; the original as supplied
+  is kept in `originals/music/`), then update `file`, `title`, `artist`, the credit link and the licence.
+- The footer credit is a condition of the current track's free licence (CC BY 4.0). Keep it while that
+  track is used, and change it with the track.
+- To switch the music off altogether, set `file` to an empty string.
+

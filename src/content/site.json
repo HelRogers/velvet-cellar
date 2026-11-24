@@ -48,5 +48,15 @@
     "contributeUrl": "",
     "thankYou": ""
   },
-  "showSpecimens": false
+  "showSpecimens": false,
+  "music": {
+    "_about": "Background music. It starts when a guest breaks the seal on the invitation and loops until they press the sound button; their choice is remembered. 'file' lives in public/audio/. Leave 'file' empty to switch the music off altogether. The credit is shown in the footer and is a condition of the track's free licence, so keep it while this track is used.",
+    "file": "swing-has-swung.mp3",
+    "volume": 0.9,
+    "title": "Swing Has Swung",
+    "artist": "Shane Ivers",
+    "creditUrl": "https://www.silvermansound.com",
+    "licence": "CC BY 4.0",
+    "licenceUrl": "https://creativecommons.org/licenses/by/4.0/"
+  }
 }

@@ -1,4 +1,5 @@
 ---
+import site from '../content/site.json';
 /** The closing page: restrained, with the seal and a way back to the top. */
 import Display from './Display.astro';
 import Rule from './Rule.astro';
@@ -17,5 +18,17 @@ import Rule from './Rule.astro';
       <span>Twenty-One</span>
     </p>
     <a class="btn btn--quiet" href="#invitation">Return to the top</a>
+    {site.music.file && (
+      <p class="footer-credit">
+        <span>
+          Music: “{site.music.title}” by{' '}
+          <a href={site.music.creditUrl} target="_blank" rel="noopener noreferrer">{site.music.artist}</a>.
+        </span>
+        <span>
+          Used under the{' '}
+          <a href={site.music.licenceUrl} target="_blank" rel="noopener noreferrer">{site.music.licence}</a> licence.
+        </span>
+      </p>
+    )}
   </div>
 </footer>
