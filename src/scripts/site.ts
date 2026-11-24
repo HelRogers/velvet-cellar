@@ -7,6 +7,8 @@
  * supplied a link) the page says so.
  */
 
+import { initRedaction } from './redaction';
+
 const root = document.documentElement;
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 /** True in the private review copy, which is not served by Netlify. */
@@ -281,12 +283,15 @@ function initDossiers() {
   if (!dossiers.length) return;
   const backdrop = all('main, .site-nav, .beyond-footer');
   let lastOpened: string | null = null;
+  const redaction = initRedaction();
 
   const sync = () => {
     const id = decodeURIComponent(location.hash.slice(1));
     const target = root.dataset.invite === 'opened' ? dossiers.find((dossier) => dossier.id === id) : undefined;
     dossiers.forEach((dossier) => (dossier.hidden = dossier !== target));
     backdrop.forEach((el) => (el.inert = Boolean(target)));
+    // Every dossier opens redacted; leaving one reseals it.
+    redaction.show(target);
     if (target) {
       root.dataset.view = 'dossier';
       lastOpened = target.id;

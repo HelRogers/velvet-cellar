@@ -9,7 +9,7 @@ before it is published.
 | --- | --- | --- |
 | Date, time, address, attire, RSVP date | `src/content/site.json` → `event` | Used by the particulars, countdown and calendar links. `startsAtUtc` is the countdown's target (7 pm London on 18 December is `19:00:00Z`). `endsAt` is empty because no end time has been supplied. |
 | Invitation artwork | `src/assets/invitation/invitation-front.png`, `invitation-back.png` | Replace the files, keeping the names. Update the alt text in `site.json` → `invitation` if the wording changed. |
-| Guest register and dossiers | `src/content/guests.json` | One entry per guest: `guest`, `character`, `occupation`, `introduction` (approved, spoiler-free text only), `portrait` (file name in `src/assets/portraits/`), `booklet` (`sealed` or `released`). `registerSize` controls how many blank places are shown until the list is complete. |
+| Guest register and dossiers | `src/content/guests.json` | One entry per guest, in alphabetical order of guest name: `guest`, `character`, `occupation` (the original character heading), `publicRole` (what is shown openly; shorter than `occupation`, or empty, where the heading gives away something the Public Story does not), `publicStory`, `privateBackstory`, `portrait` (file name in `src/assets/portraits/`), `booklet` (`sealed` or `released`). See `docs/CHARACTERS.md` for the corrections applied and the points awaiting the host. |
 | Mood board photographs | `src/content/moodboards.json` + `src/assets/moodboards/<board>/` | Add the image file to the board's folder (`cellar`, `ladies` or `gentlemen`) and list it under `images` with `file`, `alt` and an optional `caption`. Order in the list is the order on the page. Any number, any proportions. |
 | Spotify playlists | `src/content/site.json` → `playlists` | Paste each playlist's link. Until then the buttons show as awaiting a link. |
 | Announcements | `src/content/notices.json` | `title`, `date` (YYYY-MM-DD), `body`, `style` (`note` or `telegram`), `important`, optional `link` (`{ "label": "", "url": "" }`), `published`. Unpublished notices are left out of the built page entirely. |
@@ -22,7 +22,7 @@ before it is published.
 ## What is never added
 
 - The murder mystery kit, the solution, the final narration, or any combined booklet.
-- Private character material in `guests.json`. Introductions are public and spoiler-free.
+- Anything in `guests.json` beyond the Public Story and Private Backstory the host supplied for each character. The Private Backstory is obscured in the built page and shown only after the guest confirms the dossier is theirs. This is a courtesy barrier, not protection: never describe it as secure, and never add booklet text, clues or solution material to this file.
 - Booklet PDFs in this repository. They go to private storage at Release Two.
 
 ## Later

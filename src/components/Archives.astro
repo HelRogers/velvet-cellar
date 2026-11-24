@@ -32,7 +32,7 @@ const fileNumber = (i: number) => `VC-1925-${String(i + 1).padStart(3, '0')}`;
     {
       blanks > 0 && (
         <p class="typed placeholder-note">
-          Placeholder register. One approved example is shown; the other {blanks} files await the host’s guest list.
+          {blanks === 1 ? 'One file still awaits' : `${blanks} files still await`} the host’s guest list.
         </p>
       )
     }
@@ -40,7 +40,7 @@ const fileNumber = (i: number) => `VC-1925-${String(i + 1).padStart(3, '0')}`;
     <ul class="files" role="list" data-archive-list>
       {
         guests.map((guest, i) => (
-          <li class="file" data-archive-item data-search={`${guest.guest} ${guest.character} ${guest.occupation}`.toLowerCase()}>
+          <li class="file" data-archive-item data-search={`${guest.guest} ${guest.character} ${guest.publicRole}`.toLowerCase()}>
             <a class="file-card" href={`#dossier-${guest.slug}`}>
               <span class="file-tab typed">{fileNumber(i)}</span>
               <span class="file-guest">{guest.guest}</span>
@@ -48,7 +48,11 @@ const fileNumber = (i: number) => `VC-1925-${String(i + 1).padStart(3, '0')}`;
                 <span class="typed">Known tonight as</span>
                 <span class="file-character">{guest.character}</span>
               </span>
-              <span class="file-role">{guest.occupation}</span>
+              {guest.publicRole ? (
+                <span class="file-role">{guest.publicRole}</span>
+              ) : (
+                <span class="file-role file-role--withheld typed">Occupation withheld</span>
+              )}
               <span class="file-status typed">
                 {guest.booklet === 'released' ? 'Dossier available' : 'Identity revealed. Booklet sealed.'}
               </span>

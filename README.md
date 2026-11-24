@@ -12,7 +12,7 @@ The approved specification is kept in `docs/specification/`. Read it before chan
 | 1 | Methodology and architecture | Approved 24 Nov 2026 |
 | 2 | Visual design system, sealed-envelope opening, invitation viewer | Approved 24 Nov 2026 (tag `checkpoint-2-approved`) |
 | 3 | Full homepage framework, example dossier | Approved 24 Nov 2026 with a more prominent RSVP (tag `checkpoint-3-approved`) |
-| 4 | Launch content, reviewed by the host before publication | In progress: awaiting content |
+| 4 | Launch content | In progress. First batch (24 Nov 2026): all 27 character dossiers with Public Story and redacted Private Backstory. Awaiting the host's review and the remaining assets. |
 | 5 | Production launch (Release One) | Not started |
 
 Nothing has been deployed to Netlify. The Netlify project `the-velvet-cellar` exists and is empty.
