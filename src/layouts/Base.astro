@@ -7,13 +7,22 @@ import elsie from '@fontsource/elsie-swash-caps/files/elsie-swash-caps-latin-400
 import garamondItalic from '@fontsource-variable/eb-garamond/files/eb-garamond-latin-wght-italic.woff2?url';
 import typewriter from '@fontsource/special-elite/files/special-elite-latin-400-normal.woff2?url';
 const preloads = [smythe, elsie, garamondItalic, typewriter];
+const inviteState = `(function () {
+  var opened = false;
+  try {
+    opened = localStorage.getItem('velvet-cellar:invitation-opened') === '1';
+  } catch (e) {}
+  document.documentElement.dataset.invite = opened ? 'opened' : 'sealed';
+})();`;
 
 interface Props {
   title?: string;
+  /** The entrance page: no invitation state, nothing remembered. */
+  door?: boolean;
 }
 // The title and description are deliberately generic: nothing private belongs in
 // a browser tab, a link preview or a search result.
-const { title = 'The Velvet Cellar' } = Astro.props;
+const { title = 'The Velvet Cellar', door = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -31,16 +40,8 @@ const { title = 'The Velvet Cellar' } = Astro.props;
     />
     {preloads.map((href) => <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />)}
     <title>{title}</title>
-    <!-- Decide before first paint whether the envelope is still sealed for this visitor. -->
-    <script is:inline>
-      (function () {
-        var opened = false;
-        try {
-          opened = localStorage.getItem('velvet-cellar:invitation-opened') === '1';
-        } catch (e) {}
-        document.documentElement.dataset.invite = opened ? 'opened' : 'sealed';
-      })();
-    </script>
+    {/* Decide before first paint whether the envelope is still sealed for this visitor. */}
+    {!door && <script is:inline set:html={inviteState} />}
   </head>
   <body>
     <a class="skip-link" href="#content">Skip to the content</a>

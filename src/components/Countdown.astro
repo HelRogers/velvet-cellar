@@ -1,0 +1,54 @@
+---
+/**
+ * Section four: the live countdown, as an engraved plate with four windows.
+ * Counts to the instant in site.json (7 pm in London on 18 December is 19:00 UTC).
+ * Once the hour arrives it gives way to "The doors are open".
+ */
+import site from '../content/site.json';
+import Display from './Display.astro';
+
+const { event } = site;
+const units = [
+  { key: 'days', label: 'Days' },
+  { key: 'hours', label: 'Hours' },
+  { key: 'minutes', label: 'Minutes' },
+  { key: 'seconds', label: 'Seconds' },
+];
+---
+
+{
+  site.countdown.visible && (
+    <section class="section countdown" id="countdown" aria-labelledby="countdown-title" data-countdown data-target={event.startsAtUtc}>
+      <div class="wrap countdown-inner">
+        <div data-countdown-running>
+          <Display as="h2" id="countdown-title" class="countdown-title" text="Until the Cellar Opens Its Doors" />
+          <div class="plate" role="group" aria-label="Time remaining">
+            <span class="plate-screw plate-screw--tl" aria-hidden="true" />
+            <span class="plate-screw plate-screw--tr" aria-hidden="true" />
+            <span class="plate-screw plate-screw--bl" aria-hidden="true" />
+            <span class="plate-screw plate-screw--br" aria-hidden="true" />
+            {units.map((unit) => (
+              <div class="plate-unit" aria-hidden="true">
+                <span class="plate-window">
+                  <span class="plate-number" data-unit={unit.key}>
+                    00
+                  </span>
+                </span>
+                <span class="typed plate-label">{unit.label}</span>
+              </div>
+            ))}
+          </div>
+          <p class="countdown-when">
+            {event.dateLabel}, {event.hourLabel}
+          </p>
+          <p class="sr-only" data-countdown-summary />
+        </div>
+
+        <div class="doors-open" data-countdown-open hidden>
+          <Display as="h2" class="countdown-title" text="The Doors Are Open" />
+          <p class="doors-open-line">Welcome to The Velvet Cellar.</p>
+        </div>
+      </div>
+    </section>
+  )
+}

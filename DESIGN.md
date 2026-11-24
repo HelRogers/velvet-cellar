@@ -1,7 +1,7 @@
 # The Velvet Cellar: design system
 
-Status: built for Checkpoint 2, awaiting the host's approval. Once approved, this is the
-reference for every later section. The values themselves live in `src/styles/tokens.css`.
+Status: approved by the host at Checkpoint 2 (24 November 2026). This is the reference for
+every section. Do not redesign what is described here without the host asking for it. The values themselves live in `src/styles/tokens.css`.
 
 ## The idea
 
@@ -83,3 +83,30 @@ Ornament is placed, not scattered. One flourish per composition is usually enoug
 - Every control is a real button or link, reachable by keyboard, with a visible gold focus ring.
 - Touch targets are at least 44px tall.
 - Both invitation faces carry full alt text; the same details will also appear as selectable text in The Evening's Particulars.
+
+## The sections (Checkpoint 3, awaiting approval)
+
+Each section has its own composition and material, so the page reads as a sequence of
+objects rather than a column of cards.
+
+| Section | Composition | Material |
+| --- | --- | --- |
+| Welcome | Centred title under a gold sunburst, drop cap, a closing line in large italic | Deep burgundy |
+| The Evening's Particulars | Parchment document with the RSVP button on its lower edge; reservations desk beside it | Parchment on ink |
+| RSVP | A reservation slip that opens over the page | Parchment |
+| Countdown | An engraved plate with four windows | Champagne stock on velvet |
+| An Evening of Intrigue | Six steps pinned along a red thread, alternating sides on wide screens; house rules as a typed note | Ink, parchment note |
+| The Confidential Archives | A drawer of tabbed files with a search | Manila on burgundy |
+| Dossier | An opened file: clipped portrait, typed facts, stamp, fingerprint, sealed section | Parchment, oxblood |
+| Dress for the Decade | Three magazine pages, each arranged differently | Parchment |
+| The Velvet Cellar Radio | Two record sleeves with their discs | Champagne stock, black |
+| The Cellar Noticeboard | Notes and telegrams pinned to framed baize | Velvet, parchment |
+| A Few Matters of Business | A ruled ledger of questions | Burgundy |
+| The Final Verdict, A Night to Remember | An evidence envelope and an empty album, both sealed | Velvet |
+
+Murder-mystery details are deliberately few: the broken seal, the red thread, the
+fingerprint and redactions in a dossier, the Sealed and Confidential stamps, the evidence
+envelope.
+
+Anything the host has still to supply is marked the same way everywhere: a dashed outline
+with typewriter text saying what is awaited.

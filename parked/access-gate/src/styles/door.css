@@ -1,0 +1,72 @@
+/* The entrance page shown by the access gate. */
+
+.door {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 2rem var(--gutter);
+  background:
+    radial-gradient(ellipse 75% 55% at 50% 40%, rgb(255 208 165 / 0.14), transparent 70%),
+    radial-gradient(ellipse 130% 95% at 50% 42%, transparent 32%, rgb(12 2 6 / 0.84) 100%),
+    url('../assets/textures/velvet.webp') center / clamp(560px, 62vw, 900px),
+    var(--burgundy);
+}
+.door-panel {
+  display: grid;
+  justify-items: center;
+  gap: 1.1rem;
+  width: min(100%, 27rem);
+  text-align: center;
+}
+.door-seal {
+  width: 6.5rem;
+  height: 6.5rem;
+}
+.door-title {
+  font-size: var(--step-3);
+  text-shadow: 0 2px 22px rgb(0 0 0 / 0.5);
+}
+.door-mark {
+  padding: 0.5em 0.95em 0.3em;
+  border: 1px solid rgb(184 155 98 / 0.6);
+  color: var(--gold-bright);
+}
+.door-copy {
+  color: var(--text-soft);
+  text-wrap: pretty;
+}
+.door-form {
+  display: grid;
+  gap: 0.6rem;
+  width: 100%;
+  margin-top: 0.4rem;
+}
+.door-form label {
+  color: var(--gold-bright);
+}
+.door-form input {
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--gold);
+  border-radius: 0;
+  background: rgb(22 8 13 / 0.55);
+  color: var(--ivory);
+  font-family: var(--font-type);
+  font-size: 1.2rem;
+  letter-spacing: 0.2em;
+  text-align: center;
+}
+.door-form input:focus-visible {
+  outline-offset: 2px;
+}
+.door-form .btn {
+  margin-top: 0.4rem;
+}
+.door-refused {
+  padding: 0.7rem 1rem;
+  border: 1px solid rgb(220 120 130 / 0.7);
+  background: rgb(122 12 23 / 0.45);
+  color: var(--ivory);
+}

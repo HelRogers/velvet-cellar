@@ -1,0 +1,51 @@
+---
+/**
+ * The entrance. Shown by the gate to anyone without a door pass.
+ * It must never contain anything private: no names, no address, no artwork.
+ * It works without JavaScript; the small script only shows the "refused" message.
+ */
+import Base from '../layouts/Base.astro';
+import Display from '../components/Display.astro';
+import WaxSealDefs from '../components/WaxSealDefs.astro';
+import Rule from '../components/Rule.astro';
+import '../styles/door.css';
+---
+
+<Base door>
+  <main class="door" id="content">
+    <WaxSealDefs />
+    <div class="door-panel">
+      <svg class="door-seal" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><use href="#vc-seal"></use></svg>
+      <Display as="h1" class="door-title" text="The Velvet Cellar" />
+      <p class="typed door-mark">Private correspondence</p>
+      <Rule />
+      <p class="door-copy">
+        This is a private establishment. Give the password from your invitation and you will be shown in.
+      </p>
+      <form class="door-form" method="POST" action="/enter">
+        <label class="typed" for="door-code">The password</label>
+        <input
+          id="door-code"
+          name="code"
+          type="password"
+          required
+          autocomplete="off"
+          autocapitalize="none"
+          spellcheck="false"
+          maxlength="100"
+          aria-describedby="door-refused"
+        />
+        <button class="btn btn--primary" type="submit">Knock</button>
+      </form>
+      <p class="door-refused" id="door-refused" role="alert" hidden>
+        The doorman does not recognise that password. Check your invitation and try again.
+      </p>
+    </div>
+  </main>
+  <script is:inline>
+    if (new URLSearchParams(location.search).has('refused')) {
+      document.getElementById('door-refused').hidden = false;
+      document.getElementById('door-code').focus();
+    }
+  </script>
+</Base>

@@ -1,8 +1,10 @@
 # Netlify configuration for The Velvet Cellar.
 #
-# Not yet connected to a Netlify project (that happens at Checkpoint 3, with approval).
-# The site-wide access gate (an Edge Function) is added at the same time, and no
-# real guest details are deployed to any Netlify URL before the gate has been tested.
+# The site is currently deployed by manual upload of the built folder (see
+# docs/DEPLOYING.md), so this file is not read yet. It is here so that connecting a
+# GitHub repository later needs no changes: Netlify will build the same folder.
+#
+# Response headers live in public/_headers, which works for both kinds of deploy.
 
 [build]
   command = "npm run build"
@@ -10,19 +12,3 @@
 
 [build.environment]
   NODE_VERSION = "22"
-
-# Keep every deploy out of search engines and link previews.
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Robots-Tag = "noindex, nofollow, noarchive, noimageindex"
-    Referrer-Policy = "no-referrer"
-    X-Content-Type-Options = "nosniff"
-    X-Frame-Options = "DENY"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
-
-# Fingerprinted assets never change, so browsers may keep them.
-[[headers]]
-  for = "/_astro/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"

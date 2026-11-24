@@ -1,0 +1,100 @@
+---
+/**
+ * Section eight: The Velvet Cellar Radio. Two records, two moods.
+ * The Spotify links come from src/content/site.json and are never invented:
+ * until the host supplies them the buttons are shown as awaiting a link.
+ * Nothing plays on this page; the buttons open Spotify.
+ */
+import site from '../content/site.json';
+import Display from './Display.astro';
+
+const records = [
+  {
+    id: 'gramophone',
+    title: 'The Gramophone',
+    strap: 'Sounds of the Roaring Twenties',
+    text: 'Step back in time with the sounds of the Jazz Age. A collection of music to accompany whispered secrets, raised glasses and an evening of intrigue.',
+    action: 'Listen to the Gramophone',
+    url: site.playlists.gramophone.url,
+    side: 'Side A',
+  },
+  {
+    id: 'after-hours',
+    title: 'After Hours',
+    strap: 'When the formalities are over…',
+    text: 'Once the mystery has been solved, the rules of 1925 no longer apply. Add the songs you want to hear when the night really gets going.',
+    action: 'Add your tracks',
+    url: site.playlists.afterHours.url,
+    side: 'Side B',
+  },
+];
+const grooves = [92, 86, 80, 74, 68, 62, 56, 50];
+---
+
+<section class="section radio" id="radio" aria-labelledby="radio-title">
+  <div class="wrap">
+    <header class="radio-head">
+      <Display as="h2" id="radio-title" class="section-title" text="The Velvet Cellar Radio" />
+      <p class="section-lede">
+        Every great establishment needs a soundtrack. A little jazz before the doors open, and something rather less
+        respectable once the night is underway.
+      </p>
+    </header>
+
+    <div class="records">
+      {
+        records.map((record) => (
+          <article class:list={['record', `record--${record.id}`]} aria-labelledby={`record-${record.id}`}>
+            <div class="record-art" aria-hidden="true">
+              <svg class="record-disc" viewBox="0 0 200 200" focusable="false">
+                <circle cx="100" cy="100" r="98" fill="#0d0508" />
+                <circle cx="100" cy="100" r="98" fill="url(#disc-sheen)" />
+                {grooves.map((r) => <circle cx="100" cy="100" r={r} fill="none" stroke="#2c1a20" stroke-width="0.8" />)}
+                <circle class="record-label" cx="100" cy="100" r="36" />
+                <circle cx="100" cy="100" r="31" fill="none" stroke="currentColor" stroke-width="0.8" stroke-dasharray="0.1 3.4" stroke-linecap="round" />
+                <text x="100" y="92" text-anchor="middle" font-size="8.5" fill="currentColor" font-family="'Smythe', Georgia, serif" letter-spacing="1.2">THE VELVET CELLAR</text>
+                <text x="100" y="118" text-anchor="middle" font-size="7" fill="currentColor" font-family="'Special Elite', monospace" letter-spacing="0.8">{record.side.toUpperCase()} · 1925</text>
+                <circle cx="100" cy="100" r="3.2" fill="#16080d" />
+              </svg>
+              <div class="record-sleeve">
+                <span class="typed sleeve-side">{record.side}</span>
+                <span class="sleeve-title">{record.title}</span>
+                <span class="sleeve-rule" />
+                <span class="typed sleeve-strap">The Velvet Cellar Radio</span>
+              </div>
+            </div>
+
+            <div class="record-body">
+              <Display as="h3" id={`record-${record.id}`} class="record-title" text={record.title} />
+              <p class="record-strap">{record.strap}</p>
+              <p>{record.text}</p>
+              {record.url ? (
+                <a class="btn btn--primary" href={record.url} target="_blank" rel="noopener noreferrer">
+                  {record.action}
+                </a>
+              ) : (
+                <p class="awaiting">
+                  <span class="btn is-awaiting" aria-disabled="true">
+                    {record.action}
+                  </span>
+                  <span class="typed placeholder-note">Spotify link to be supplied by the host</span>
+                </p>
+              )}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <svg class="sr-only" width="0" height="0" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="disc-sheen" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#fff" stop-opacity="0" />
+          <stop offset="0.45" stop-color="#fff" stop-opacity="0.13" />
+          <stop offset="0.55" stop-color="#fff" stop-opacity="0" />
+          <stop offset="1" stop-color="#fff" stop-opacity="0.07" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+</section>

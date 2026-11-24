@@ -1,0 +1,120 @@
+---
+/**
+ * The individual dossiers. One per guest in src/content/guests.json, each opened
+ * from the register as a full-screen file (address: #dossier-<slug>, so the
+ * browser's back button returns to the register).
+ *
+ * Stage one: public identity only. The introduction must be the host's approved,
+ * spoiler-free text; where none has been supplied the page says so rather than
+ * inventing one. The confidential booklet stays sealed until Release Two.
+ */
+import data from '../content/guests.json';
+import Display from './Display.astro';
+
+const guests = data.guests;
+const fileNumber = (i: number) => `VC-1925-${String(i + 1).padStart(3, '0')}`;
+const portraits = import.meta.glob<{ default: ImageMetadata }>('../assets/portraits/*.{jpg,jpeg,png,webp}', { eager: true });
+const portraitFor = (file: string) => (file ? portraits[`../assets/portraits/${file}`]?.default : undefined);
+// A fingerprint: nested, slightly irregular loops.
+const whorls = Array.from({ length: 9 }, (_, i) => {
+  const r = 8 + i * 6.5;
+  return `M${60 - r} ${78 + i * 1.5}C${60 - r} ${70 - r * 1.15} ${60 + r} ${70 - r * 1.15} ${60 + r} ${78 + i * 1.5}${i > 2 ? `v${10 + i * 3}` : ''}`;
+});
+---
+
+{
+  guests.map((guest, i) => {
+    const portrait = portraitFor(guest.portrait);
+    return (
+      <article class="dossier" id={`dossier-${guest.slug}`} data-dossier aria-labelledby={`dossier-title-${guest.slug}`} hidden>
+        <div class="dossier-bar">
+          <a class="btn btn--quiet dossier-back" href="#archives" data-dossier-back>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M19 12H5M11 6l-6 6 6 6" />
+            </svg>
+            Return to the register
+          </a>
+          <span class="typed dossier-ref">File No. {fileNumber(i)}</span>
+        </div>
+
+        <div class="dossier-folder">
+          <div class="dossier-sheet">
+            <span class="stamp stamp--large typed" aria-hidden="true">Confidential</span>
+
+            <div class="dossier-top">
+              <figure class="dossier-portrait">
+                <svg class="paperclip" viewBox="0 0 40 96" fill="none" aria-hidden="true" focusable="false">
+                  <path d="M13 70V22a9 9 0 0 1 18 0v52a14 14 0 0 1-28 0V26" stroke="#8d8a82" stroke-width="3" stroke-linecap="round" />
+                  <path d="M13 70V22a9 9 0 0 1 18 0v52a14 14 0 0 1-28 0V26" stroke="#e9e6dc" stroke-width="1" stroke-linecap="round" transform="translate(-0.8 -0.8)" />
+                </svg>
+                {portrait ? (
+                  <img src={portrait.src} width={portrait.width} height={portrait.height} alt={`Portrait of ${guest.character}`} loading="lazy" decoding="async" />
+                ) : (
+                  <div class="portrait-blank">
+                    <span class="typed">Portrait to be supplied</span>
+                  </div>
+                )}
+              </figure>
+
+              <div class="dossier-identity">
+                <p class="typed dossier-label">Subject</p>
+                <Display as="h2" id={`dossier-title-${guest.slug}`} class="dossier-name" text={guest.character} />
+                <dl class="dossier-facts">
+                  <div>
+                    <dt class="typed">Guest</dt>
+                    <dd>{guest.guest}</dd>
+                  </div>
+                  <div>
+                    <dt class="typed">Occupation</dt>
+                    <dd>{guest.occupation}</dd>
+                  </div>
+                  <div>
+                    <dt class="typed">Establishment</dt>
+                    <dd>The Velvet Cellar, 1925</dd>
+                  </div>
+                  <div>
+                    <dt class="typed">Status</dt>
+                    <dd>{guest.booklet === 'released' ? 'Dossier available' : 'Identity revealed'}</dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+
+            <section class="dossier-intro" aria-label="Introduction">
+              <h3 class="typed dossier-label">What is publicly known</h3>
+              {guest.introduction ? (
+                <p>{guest.introduction}</p>
+              ) : (
+                <p class="placeholder-text typed">
+                  [ The host’s approved, spoiler-free introduction for this character will appear here. None has been
+                  supplied yet. ]
+                </p>
+              )}
+            </section>
+
+            <svg class="fingerprint" viewBox="0 0 120 150" fill="none" aria-hidden="true" focusable="false">
+              <g stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                {whorls.map((d) => <path d={d} />)}
+              </g>
+            </svg>
+          </div>
+
+          <section class="dossier-sealed" aria-labelledby={`sealed-title-${guest.slug}`}>
+            <svg class="sealed-wax" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><use href="#vc-seal"></use></svg>
+            <div>
+              <Display as="h3" id={`sealed-title-${guest.slug}`} class="sealed-title" text="Further Correspondence Sealed" />
+              <p>Your identity has been revealed. However, certain matters remain confidential.</p>
+              <p>
+                Your full character booklet, private information and instructions for the evening will become available
+                here before The Velvet Cellar opens its doors.
+              </p>
+              <p class="redactions" aria-hidden="true">
+                <span style="width:78%" /><span style="width:92%" /><span style="width:54%" />
+              </p>
+            </div>
+          </section>
+        </div>
+      </article>
+    );
+  })
+}

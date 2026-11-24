@@ -1,15 +1,51 @@
 ---
 import Base from '../layouts/Base.astro';
+import SiteNav from '../components/SiteNav.astro';
 import Threshold from '../components/Threshold.astro';
-import HouseStyle from '../components/HouseStyle.astro';
+import Welcome from '../components/Welcome.astro';
+import Particulars from '../components/Particulars.astro';
+import Countdown from '../components/Countdown.astro';
+import Intrigue from '../components/Intrigue.astro';
+import Archives from '../components/Archives.astro';
+import DressCode from '../components/DressCode.astro';
+import Radio from '../components/Radio.astro';
+import Noticeboard from '../components/Noticeboard.astro';
+import Faq from '../components/Faq.astro';
+import SealedUntilTheNight from '../components/SealedUntilTheNight.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import Dossiers from '../components/Dossiers.astro';
 import '../styles/threshold.css';
-import '../styles/house-style.css';
+import '../styles/components.css';
+import '../styles/chrome.css';
+import '../styles/sections-a.css';
+import '../styles/sections-b.css';
+import '../styles/sections-c.css';
 ---
 
 <Base>
+  <SiteNav />
   <main id="content">
     <Threshold />
-    <!-- Checkpoint 2 only: the review sheet stands in for the homepage sections. -->
-    <HouseStyle />
+    <div class="beyond">
+      <Welcome />
+      <Particulars />
+      <Countdown />
+      <Intrigue />
+      <Archives />
+      <DressCode />
+      <Radio />
+      <Noticeboard />
+      <Faq />
+      <SealedUntilTheNight />
+    </div>
   </main>
+  <div class="beyond beyond-footer">
+    <SiteFooter />
+  </div>
+  <Dossiers />
 </Base>
+
+<script>
+  import { initSite } from '../scripts/site';
+  initSite();
+</script>

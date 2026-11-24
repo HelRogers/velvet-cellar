@@ -1,0 +1,116 @@
+---
+/**
+ * Section five: An Evening of Intrigue. How the mystery works, for guests who
+ * have never played one. Six steps pinned along a red thread, then the house rules.
+ * No evidence, solutions or character secrets appear here.
+ */
+import Display from './Display.astro';
+
+const steps = [
+  {
+    numeral: 'I',
+    title: 'Assume your identity',
+    text: 'Every guest will receive their own fictional character, complete with a name, occupation, personality and personal background.',
+  },
+  {
+    numeral: 'II',
+    title: 'Receive your confidential instructions',
+    text: 'Before the event, you will receive your individual character booklet. It contains important information, secrets, personal objectives, relationships and instructions for the different stages of the evening.',
+  },
+  {
+    numeral: 'III',
+    title: 'Mingle amongst suspects',
+    text: 'Throughout the party you will talk to the other guests in character: asking questions, exchanging information, making alliances and investigating suspicious behaviour.',
+  },
+  {
+    numeral: 'IV',
+    title: 'Follow the evidence',
+    text: 'As the evening progresses you will discover physical evidence, investigate clues, solve puzzles or coded messages where they arise, and piece together what happened.',
+  },
+  {
+    numeral: 'V',
+    title: 'Complete your objectives',
+    text: 'Each guest has their own tasks to accomplish during the guided rounds. Your booklet explains what you need to do and when.',
+  },
+  {
+    numeral: 'VI',
+    title: 'Deliver your verdict',
+    text: 'At the end of the investigation, guests make their accusations, cast their votes and discover the truth behind the murder.',
+  },
+];
+
+const rules = [
+  'No acting experience is required.',
+  'You do not need to memorise a script.',
+  'The hosts will guide the evening.',
+  'Your character booklet holds every instruction you need.',
+  'Stay in character if you can, but nobody is expected to perform perfectly.',
+  'Everyone is a potential suspect.',
+  'Even the murderer does not know their identity until the final reveal.',
+  'Reading someone else’s confidential booklet may spoil the experience.',
+];
+const awards = ['Best Detective', 'Best Dressed', 'Best Actor'];
+// A five-point star for the award medallions.
+const star = Array.from({ length: 10 }, (_, i) => {
+  const r = i % 2 ? 9 : 22;
+  const a = (i / 10) * Math.PI * 2 - Math.PI / 2;
+  return `${(60 + r * Math.cos(a)).toFixed(1)},${(60 + r * Math.sin(a)).toFixed(1)}`;
+}).join(' ');
+---
+
+<section class="section intrigue" id="intrigue" aria-labelledby="intrigue-title">
+  <div class="wrap">
+    <header class="intrigue-head">
+      <Display as="h2" id="intrigue-title" class="section-title" text="An Evening of Intrigue" />
+      <p class="section-lede">
+        An invitation to The Velvet Cellar comes with more than a dress code. Each guest will assume a character, harbour
+        their own secrets and become part of a mystery that unfolds throughout the evening.
+      </p>
+    </header>
+
+    <ol class="thread" role="list">
+      {
+        steps.map((step) => (
+          <li class="thread-step">
+            <span class="thread-pin" aria-hidden="true" />
+            <span class="thread-numeral" aria-hidden="true">
+              {step.numeral}
+            </span>
+            <div class="thread-body">
+              <h3 class="thread-title">{step.title}</h3>
+              <p>{step.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="house-rules">
+      <article class="rules-note">
+        <span class="note-pin" aria-hidden="true" />
+        <h3 class="typed rules-title">The house rules</h3>
+        <ul class="rules-list" role="list">
+          {rules.map((rule) => <li>{rule}</li>)}
+        </ul>
+      </article>
+
+      <div class="awards">
+        <h3 class="awards-title">On the night, awards will be given for</h3>
+        <ul class="awards-list" role="list">
+          {
+            awards.map((award) => (
+              <li class="award">
+                <svg viewBox="0 0 120 120" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="60" cy="60" r="56" stroke="currentColor" stroke-width="1.2" />
+                  <circle cx="60" cy="60" r="49" stroke="currentColor" stroke-width="2.4" stroke-dasharray="0.1 6.2" stroke-linecap="round" />
+                  <polygon points={star} fill="currentColor" opacity="0.9" />
+                </svg>
+                <span>{award}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

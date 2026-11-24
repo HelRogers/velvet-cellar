@@ -1,0 +1,38 @@
+---
+/**
+ * Section ten: frequently asked questions, as entries in the house ledger.
+ * Questions and answers come from src/content/faqs.json. Native disclosure
+ * elements, so they work by keyboard and without scripts.
+ */
+import faqs from '../content/faqs.json';
+import Display from './Display.astro';
+import Rule from './Rule.astro';
+---
+
+<section class="section faqs" id="faqs" aria-labelledby="faqs-title">
+  <div class="wrap faqs-grid">
+    <header class="faqs-head">
+      <Display as="h2" id="faqs-title" class="section-title" text="A Few Matters of Business" />
+      <p class="faqs-sub">Frequently asked questions</p>
+      <Rule class="faqs-rule" />
+      <p class="section-lede">If your question is not answered here, ask the hosts.</p>
+    </header>
+
+    <div class="ledger">
+      {
+        faqs.map((faq) => (
+          <details class="ledger-entry">
+            <summary>
+              <span class="ledger-question">{faq.question}</span>
+              <svg class="ledger-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false">
+                <path d="M5 12h14" />
+                <path class="ledger-mark-upright" d="M12 5v14" />
+              </svg>
+            </summary>
+            <p class="ledger-answer">{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

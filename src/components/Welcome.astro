@@ -1,0 +1,43 @@
+---
+/** Section two: Welcome to The Velvet Cellar. A cinematic opening page under a deco sunburst. */
+import Display from './Display.astro';
+
+// The sunburst: rays and arcs fanning from a point below the heading.
+const rays = Array.from({ length: 25 }, (_, i) => {
+  const angle = Math.PI + (i / 24) * Math.PI; // left horizon, over the top, to the right
+  const inner = i % 2 ? 120 : 70;
+  const outer = i % 2 ? 470 : 500;
+  const point = (r: number) => `${(500 + r * Math.cos(angle)).toFixed(1)} ${(500 + r * Math.sin(angle)).toFixed(1)}`;
+  return `M${point(inner)}L${point(outer)}`;
+}).join('');
+const arcs = [70, 120, 200, 290, 390, 500];
+---
+
+<section class="section welcome" id="welcome" aria-labelledby="welcome-title">
+  <svg class="welcome-burst" viewBox="0 0 1000 500" fill="none" aria-hidden="true" focusable="false">
+    <g stroke="currentColor" stroke-width="1">
+      <path d={rays}></path>
+      {arcs.map((r) => <path d={`M${500 - r} 500A${r} ${r} 0 0 1 ${500 + r} 500`} />)}
+    </g>
+  </svg>
+
+  <div class="wrap welcome-grid">
+    <Display as="h2" id="welcome-title" class="welcome-title" text="Welcome to The Velvet Cellar" />
+
+    <div class="welcome-copy">
+      <p class="welcome-year">The year is 1925.</p>
+      <p class="welcome-lead">
+        Behind closed doors, champagne flows, fortunes are gambled and secrets are traded. Beneath the glamour of the
+        city’s most exclusive underground establishment, whispers of scandal are never far away.
+      </p>
+      <p>
+        For one evening only, The Velvet Cellar opens its doors to a select gathering of guests in celebration of Carys
+        and Thomas turning twenty-one.
+      </p>
+    </div>
+
+    <p class="welcome-warning">
+      Dress accordingly. Trust carefully. And remember… not everything is quite as it seems.
+    </p>
+  </div>
+</section>
