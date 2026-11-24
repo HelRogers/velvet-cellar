@@ -7,7 +7,7 @@
 //   - fonts are embedded in the page and the script is inlined, so the page
 //     depends on nothing but its own image files
 // Usage: npm run build && node tools/make_preview.mjs
-import { cpSync, rmSync, readFileSync, writeFileSync, readdirSync, unlinkSync } from 'node:fs';
+import { cpSync, rmSync, readFileSync, writeFileSync, readdirSync, unlinkSync, renameSync } from 'node:fs';
 import { join } from 'node:path';
 
 const src = 'dist';
@@ -30,15 +30,17 @@ html = html.replace(/<script type="module" src="\/_astro\/([^"]+\.js)"><\/script
   return `<script type="module">${code}</script>`;
 });
 
-// Everything else (images, textures) loads by relative path.
-html = html.replaceAll('/_astro/', './_astro/');
+// Everything else (images, textures) loads by relative path, from a folder
+// without a leading underscore (artifact hosting reserves that prefix).
+html = html.replaceAll('/_astro/', './assets/');
 html = html.replace('<title>The Velvet Cellar</title>', '<title>The Velvet Cellar: Checkpoint 2 preview</title>');
 
-if (/["'(]\/_astro\//.test(html)) throw new Error('An absolute asset path survived packaging.');
+if (html.includes('_astro/')) throw new Error('An absolute asset path survived packaging.');
 writeFileSync(join(out, 'index.html'), html);
 
 for (const file of readdirSync(join(out, '_astro'))) {
   if (/\.(woff2|js)$/.test(file)) unlinkSync(join(out, '_astro', file));
 }
-const files = readdirSync(join(out, '_astro'));
+renameSync(join(out, '_astro'), join(out, 'assets'));
+const files = readdirSync(join(out, 'assets'));
 console.log(`preview/index.html ${(html.length / 1024).toFixed(0)} KB, plus ${files.length} image files`);
