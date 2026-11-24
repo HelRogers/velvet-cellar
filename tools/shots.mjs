@@ -75,9 +75,32 @@ for (const v of viewports) {
   await shot('5b-zoomed');
   await page.click('[data-lightbox-close]');
   await sleep(300);
-  await page.evaluate(() => document.querySelector('#house-style').scrollIntoView({ behavior: 'instant' }));
-  await sleep(300);
-  await page.screenshot({ path: `${out}/${v.name}-6-sheet.png`, fullPage: true });
+
+  // The full homepage, then each overlay in turn.
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.screenshot({ path: `${out}/${v.name}-6-page.png`, fullPage: true });
+  await page.evaluate(() => (location.hash = '#dossier-kitty-adams'));
+  await sleep(700);
+  await shot('7-dossier');
+  await page.evaluate(() => document.querySelector('[data-dossier]:not([hidden])').scrollTo(0, 99999));
+  await sleep(200);
+  await shot('7b-dossier-sealed');
+  await page.evaluate(() => (location.hash = '#particulars'));
+  await sleep(500);
+  await page.evaluate(() => document.querySelector('[data-rsvp-open]').click());
+  await sleep(500);
+  await shot('8-rsvp');
+  await page.evaluate(() => document.querySelector('[data-rsvp-dialog]').close());
+  if (await page.evaluate(() => getComputedStyle(document.querySelector('[data-nav-open]')).display !== 'none')) {
+    await page.evaluate(() => document.querySelector('[data-nav-open]').click());
+    await sleep(450);
+    await shot('9-menu');
+    await page.evaluate(() => document.querySelector('[data-nav-menu]').close());
+  }
+  await page.evaluate(() => document.querySelector('#board-ladies [data-plate]').click());
+  await sleep(450);
+  await shot('10-gallery');
+  await page.evaluate(() => document.querySelector('[data-gallery]').close());
 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   console.log(v.name, 'horizontal overflow:', overflow, 'errors:', errors.length ? errors : 'none');

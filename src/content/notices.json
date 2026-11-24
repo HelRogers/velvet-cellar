@@ -1,0 +1,27 @@
+{
+  "_about": "Announcements from the hosts. Only entries with \"published\": true are shown. Entries marked \"specimen\": true are design samples and are shown only while site.json has \"showSpecimens\": true.",
+  "notices": [
+    {
+      "title": "How a notice will look",
+      "date": "2026-11-24",
+      "body": "This is a specimen, not a real announcement. Notices from the hosts will be pinned here as they are posted: reminders, booklet releases and anything that changes.",
+      "style": "note",
+      "important": false,
+      "link": null,
+      "image": null,
+      "published": true,
+      "specimen": true
+    },
+    {
+      "title": "And a more urgent one",
+      "date": "2026-11-24",
+      "body": "Specimen only. Important notices can carry a red stamp. Nothing here is a real instruction.",
+      "style": "telegram",
+      "important": true,
+      "link": null,
+      "image": null,
+      "published": true,
+      "specimen": true
+    }
+  ]
+}

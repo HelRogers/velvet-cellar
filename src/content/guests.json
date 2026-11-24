@@ -1,0 +1,16 @@
+{
+  "_about": "The guest register. Each entry needs the host's approval. Nothing here may come from the private character material: public introductions only.",
+  "registerSize": 24,
+  "guests": [
+    {
+      "slug": "kitty-adams",
+      "guest": "Carys",
+      "character": "Cleo “Kitty” Adams",
+      "occupation": "Private Investigator",
+      "introduction": "",
+      "portrait": "",
+      "booklet": "sealed",
+      "example": true
+    }
+  ]
+}

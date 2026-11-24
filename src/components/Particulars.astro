@@ -1,0 +1,138 @@
+---
+/**
+ * Section three: The Evening's Particulars, with the RSVP directly beneath.
+ * Every detail is real, selectable text taken from src/content/site.json.
+ * The RSVP is a Netlify Form: it only reports success when Netlify accepts it.
+ */
+import site from '../content/site.json';
+import Display from './Display.astro';
+import Rule from './Rule.astro';
+
+const { event } = site;
+const stamp = event.startsAtUtc.replace(/[-:]/g, '').replace('.000', ''); // 20261218T190000Z
+// No end time has been supplied, so none is invented: the calendar entry marks the start only.
+const google = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+  `${event.venue}: ${event.occasion}`
+)}&dates=${stamp}/${stamp}&location=${encodeURIComponent(event.address)}&details=${encodeURIComponent(
+  `${event.attire}. Kindly respond by ${event.rsvpBy}.`
+)}`;
+---
+
+<section class="section particulars-section" id="particulars" aria-labelledby="particulars-title">
+  <div class="wrap particulars-grid">
+    <div class="particulars-card">
+      <article class="document" aria-labelledby="particulars-title">
+        <span class="stamp typed" aria-hidden="true">By invitation only</span>
+        <Display as="h2" id="particulars-title" class="document-title" text="The Evening’s Particulars" />
+        <Rule class="document-rule" />
+        <dl class="particulars">
+          <div><dt>The Occasion</dt><dd>{event.occasion}</dd></div>
+          <div><dt>The Date</dt><dd>{event.dateLabel}</dd></div>
+          <div><dt>The Hour</dt><dd>{event.hourLabel}</dd></div>
+          <div><dt>The Establishment</dt><dd>{event.venue}<br />{event.address}</dd></div>
+          <div><dt>The Attire</dt><dd>{event.attire}</dd></div>
+          <div><dt>Kindly Respond By</dt><dd>{event.rsvpBy}</dd></div>
+        </dl>
+      </article>
+      <button class="btn btn--primary reserve" type="button" data-rsvp-open>Reserve your place</button>
+    </div>
+    <div class="desk">
+      <Display as="h3" class="desk-title" text="Reservations" />
+      <p class="desk-lede">
+        The Velvet Cellar keeps a strict guest list. Kindly let the hosts know whether to expect you by {event.rsvpBy}.
+      </p>
+
+      <ul class="desk-tools" role="list">
+        <li>
+          <a class="btn" href="/the-velvet-cellar.ics" data-live-only>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M5 6h14v14H5zM5 10h14M9 3v5M15 3v5" />
+            </svg>
+            Add to calendar
+          </a>
+        </li>
+        <li>
+          <a class="btn" href={google} target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M5 6h14v14H5zM5 10h14M9 3v5M15 3v5M12 13v4M10 15h4" />
+            </svg>
+            Google Calendar
+          </a>
+        </li>
+        <li>
+          <button class="btn" type="button" data-copy-address={event.address}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M9 9h10v11H9zM6 15H5V4h10v2" />
+            </svg>
+            <span data-copy-label>Copy the address</span>
+          </button>
+        </li>
+      </ul>
+      <p class="typed desk-status" role="status" aria-live="polite" data-copy-status></p>
+    </div>
+
+  </div>
+
+  <!-- The reservation slip -->
+  <dialog class="slip" data-rsvp-dialog aria-labelledby="slip-title">
+    <div class="slip-paper">
+      <button class="tool slip-close" type="button" data-rsvp-close aria-label="Close the reservation slip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false">
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </button>
+      <p class="typed slip-number">Reservation slip No. 1925</p>
+      <Display as="h2" id="slip-title" class="slip-title" text="The Guest Register" />
+      <Rule class="document-rule" />
+
+      <form
+        class="slip-form"
+        name={site.rsvp.formName}
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        data-rsvp-form
+        data-rsvp-mode={site.rsvp.connected ? 'live' : 'placeholder'}
+        novalidate
+      >
+        <input type="hidden" name="form-name" value={site.rsvp.formName} />
+        <p class="slip-trap">
+          <label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+        </p>
+
+        <div class="field">
+          <label for="rsvp-name">Your name</label>
+          <input id="rsvp-name" name="name" type="text" autocomplete="name" required maxlength="80" aria-describedby="rsvp-name-error" />
+          <p class="field-error" id="rsvp-name-error" hidden>Please write your name so the hosts know who is replying.</p>
+        </div>
+
+        <fieldset class="field" aria-describedby="rsvp-attending-error">
+          <legend>Will you be attending?</legend>
+          <label class="choice">
+            <input type="radio" name="attending" value="Attending" required />
+            <span>Delighted to attend</span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="attending" value="Unable to attend" />
+            <span>Regretfully unable to attend</span>
+          </label>
+          <p class="field-error" id="rsvp-attending-error" hidden>Please choose one, so your place can be kept or released.</p>
+        </fieldset>
+
+        <div class="field">
+          <label for="rsvp-message">A message to the hosts <span class="optional">(optional)</span></label>
+          <textarea id="rsvp-message" name="message" rows="3" maxlength="600"></textarea>
+        </div>
+
+        <p class="slip-error" role="alert" data-rsvp-error hidden></p>
+        <button class="btn slip-submit" type="submit" data-rsvp-submit>Send my response</button>
+      </form>
+
+      <div class="slip-result" data-rsvp-result tabindex="-1" hidden>
+        <svg class="slip-seal" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><use href="#vc-seal"></use></svg>
+        <p class="slip-result-text" data-rsvp-result-text></p>
+        <button class="btn" type="button" data-rsvp-close>Close</button>
+      </div>
+    </div>
+  </dialog>
+</section>

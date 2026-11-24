@@ -1,15 +1,16 @@
 {
   "name": "velvet-cellar",
   "type": "module",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "check": "astro build && node tools/interactions.mjs dist",
+    "check": "astro build && node tools/interactions.mjs dist && node tools/site.test.mjs dist && node --experimental-strip-types --disable-warning=ExperimentalWarning tools/gate.test.mjs",
     "shots": "node tools/shots.mjs dist scratch/shots",
     "preview:pack": "node tools/make_preview.mjs",
-    "textures": "python3 tools/make_textures.py"
+    "textures": "python3 tools/make_textures.py",
+    "test:gate": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/gate.test.mjs"
   },
   "dependencies": {
     "@fontsource-variable/eb-garamond": "^5.3.0",

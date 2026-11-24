@@ -1,0 +1,292 @@
+/* Page furniture: section scaffolding, navigation, footer, placeholders. */
+
+html {
+  scroll-padding-top: 4.25rem;
+}
+
+/* While the invitation is sealed, nothing beyond it is shown. */
+html[data-invite='sealed'] .beyond,
+html[data-invite='opening'] .beyond,
+html[data-invite='sealed'] .site-nav,
+html[data-invite='opening'] .site-nav {
+  display: none;
+}
+
+.beyond {
+  background: var(--ink);
+}
+.section {
+  position: relative;
+  padding-block: clamp(4.5rem, 11vw, 9rem);
+}
+.wrap {
+  width: min(100% - 2 * var(--gutter), 72rem);
+  margin-inline: auto;
+}
+.section-title {
+  font-size: var(--step-3);
+}
+.section-lede {
+  max-width: 36rem;
+  margin-top: var(--space-4);
+  color: var(--text-soft);
+  text-wrap: pretty;
+}
+
+/* Anything the host has still to supply is marked in this one way throughout. */
+.placeholder-note {
+  display: inline-block;
+  padding: 0.5em 0.8em 0.3em;
+  border: 1px dashed rgb(184 155 98 / 0.6);
+  color: var(--gold-bright);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+.placeholder-note--paper {
+  border-color: rgb(73 5 24 / 0.5);
+  color: #6a1a2a;
+}
+.is-awaiting {
+  border-style: dashed;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.is-awaiting:active {
+  transform: none;
+}
+
+/* On paper, the focus ring is burgundy rather than gold. */
+.document :focus-visible,
+.slip-paper :focus-visible,
+.board :focus-visible,
+.dossier-sheet :focus-visible,
+.notice :focus-visible {
+  outline-color: var(--burgundy);
+}
+
+/* ---------- Navigation ---------- */
+.site-nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.5rem;
+  padding: 0.3rem var(--gutter);
+  background: rgb(22 8 13 / 0.95);
+  border-bottom: 1px solid rgb(184 155 98 / 0.35);
+  transform: translateY(-101%);
+  visibility: hidden;
+  transition:
+    transform 320ms var(--ease-out),
+    visibility 0s 320ms;
+}
+html[data-nav='shown'] .site-nav {
+  transform: none;
+  visibility: visible;
+  transition:
+    transform 320ms var(--ease-out),
+    visibility 0s;
+}
+html[data-view='dossier'] .site-nav {
+  display: none;
+}
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ivory);
+  white-space: nowrap;
+}
+.nav-inline {
+  display: none;
+}
+.nav-inline ul {
+  display: flex;
+  gap: clamp(1rem, 2.2vw, 2rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.nav-inline a {
+  display: inline-block;
+  padding: 0.75rem 0;
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-soft);
+  background: linear-gradient(var(--gold-bright), var(--gold-bright)) 0 calc(100% - 0.55rem) / 0 1px no-repeat;
+  transition:
+    color 160ms ease,
+    background-size 220ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .nav-inline a:hover {
+    color: var(--ivory);
+    background-size: 100% 1px;
+  }
+}
+.nav-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 2.75rem;
+  padding: 0.3rem 0.4rem 0.3rem 0.8rem;
+  border: 0;
+  background: none;
+  color: var(--ivory);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.nav-toggle svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  color: var(--gold-bright);
+}
+@media (min-width: 66em) {
+  .nav-inline {
+    display: block;
+  }
+  .nav-toggle {
+    display: none;
+  }
+}
+
+.nav-menu {
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--ivory);
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 30%, transparent 30%, rgb(12 2 6 / 0.85) 100%),
+    url('../assets/textures/velvet.webp') center / 640px,
+    var(--burgundy);
+}
+.nav-menu::backdrop {
+  background: var(--ink);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .nav-menu[open] {
+    animation: lightbox-in 240ms var(--ease-out);
+  }
+}
+.nav-menu-inner {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 1.4rem;
+  min-height: 100%;
+  padding: 4.5rem var(--gutter) 2rem;
+  text-align: center;
+}
+.nav-close {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.6rem;
+}
+.nav-menu-mark {
+  padding: 0.5em 0.95em 0.3em;
+  border: 1px solid rgb(184 155 98 / 0.6);
+  color: var(--gold-bright);
+}
+.nav-menu ul {
+  display: grid;
+  width: min(100%, 22rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.nav-menu li + li {
+  border-top: 2px dotted rgb(184 155 98 / 0.4);
+}
+.nav-menu a {
+  display: block;
+  padding: 0.85rem 0.5rem 0.7rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 7vw, 2.2rem);
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ivory);
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  padding-block: clamp(4rem, 10vw, 7rem) clamp(2.5rem, 6vw, 4rem);
+  background:
+    radial-gradient(ellipse 75% 60% at 50% 35%, rgb(255 208 165 / 0.1), transparent 70%),
+    radial-gradient(ellipse 130% 100% at 50% 40%, transparent 30%, rgb(12 2 6 / 0.88) 100%),
+    url('../assets/textures/velvet.webp') center / clamp(560px, 62vw, 900px),
+    var(--burgundy);
+  border-top: 1px solid rgb(184 155 98 / 0.35);
+  text-align: center;
+}
+.footer-inner {
+  display: grid;
+  justify-items: center;
+  gap: 0.9rem;
+}
+.footer-seal {
+  width: 6rem;
+  height: 6rem;
+}
+.footer-name {
+  font-size: var(--step-3);
+}
+.footer-est {
+  color: var(--gold-bright);
+}
+.footer-line {
+  font-style: italic;
+  color: var(--text-soft);
+}
+.footer-hosts {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.footer-diamond {
+  width: 0.45rem;
+  height: 0.45rem;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+/* A brass pin, for anything fixed to a board. */
+.note-pin {
+  position: absolute;
+  top: -0.5rem;
+  left: 50%;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-left: -0.575rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f6e7bb, #b89b62 45%, #5f4820 100%);
+  box-shadow:
+    0 3px 4px rgb(0 0 0 / 0.55),
+    inset 0 -1px 1px rgb(0 0 0 / 0.3);
+}

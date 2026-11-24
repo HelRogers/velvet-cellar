@@ -1,0 +1,62 @@
+---
+/**
+ * Section nine: The Cellar Noticeboard. Announcements pinned to a baize board.
+ * Entries come from src/content/notices.json, newest first. Only published
+ * notices are built into the page; unpublished ones are left out of the HTML
+ * entirely. Specimens are design samples and say so on their face.
+ */
+import site from '../content/site.json';
+import data from '../content/notices.json';
+import Display from './Display.astro';
+
+const formatDate = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/London' });
+const notices = data.notices
+  .filter((notice) => notice.published && (!notice.specimen || site.showSpecimens))
+  .sort((a, b) => b.date.localeCompare(a.date));
+const real = notices.filter((notice) => !notice.specimen);
+---
+
+<section class="section noticeboard" id="noticeboard" aria-labelledby="noticeboard-title">
+  <div class="wrap">
+    <header class="noticeboard-head">
+      <Display as="h2" id="noticeboard-title" class="section-title" text="The Cellar Noticeboard" />
+      <p class="section-lede">Word from the hosts, pinned up as it arrives. The newest notice is always first.</p>
+    </header>
+
+    <div class="board-frame">
+      <div class="baize">
+        {
+          real.length === 0 && (
+            <p class="baize-empty">
+              <span class="typed">Nothing has been posted yet.</span>
+              Notices from the hosts will appear here.
+            </p>
+          )
+        }
+        <ul class="notices" role="list">
+          {
+            notices.map((notice) => (
+              <li class:list={['notice', `notice--${notice.style}`, { 'notice--specimen': notice.specimen }]}>
+                <span class="note-pin" aria-hidden="true" />
+                {notice.specimen && <span class="stamp typed notice-stamp">Specimen</span>}
+                {!notice.specimen && notice.important && <span class="stamp typed notice-stamp">Important</span>}
+                <p class="typed notice-date">
+                  <time datetime={notice.date}>{formatDate.format(new Date(`${notice.date}T12:00:00Z`))}</time>
+                </p>
+                <h3 class="notice-title">{notice.title}</h3>
+                <p class="notice-body">{notice.body}</p>
+                {notice.link && (
+                  <p>
+                    <a class="notice-link" href={(notice.link as { url: string }).url}>
+                      {(notice.link as { label: string }).label}
+                    </a>
+                  </p>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

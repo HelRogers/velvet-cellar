@@ -1,0 +1,124 @@
+---
+/**
+ * Section seven: Dress for the Decade. Three mood boards laid out as pages of a
+ * period fashion magazine. The host chooses every image: see src/content/moodboards.json.
+ * Until images are supplied each board shows labelled placeholder plates, which
+ * exercise the same layout and the same enlarged view the real photographs will use.
+ */
+import { getImage } from 'astro:assets';
+import data from '../content/moodboards.json';
+import Display from './Display.astro';
+
+const files = import.meta.glob<{ default: ImageMetadata }>('../assets/moodboards/**/*.{jpg,jpeg,png,webp}', { eager: true });
+const numerals = ['I', 'II', 'III', 'IV', 'V'];
+
+const boards = await Promise.all(
+  data.boards.map(async (board, index) => {
+    const supplied = await Promise.all(
+      (board.images as { file: string; alt: string; caption?: string }[]).map(async (image) => {
+        const source = files[`../assets/moodboards/${board.id}/${image.file}`]?.default;
+        if (!source) return null;
+        const [small, large] = await Promise.all([
+          getImage({ src: source, width: 640, format: 'webp', quality: 82 }),
+          getImage({ src: source, width: 1600, format: 'webp', quality: 86 }),
+        ]);
+        return { ...image, small: small.src, large: large.src, width: source.width, height: source.height };
+      })
+    );
+    const images = supplied.filter((image): image is NonNullable<typeof image> => image !== null);
+    return { ...board, numeral: numerals[index], images };
+  })
+);
+---
+
+<section class="section dress" id="dress" aria-labelledby="dress-title">
+  <div class="wrap">
+    <header class="dress-head">
+      <Display as="h2" id="dress-title" class="section-title" text="Dress for the Decade" />
+      <p class="section-lede">
+        The Velvet Cellar expects its guests to dress for the occasion. From sophisticated socialites and glamorous
+        performers to sharp-suited gamblers and mysterious figures of the underworld, take inspiration from the styles
+        of the Roaring Twenties.
+      </p>
+      <nav class="dress-index" aria-label="Mood boards">
+        <ul role="list">
+          {
+            boards.map((board) => (
+              <li>
+                <a href={`#board-${board.id}`}>
+                  <span class="typed">Plate {board.numeral}</span>
+                  {board.subtitle === 'Costume inspiration' ? board.title.replace(' of The Velvet Cellar', '') : board.subtitle}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </header>
+  </div>
+
+  {
+    boards.map((board) => (
+      <article class:list={['board', `board--${board.id}`]} id={`board-${board.id}`} aria-labelledby={`board-title-${board.id}`} data-board>
+        <div class="wrap board-page">
+          <header class="board-head">
+            <p class="typed board-plate">Plate {board.numeral}</p>
+            <Display as="h3" id={`board-title-${board.id}`} class="board-title" text={board.title} />
+            <p class="board-subtitle">{board.subtitle}</p>
+            <p class="board-note">{board.note}</p>
+            {board.images.length === 0 && (
+              <p class="typed placeholder-note placeholder-note--paper">
+                Placeholder plates. The host will choose every photograph on this board.
+              </p>
+            )}
+          </header>
+
+          <ul class="plates" role="list">
+            {board.images.length > 0
+              ? board.images.map((image, i) => (
+                  <li class="plate-item">
+                    <button class="plate-button" type="button" data-plate data-index={i} data-large={image.large} data-alt={image.alt} data-caption={image.caption ?? ''}>
+                      <img src={image.small} width={image.width} height={image.height} alt={image.alt} loading="lazy" decoding="async" />
+                      <span class="sr-only">Enlarge this photograph</span>
+                    </button>
+                    {image.caption && <p class="plate-caption">{image.caption}</p>}
+                  </li>
+                ))
+              : board.placeholders.map((ratio, i) => (
+                  <li class="plate-item">
+                    <button class="plate-button plate-button--blank" type="button" style={`aspect-ratio:${ratio}`} data-plate data-index={i} data-ratio={ratio} data-caption={`${board.title}: photograph ${i + 1}, to be chosen by the host`}>
+                      <span class="plate-marks" aria-hidden="true" />
+                      <span class="typed plate-label">
+                        Photograph {i + 1}
+                        <span>To be chosen by the host</span>
+                      </span>
+                      <span class="sr-only">Enlarge this placeholder</span>
+                    </button>
+                  </li>
+                ))}
+          </ul>
+        </div>
+      </article>
+    ))
+  }
+
+  <!-- Enlarged view for mood board photographs: a sideways scroller, one photograph per page -->
+  <dialog class="gallery" data-gallery aria-label="Mood board photographs">
+    <div class="lightbox-bar">
+      <p class="typed" data-gallery-count aria-live="polite"></p>
+      <div class="lightbox-tools">
+        <button class="tool" type="button" data-gallery-prev aria-label="Previous photograph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" /></svg>
+        </button>
+        <button class="tool" type="button" data-gallery-next aria-label="Next photograph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" /></svg>
+        </button>
+        <button class="tool" type="button" data-gallery-close aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </div>
+    </div>
+    <div class="gallery-track" data-gallery-track tabindex="0"></div>
+    <p class="gallery-caption" data-gallery-caption></p>
+  </dialog>
+</section>

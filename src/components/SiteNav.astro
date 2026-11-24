@@ -1,0 +1,51 @@
+---
+/**
+ * Navigation: a slim bar that appears once the guest has scrolled past the
+ * invitation. Inline links on wide screens; a full-screen menu on small ones.
+ * Voting and the gallery join the list only when the host has switched them on.
+ */
+import site from '../content/site.json';
+
+const links = [
+  { href: '#invitation', label: 'Invitation' },
+  { href: '#particulars', label: 'The Evening' },
+  { href: '#archives', label: 'Your Character' },
+  { href: '#dress', label: 'Dress Code' },
+  { href: '#radio', label: 'The Radio' },
+  { href: '#noticeboard', label: 'Noticeboard' },
+  { href: '#faqs', label: 'FAQs' },
+  ...(site.voting.active ? [{ href: '#verdict', label: 'The Verdict' }] : []),
+  ...(site.gallery.active ? [{ href: '#remember', label: 'Gallery' }] : []),
+];
+---
+
+<header class="site-nav" data-nav>
+  <a class="nav-brand" href="#invitation" translate="no">The Velvet Cellar</a>
+  <nav class="nav-inline" aria-label="Sections">
+    <ul role="list">
+      {links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+    </ul>
+  </nav>
+  <button class="nav-toggle" type="button" data-nav-open aria-haspopup="dialog">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false">
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </svg>
+    Menu
+  </button>
+</header>
+
+<dialog class="nav-menu" data-nav-menu aria-label="Menu">
+  <div class="nav-menu-inner">
+    <button class="tool nav-close" type="button" data-nav-close aria-label="Close the menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false">
+        <path d="M6 6l12 12M18 6L6 18" />
+      </svg>
+    </button>
+    <p class="typed nav-menu-mark">The Velvet Cellar</p>
+    <nav aria-label="Sections">
+      <ul role="list">
+        {links.map((link) => <li><a href={link.href} data-nav-link>{link.label}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+</dialog>

@@ -10,10 +10,12 @@ The approved specification is kept in `docs/specification/`. Read it before chan
 | Checkpoint | Scope | State |
 | --- | --- | --- |
 | 1 | Methodology and architecture | Approved 24 Nov 2026 |
-| 2 | Visual design system, sealed-envelope opening, invitation viewer | Built, awaiting review |
-| 3 | Full homepage framework, example dossier, Netlify project and access gate | Not started |
-| 4 | Launch content on a gated preview | Not started |
+| 2 | Visual design system, sealed-envelope opening, invitation viewer | Approved 24 Nov 2026 (tag `checkpoint-2-approved`) |
+| 3 | Full homepage framework, example dossier, access gate | Built, awaiting review |
+| 4 | Launch content on a gated Netlify preview | Not started |
 | 5 | Production launch (Release One) | Not started |
+
+Nothing has been deployed to Netlify. The Netlify project `the-velvet-cellar` exists and is empty.
 
 ## Absolute rules
 
@@ -29,11 +31,12 @@ The approved specification is kept in `docs/specification/`. Read it before chan
 
 ```sh
 npm install
-npm run dev        # local development server
-npm run build      # static site in dist/
-npm run check      # build, then run the interaction and layout tests
-npm run shots      # screenshots at the brief's representative sizes (scratch/shots)
+npm run dev            # local development server
+npm run build          # static site in dist/
+npm run check          # build, then every test: invitation, homepage, access gate
+npm run shots          # screenshots at the brief's representative sizes (scratch/shots)
 npm run preview:pack   # package dist/ as a private review copy in preview/
+node tools/preview.test.mjs   # check that review copy
 ```
 
 The tests use the Chrome already installed on the machine (`/usr/bin/google-chrome`).
@@ -51,14 +54,17 @@ The tests use the Chrome already installed on the machine (`/usr/bin/google-chro
 
 | What | Where |
 | --- | --- |
-| Event details and invitation alt text | `src/content/site.json` |
+| How to update any content | `docs/CONTENT.md` |
+| Event details, links and section switches | `src/content/site.json` |
+| Guests, questions, notices, mood boards | `src/content/*.json` |
 | Original invitation artwork (used as supplied, never redrawn) | `src/assets/invitation/` |
 | Colours, type, spacing, motion | `src/styles/tokens.css` (described in `DESIGN.md`) |
 | The sealed invitation | `src/components/Threshold.astro`, `src/styles/threshold.css`, `src/scripts/invitation.ts` |
-| Checkpoint 2 review sheet (temporary) | `src/components/HouseStyle.astro` |
+| Homepage sections | `src/components/*.astro`, `src/styles/sections-*.css`, `src/scripts/site.ts` |
+| Access gate | `netlify/edge-functions/gate.ts`, `door.ts`, `netlify/lib/pass.ts`, entrance page `src/pages/door.astro` |
 | Material textures and how they are made | `src/assets/textures/`, `tools/make_textures.py` |
-| Tests | `tools/interactions.mjs`, `tools/shots.mjs` |
-| Architecture, hosting and security plan | `docs/ARCHITECTURE.md` |
+| Tests | `tools/interactions.mjs`, `tools/site.test.mjs`, `tools/gate.test.mjs`, `tools/preview.test.mjs` |
+| Architecture, hosting and security | `docs/ARCHITECTURE.md` |
 
 To replace the invitation artwork, save the new files over
 `src/assets/invitation/invitation-front.png` and `invitation-back.png` (same names) and

@@ -33,7 +33,10 @@ html = html.replace(/<script type="module" src="\/_astro\/([^"]+\.js)"><\/script
 // Everything else (images, textures) loads by relative path, from a folder
 // without a leading underscore (artifact hosting reserves that prefix).
 html = html.replaceAll('/_astro/', './assets/');
-html = html.replace('<title>The Velvet Cellar</title>', '<title>The Velvet Cellar: Checkpoint 2 preview</title>');
+html = html.replace('<title>The Velvet Cellar</title>', '<title>The Velvet Cellar: Checkpoint 3 preview</title>');
+// Mark the copy as a preview, so features that need the live site say so instead of pretending.
+html = html.replace('<html lang="en-GB"', '<html lang="en-GB" data-preview');
+if (!html.includes('data-preview')) throw new Error('Could not mark the page as a preview.');
 
 if (html.includes('_astro/')) throw new Error('An absolute asset path survived packaging.');
 writeFileSync(join(out, 'index.html'), html);
@@ -42,5 +45,9 @@ for (const file of readdirSync(join(out, '_astro'))) {
   if (/\.(woff2|js)$/.test(file)) unlinkSync(join(out, '_astro', file));
 }
 renameSync(join(out, '_astro'), join(out, 'assets'));
+// The entrance and the calendar file belong to the live site only.
+rmSync(join(out, 'door'), { recursive: true, force: true });
+rmSync(join(out, 'the-velvet-cellar.ics'), { force: true });
+rmSync(join(out, 'robots.txt'), { force: true });
 const files = readdirSync(join(out, 'assets'));
 console.log(`preview/index.html ${(html.length / 1024).toFixed(0)} KB, plus ${files.length} image files`);

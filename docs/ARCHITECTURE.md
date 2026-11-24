@@ -22,27 +22,54 @@ A dedicated free Netlify account is expected to be enough for about 24 guests:
 - If the allowance ever looked tight in December, the fallback is one month of the Personal
   plan. That needs the host's approval and is not expected.
 
-## Access protection (*planned*, Checkpoint 3)
+## Access protection (built and logic-tested at Checkpoint 3; platform test pending)
 
 Requirement: nothing sensitive (invitation images, address, guest names, APIs, documents)
-is served to anyone without the invitation link or code, on previews and production alike.
+is served to anyone without the invitation link or password, on previews and production alike.
 
-- A Netlify **Edge Function** runs in front of every request, including image files.
-- Guests arrive by a private link that carries a key, or type a shared code at a themed
-  entrance. A correct key sets a signed, HTTP-only cookie.
-- Without a valid cookie the only thing served is the entrance itself, which contains no
-  private content.
-- The key is held as a Netlify environment variable, never in the repository or in page code.
-- Tested before any real personal information is deployed: direct asset URLs, missing and
-  forged cookies, wrong codes.
+How it works:
 
-Until that exists, the only preview is a private Claude artifact that only the host's own
-account can open.
+- `netlify/edge-functions/gate.ts` runs in front of every request, including image files.
+  Without a valid pass, a browser is shown the entrance page (`/door/`) and every other
+  request is refused with 401. The only open files are the entrance, the fonts and the four
+  material textures, none of which hold anything private.
+- `netlify/edge-functions/door.ts` checks the password, from the entrance form
+  (`POST /enter`) or from the private invitation link (`/enter?key=PASSWORD`). It is rate
+  limited to 10 attempts a minute per visitor.
+- A correct password sets a pass cookie: signed (HMAC-SHA256), HTTP-only, Secure,
+  SameSite=Lax, valid for 120 days. It never contains the password.
+- Two Netlify environment variables (Functions scope, marked secret) hold the password
+  (`SITE_ACCESS_CODE`, 8 characters or more) and the signing key (`SITE_SESSION_SECRET`,
+  32 or more). Neither is in the repository. If either is missing the site serves nothing.
+- Changing `SITE_SESSION_SECRET` and redeploying revokes every pass already issued.
 
-## RSVP (*planned*)
+Tested (`npm run test:gate`, 60 checks): every built file requested directly without a
+pass; forged, expired and mis-signed passes; wrong, empty and nearly-right passwords; the
+invitation link; missing or weak secrets; and that the open files contain nothing private.
 
-A styled form on the site, submitted to **Netlify Forms**. The host reads responses in the
-Netlify dashboard or by email notification. No account for guests, no public list of replies.
+Still to test on Netlify itself, before any guest information is deployed there: that the
+functions are attached to every path, the rate limit, and cookies over HTTPS. The plan is a
+first preview with dummy content only, tested from outside, then the real build.
+
+## The Netlify project
+
+- Project `the-velvet-cellar` (free plan), created 24 Nov 2026 on a new account. It is empty.
+  Intended address: `https://the-velvet-cellar.netlify.app` (the name can still be changed
+  before launch, not after).
+- New projects on this plan start as private to the Netlify team (visitors must sign in to
+  Netlify). That is an extra layer while previewing. Before launch the project is made
+  public, leaving the site's own gate as the protection guests meet.
+- Form detection must be enabled once (Forms, in the Netlify dashboard) for the RSVP.
+- Deploys are meant to come from the GitHub repository: `develop` to previews, `main` to
+  production with auto-publishing locked. Claude sessions cannot upload a build to Netlify
+  directly from their workspace.
+
+## RSVP (built; live submission test pending)
+
+A styled form on the site (the reservation slip), submitted to **Netlify Forms**. The host
+reads responses in the Netlify dashboard or by email notification. No account for guests,
+no public list of replies. The page shows a confirmation only when Netlify accepts the
+submission; in the private preview it says that nothing was sent.
 
 ## Character booklets (*planned*, Release Two)
 

@@ -10,10 +10,39 @@
     "venue": "The Velvet Cellar",
     "address": "49 Trelawney Road, Redland, Bristol",
     "attire": "Roaring Twenties eveningwear",
-    "rsvpBy": "28th November 2026"
+    "rsvpBy": "28th November 2026",
+    "startsAtUtc": "2026-12-18T19:00:00Z",
+    "endsAt": null
   },
   "invitation": {
     "frontAlt": "Front of the invitation. A celebration of Carys and Thomas, turning twenty-one years of age. 18th December, 7:00 pm. Below the lettering, a line illustration of a gentleman in a bow tie with three women in 1920s evening dress.",
     "backAlt": "Back of the invitation. You are invited to The Velvet Cellar, 49 Trelawney Road, Redland, for an evening of mystery, music and champagne. Attire: dress to impress in your best 1920s inspired outfit; think flapper dresses, fedoras, suspenders, pearls and cigars. Reply to this email and RSVP by 28th of November so we can confirm your assigned role in the mystery. Additional information: you will receive your character booklet from the host in advance so you can create a perfect costume. Each character has their own secrets, motives and clues. Even the murderer won’t know they are the killer until the end, so anyone could be guilty. Throughout the evening, guided rounds give time to mingle, hunt for clues, solve puzzles and interrogate suspects to piece together the truth."
-  }
+  },
+  "rsvp": {
+    "connected": true,
+    "formName": "rsvp"
+  },
+  "countdown": {
+    "visible": true
+  },
+  "playlists": {
+    "gramophone": {
+      "url": ""
+    },
+    "afterHours": {
+      "url": "",
+      "suggestionFormUrl": ""
+    }
+  },
+  "voting": {
+    "active": false,
+    "formUrl": ""
+  },
+  "gallery": {
+    "active": false,
+    "albumUrl": "",
+    "contributeUrl": "",
+    "thankYou": ""
+  },
+  "showSpecimens": true
 }

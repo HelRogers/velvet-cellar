@@ -1,0 +1,77 @@
+---
+/**
+ * Section six: The Confidential Archives. The guest register as a drawer of files.
+ * Entries come from src/content/guests.json. Until the host supplies the register,
+ * the remaining places are shown as clearly marked blanks, never invented names.
+ */
+import data from '../content/guests.json';
+import Display from './Display.astro';
+
+const guests = data.guests;
+const blanks = Math.max(0, data.registerSize - guests.length);
+const fileNumber = (i: number) => `VC-1925-${String(i + 1).padStart(3, '0')}`;
+---
+
+<section class="section archives" id="archives" aria-labelledby="archives-title">
+  <div class="wrap">
+    <header class="archives-head">
+      <div>
+        <Display as="h2" id="archives-title" class="section-title" text="The Confidential Archives" />
+        <p class="section-lede">
+          Every guest at The Velvet Cellar has a story. Some are more truthful than others. Locate your name below to
+          uncover your identity. The contents of each dossier are intended strictly for its assigned recipient.
+        </p>
+      </div>
+      <div class="archives-search">
+        <label class="typed" for="archive-search">Find your name</label>
+        <input id="archive-search" type="search" autocomplete="off" spellcheck="false" placeholder="Type a name…" data-archive-search />
+        <p class="typed archives-count" role="status" aria-live="polite" data-archive-count></p>
+      </div>
+    </header>
+
+    {
+      blanks > 0 && (
+        <p class="typed placeholder-note">
+          Placeholder register. One approved example is shown; the other {blanks} files await the host’s guest list.
+        </p>
+      )
+    }
+
+    <ul class="files" role="list" data-archive-list>
+      {
+        guests.map((guest, i) => (
+          <li class="file" data-archive-item data-search={`${guest.guest} ${guest.character} ${guest.occupation}`.toLowerCase()}>
+            <a class="file-card" href={`#dossier-${guest.slug}`}>
+              <span class="file-tab typed">{fileNumber(i)}</span>
+              <span class="file-guest">{guest.guest}</span>
+              <span class="file-alias">
+                <span class="typed">Known tonight as</span>
+                <span class="file-character">{guest.character}</span>
+              </span>
+              <span class="file-role">{guest.occupation}</span>
+              <span class="file-status typed">
+                {guest.booklet === 'released' ? 'Dossier available' : 'Identity revealed. Booklet sealed.'}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+      {
+        Array.from({ length: blanks }, (_, i) => (
+          <li class="file file--blank" data-archive-blank>
+            <div class="file-card">
+              <span class="file-tab typed">{fileNumber(guests.length + i)}</span>
+              <span class="file-guest file-guest--blank">Name to be supplied</span>
+              <span class="file-redacted" aria-hidden="true" />
+              <span class="file-redacted file-redacted--short" aria-hidden="true" />
+              <span class="file-status typed">Awaiting the guest register</span>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="archives-empty" data-archive-empty hidden>
+      There is no file under that name. Check the spelling, or ask the hosts.
+    </p>
+  </div>
+</section>

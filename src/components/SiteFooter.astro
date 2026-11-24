@@ -1,0 +1,21 @@
+---
+/** The closing page: restrained, with the seal and a way back to the top. */
+import Display from './Display.astro';
+import Rule from './Rule.astro';
+---
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <svg class="footer-seal" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><use href="#vc-seal"></use></svg>
+    <Display as="p" class="footer-name" text="The Velvet Cellar" />
+    <p class="typed footer-est">Est. 1925</p>
+    <Rule />
+    <p class="footer-line">Private correspondence. Strictly for invited guests.</p>
+    <p class="footer-hosts">
+      <span translate="no">Carys &amp; Thomas</span>
+      <span class="footer-diamond" aria-hidden="true"></span>
+      <span>Twenty-One</span>
+    </p>
+    <a class="btn btn--quiet" href="#invitation">Return to the top</a>
+  </div>
+</footer>

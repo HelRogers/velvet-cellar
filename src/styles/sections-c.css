@@ -1,0 +1,487 @@
+/* The Velvet Cellar Radio, the Noticeboard, the questions, and what stays sealed until the night. */
+
+/* ---------- The Velvet Cellar Radio ---------- */
+.radio {
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 55% 45% at 12% 100%, rgb(130 103 62 / 0.2), transparent 70%),
+    var(--ink);
+}
+.records {
+  display: grid;
+  gap: var(--space-8);
+  margin-top: var(--space-8);
+}
+.record {
+  display: grid;
+  gap: var(--space-6);
+  align-content: start;
+}
+.record-art {
+  position: relative;
+  width: min(100%, 29rem);
+  aspect-ratio: 1.4;
+}
+.record-sleeve {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  justify-items: center;
+  gap: 0.5rem;
+  height: 100%;
+  aspect-ratio: 1;
+  padding: 8% 7%;
+  text-align: center;
+  box-shadow:
+    0 1px 1px rgb(0 0 0 / 0.4),
+    0 22px 34px -14px rgb(0 0 0 / 0.8);
+}
+.record-disc {
+  position: absolute;
+  top: 4%;
+  right: 0;
+  height: 92%;
+  width: auto;
+  border-radius: 50%;
+  box-shadow: 0 10px 22px -8px rgb(0 0 0 / 0.8);
+  transition: transform 500ms var(--ease-out);
+}
+.record-label {
+  fill: var(--label);
+}
+.sleeve-side {
+  justify-self: start;
+  font-size: 0.72rem;
+}
+.sleeve-title {
+  align-self: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 7vw, 2.9rem);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.sleeve-rule {
+  width: 55%;
+  border-top: 2px dotted currentColor;
+  opacity: 0.6;
+}
+.sleeve-strap {
+  font-size: 0.64rem;
+}
+/* The Gramophone: champagne sleeve, ivory label. */
+.record--gramophone .record-art {
+  --label: #eadcb8;
+  color: var(--burgundy);
+}
+.record--gramophone .record-sleeve {
+  background:
+    linear-gradient(118deg, transparent 25%, rgb(255 252 235 / 0.3) 45%, transparent 62%),
+    url('../assets/textures/paper-champagne.webp') 0 0 / 300px;
+  box-shadow:
+    inset 0 0 0 0.5rem rgb(255 248 224 / 0.25),
+    inset 0 0 0 calc(0.5rem + 1px) rgb(73 5 24 / 0.45),
+    0 22px 34px -14px rgb(0 0 0 / 0.8);
+}
+/* After Hours: a black sleeve, a blood-red label. */
+.record--after-hours .record-art {
+  --label: var(--blood);
+  color: var(--gold-bright);
+}
+.record--after-hours .record-sleeve {
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 20%, rgb(122 12 23 / 0.35), transparent 70%),
+    #100509;
+  box-shadow:
+    inset 0 0 0 0.5rem #100509,
+    inset 0 0 0 calc(0.5rem + 1px) rgb(220 196 143 / 0.6),
+    0 22px 34px -14px rgb(0 0 0 / 0.8);
+}
+@media (hover: hover) and (pointer: fine) {
+  .record:hover .record-disc {
+    transform: translateX(7%);
+  }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .record:hover .record-disc {
+    animation: record-spin 5s linear infinite;
+  }
+}
+@keyframes record-spin {
+  from { transform: translateX(7%) rotate(0deg); }
+  to { transform: translateX(7%) rotate(360deg); }
+}
+.record-body {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+  max-width: 30rem;
+}
+.record-title {
+  font-size: var(--step-2);
+}
+.record-strap {
+  font-size: var(--step-1);
+  font-style: italic;
+  line-height: 1.2;
+  color: var(--gold-bright);
+}
+.record-body > p:not(.record-strap):not(.awaiting) {
+  color: var(--text-soft);
+}
+.record-body .btn,
+.awaiting {
+  margin-top: 0.5rem;
+}
+.awaiting {
+  display: grid;
+  gap: 0.7rem;
+  justify-items: start;
+}
+.awaiting .btn {
+  margin-top: 0;
+}
+@media (min-width: 58em) {
+  .records {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(3rem, 6vw, 6rem);
+  }
+  /* The second record sits a little lower, like two sleeves leaning on a shelf. */
+  .record--after-hours {
+    margin-top: var(--space-8);
+  }
+}
+
+/* ---------- The Cellar Noticeboard ---------- */
+.noticeboard {
+  background: linear-gradient(180deg, var(--ink), var(--burgundy-deep));
+}
+.board-frame {
+  margin-top: var(--space-7);
+  padding: clamp(0.6rem, 1.6vw, 1rem);
+  background: linear-gradient(135deg, #4d3a1c, #8a6f44 38%, #5c4622 62%, #3e2d13);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 240 200 / 0.25),
+    0 30px 50px -22px rgb(0 0 0 / 0.85);
+}
+.baize {
+  min-height: 18rem;
+  padding: clamp(2rem, 6vw, 4rem) clamp(1.1rem, 5vw, 4rem);
+  background:
+    linear-gradient(180deg, rgb(40 3 14 / 0.4), rgb(16 2 7 / 0.62)),
+    url('../assets/textures/velvet.webp') center / 460px;
+  box-shadow: inset 0 0 28px rgb(0 0 0 / 0.75);
+}
+.baize-empty {
+  margin-bottom: var(--space-7);
+  font-style: italic;
+  text-align: center;
+  color: var(--text-soft);
+}
+.baize-empty .typed {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-style: normal;
+  color: var(--gold-bright);
+}
+.notices {
+  display: grid;
+  gap: 2.75rem;
+  align-items: start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 52em) {
+  .notices {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem;
+  }
+}
+.notice {
+  position: relative;
+  padding: 2rem clamp(1.1rem, 3vw, 1.75rem) 1.5rem;
+  background: url('../assets/textures/parchment.webp') 0 0 / 360px;
+  color: var(--parchment-ink);
+  box-shadow:
+    0 1px 1px rgb(0 0 0 / 0.3),
+    0 16px 24px -12px rgb(0 0 0 / 0.75);
+  transform: rotate(-1.2deg);
+}
+.notice:nth-child(even) {
+  transform: rotate(0.9deg);
+}
+.notice-date {
+  color: #5d4118;
+  font-size: 0.76rem;
+}
+.notice-title {
+  margin: 0.35rem 0 0.6rem;
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  letter-spacing: 0.06em;
+  line-height: 1.08;
+  text-transform: uppercase;
+  color: var(--burgundy);
+}
+.notice-body {
+  line-height: 1.45;
+}
+.notice-link {
+  color: var(--burgundy);
+  font-weight: 600;
+}
+.notice-stamp {
+  top: 0.9rem;
+  right: 0.7rem;
+  font-size: 0.78rem;
+  transform: rotate(6deg);
+}
+/* A telegram: flat paper, ruled bands, typewriter throughout. */
+.notice--telegram {
+  background:
+    linear-gradient(180deg, rgb(122 12 23 / 0.75) 0 0.4rem, transparent 0.4rem),
+    #ead9ae;
+}
+.notice--telegram .notice-title {
+  font-family: var(--font-type);
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  color: var(--parchment-ink);
+}
+.notice--telegram .notice-body {
+  font-family: var(--font-type);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+@media (max-width: 30em) {
+  .notice-stamp {
+    position: static;
+    display: inline-block;
+    margin-bottom: 0.6rem;
+    transform: rotate(-3deg);
+  }
+}
+
+/* ---------- A Few Matters of Business ---------- */
+.faqs {
+  background: var(--burgundy-deep);
+}
+.faqs-grid {
+  display: grid;
+  gap: var(--space-7);
+}
+.faqs-head {
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+}
+.faqs-sub {
+  font-size: var(--step-1);
+  font-style: italic;
+  color: var(--gold-bright);
+}
+.faqs-head .faqs-rule {
+  margin: var(--space-3) 0;
+}
+.faqs-head .section-lede {
+  margin-top: 0;
+}
+.ledger {
+  border-top: 1px solid rgb(184 155 98 / 0.5);
+}
+.ledger-entry {
+  border-bottom: 1px solid rgb(184 155 98 / 0.5);
+}
+.ledger-entry summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  min-height: 3.75rem;
+  padding: 1rem 0.25rem 0.9rem;
+  list-style: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.ledger-entry summary::-webkit-details-marker {
+  display: none;
+}
+.ledger-question {
+  font-size: var(--step-1);
+  line-height: 1.2;
+  text-wrap: balance;
+  transition: color 160ms ease;
+}
+.ledger-mark {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--gold-bright);
+}
+.ledger-mark-upright {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 220ms var(--ease-out);
+}
+.ledger-entry[open] .ledger-mark-upright {
+  transform: scaleY(0);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ledger-entry summary:hover .ledger-question {
+    color: var(--gold-bright);
+  }
+}
+.ledger-answer {
+  max-width: 40rem;
+  padding: 0 2.75rem 1.4rem 0.25rem;
+  color: var(--text-soft);
+}
+@media (min-width: 62em) {
+  .faqs-grid {
+    grid-template-columns: minmax(0, 21rem) minmax(0, 1fr);
+    gap: clamp(3rem, 7vw, 7rem);
+  }
+  .faqs-head {
+    position: sticky;
+    top: 6rem;
+  }
+}
+
+/* ---------- Sealed until the night: The Final Verdict and A Night to Remember ---------- */
+.sealed-band {
+  background:
+    radial-gradient(ellipse 120% 100% at 50% 40%, transparent 30%, rgb(12 2 6 / 0.9) 100%),
+    url('../assets/textures/velvet.webp') center / clamp(560px, 62vw, 900px),
+    var(--burgundy);
+  border-top: 1px solid rgb(184 155 98 / 0.35);
+}
+.sealed-grid {
+  display: grid;
+  gap: var(--space-7);
+}
+.verdict,
+.remember {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: center;
+  align-content: start;
+  padding: clamp(2rem, 6vw, 3.25rem) clamp(1.25rem, 4vw, 2.5rem);
+  border: 1px solid rgb(184 155 98 / 0.4);
+  outline: 1px solid rgb(184 155 98 / 0.2);
+  outline-offset: -6px;
+  background: rgb(22 8 13 / 0.5);
+  text-align: center;
+  scroll-margin-top: 5rem;
+}
+.sealed-copy {
+  display: grid;
+  gap: 0.7rem;
+  justify-items: center;
+}
+.sealed-heading {
+  font-size: var(--step-2);
+}
+.sealed-copy p {
+  max-width: 28rem;
+  color: var(--text-soft);
+  font-style: italic;
+}
+.sealed-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.7rem;
+  font-style: normal;
+}
+@media (min-width: 58em) {
+  .sealed-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* The evidence envelope */
+.evidence {
+  position: relative;
+  width: 11.5rem;
+  aspect-ratio: 1.45;
+  background:
+    linear-gradient(180deg, rgb(255 250 235 / 0.15), rgb(120 85 35 / 0.3)),
+    url('../assets/textures/parchment.webp') 0 0 / 360px;
+  box-shadow:
+    0 1px 1px rgb(0 0 0 / 0.4),
+    0 18px 26px -12px rgb(0 0 0 / 0.8);
+  transform: rotate(-3deg);
+}
+.evidence-flap {
+  position: absolute;
+  inset: 0 0 52% 0;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: linear-gradient(180deg, rgb(120 85 35 / 0.38), rgb(120 85 35 / 0.12));
+}
+/* the button-and-string fastening */
+.evidence-string {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 0.95rem;
+  height: 0.95rem;
+  margin-left: -0.475rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #c73a4c, var(--blood) 60%, #3d0612);
+  box-shadow:
+    0 1.35rem 0 -0.1rem var(--blood),
+    0 2px 3px rgb(0 0 0 / 0.5);
+}
+.evidence-string::after {
+  content: '';
+  position: absolute;
+  top: 0.8rem;
+  left: 50%;
+  width: 1px;
+  height: 0.75rem;
+  background: var(--blood);
+}
+.evidence-label {
+  position: absolute;
+  right: 0;
+  bottom: 9%;
+  left: 0;
+  color: #4d3611;
+  font-size: 0.62rem;
+  line-height: 1.5;
+}
+.evidence-stamp {
+  top: 12%;
+  right: -1.1rem;
+  font-size: 0.95rem;
+  background: rgb(230 214 184 / 0.35);
+  transform: rotate(14deg);
+}
+
+/* The empty album */
+.album {
+  position: relative;
+  width: 13rem;
+  height: 8.25rem;
+}
+.album-photo {
+  position: absolute;
+  width: 5.6rem;
+  aspect-ratio: 4 / 5;
+  padding: 0.3rem 0.3rem 0.95rem;
+  background: #efe6cf;
+  box-shadow: 0 12px 18px -10px rgb(0 0 0 / 0.8);
+}
+.album-photo::after {
+  content: '';
+  display: block;
+  height: 100%;
+  background:
+    repeating-linear-gradient(135deg, rgb(246 236 214 / 0.06) 0 8px, transparent 8px 16px),
+    #2a161b;
+}
+.album-photo--one { left: 0.4rem; top: 0.9rem; transform: rotate(-9deg); }
+.album-photo--two { left: 3.7rem; top: 0; transform: rotate(3deg); }
+.album-photo--three { right: 0.4rem; top: 1rem; transform: rotate(11deg); }

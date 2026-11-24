@@ -1,0 +1,698 @@
+/* The Confidential Archives, the dossiers, and Dress for the Decade. */
+
+/* ---------- The Confidential Archives ---------- */
+.archives {
+  background:
+    repeating-linear-gradient(90deg, rgb(184 155 98 / 0.05) 0 1px, transparent 1px 5.5rem),
+    linear-gradient(180deg, var(--ink), var(--burgundy-deep) 30%, var(--burgundy-deep) 70%, var(--ink));
+}
+.archives-head {
+  display: grid;
+  gap: var(--space-6);
+  align-items: end;
+}
+.archives-search {
+  display: grid;
+  gap: 0.45rem;
+  width: min(100%, 22rem);
+}
+.archives-search label {
+  color: var(--gold-bright);
+}
+.archives-search input {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--gold);
+  border-radius: 0;
+  background: rgb(22 8 13 / 0.6);
+  color: var(--ivory);
+  font-family: var(--font-type);
+  font-size: 1.05rem;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.archives-search input::placeholder {
+  color: #b9a88a;
+}
+.archives-count {
+  min-height: 1.4em;
+  color: var(--text-soft);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+.archives .placeholder-note {
+  margin-top: var(--space-6);
+}
+@media (min-width: 58em) {
+  .archives-head {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+.files {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.4rem 1.25rem;
+  margin: calc(var(--space-7) + 1rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 21em) {
+  .files { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* Two compact columns on a phone keep the register to a sensible length. */
+@media (max-width: 30em) {
+  .files { gap: 2.2rem 0.75rem; }
+  .file-card { min-height: 9.5rem; padding: 0.9rem 0.75rem 0.7rem; }
+  .file-guest { font-size: 1.35rem; }
+  .file-character { font-size: 1.1rem; }
+  .file-role { font-size: 0.98rem; }
+  .file-tab { padding-inline: 0.55rem; font-size: 0.66rem; }
+  .file:nth-child(n) .file-tab { left: 0; right: auto; }
+  .file:nth-child(even) .file-tab { left: auto; right: 0; }
+  .file:nth-child(n) .file-card { border-radius: 0 5px 3px 3px; }
+  .file:nth-child(even) .file-card { border-radius: 5px 0 3px 3px; }
+  .file-guest--blank { font-size: 0.82rem; }
+  .file-status { font-size: 0.62rem; }
+}
+@media (min-width: 44em) {
+  .files { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 76em) {
+  .files { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.file[hidden] {
+  display: none;
+}
+.file-card {
+  --manila: linear-gradient(180deg, rgb(255 250 235 / 0.2), rgb(150 110 50 / 0.2)), url('../assets/textures/parchment.webp') 0 0 / 360px;
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 0.3rem;
+  min-height: 11rem;
+  height: 100%;
+  padding: 1.15rem 1.1rem 0.9rem;
+  border-radius: 0 5px 3px 3px;
+  background: var(--manila);
+  color: var(--parchment-ink);
+  text-decoration: none;
+  box-shadow:
+    0 1px 1px rgb(0 0 0 / 0.35),
+    0 12px 22px -10px rgb(0 0 0 / 0.7);
+  transition: transform 180ms var(--ease-out);
+}
+.file-tab {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  padding: 0.5rem 0.8rem 0.25rem;
+  border-radius: 5px 5px 0 0;
+  background: var(--manila);
+  color: #4d3611;
+  font-size: 0.74rem;
+  white-space: nowrap;
+}
+.file:nth-child(3n + 2) .file-tab { left: 30%; }
+.file:nth-child(3n) .file-tab { left: auto; right: 0; }
+.file:nth-child(3n) .file-card { border-radius: 5px 0 3px 3px; }
+.file:nth-child(3n + 2) .file-card { border-radius: 5px 5px 3px 3px; }
+.file-guest {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--burgundy);
+  overflow-wrap: anywhere;
+}
+.file-alias {
+  display: grid;
+  gap: 0.1rem;
+  margin-top: 0.3rem;
+}
+.file-alias .typed {
+  font-size: 0.7rem;
+  color: #5d4118;
+}
+.file-character {
+  font-size: 1.3rem;
+  font-style: italic;
+  line-height: 1.15;
+}
+.file-role {
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+.file-status {
+  align-self: end;
+  margin-top: 0.7rem;
+  padding-top: 0.55rem;
+  border-top: 2px dotted rgb(73 5 24 / 0.4);
+  color: var(--blood);
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+a.file-card:focus-visible {
+  outline-color: var(--gold-bright);
+  outline-offset: 5px;
+}
+@media (hover: hover) and (pointer: fine) {
+  a.file-card:hover {
+    transform: translateY(-5px) rotate(-0.5deg);
+  }
+}
+a.file-card:active {
+  transform: scale(0.985);
+}
+.file--blank .file-card {
+  --manila: linear-gradient(180deg, rgb(120 100 70 / 0.35), rgb(90 70 40 / 0.45)), url('../assets/textures/parchment.webp') 0 0 / 360px;
+  box-shadow: 0 8px 16px -10px rgb(0 0 0 / 0.6);
+}
+.file-guest--blank {
+  font-family: var(--font-type);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  text-transform: none;
+  color: #3c2a12;
+}
+.file-redacted {
+  width: 82%;
+  height: 0.8rem;
+  margin-top: 0.5rem;
+  background: rgb(22 8 13 / 0.78);
+}
+.file-redacted--short {
+  width: 52%;
+}
+.file--blank .file-status {
+  color: #3c2a12;
+  border-top-color: rgb(60 42 18 / 0.45);
+}
+.archives-empty {
+  margin-top: var(--space-6);
+  font-style: italic;
+  color: var(--text-soft);
+}
+
+/* ---------- A dossier, opened ---------- */
+html[data-view='dossier'] body {
+  overflow: hidden;
+}
+.dossier {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: clamp(3rem, 8vw, 5rem);
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgb(110 18 37 / 0.55), transparent 70%),
+    var(--ink);
+}
+.dossier[hidden] {
+  display: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dossier:not([hidden]) .dossier-folder {
+    animation: dossier-in 420ms var(--ease-out);
+  }
+}
+@keyframes dossier-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+.dossier-bar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.5rem;
+  padding: 0.3rem var(--gutter);
+  background: rgb(22 8 13 / 0.96);
+  border-bottom: 1px solid rgb(184 155 98 / 0.35);
+}
+.dossier-back {
+  margin-left: -0.5rem;
+  font-style: normal;
+  white-space: nowrap;
+}
+@media (max-width: 26em) {
+  .dossier-back { font-size: 1rem; }
+  .dossier-ref { font-size: 0.68rem; }
+}
+.dossier-ref {
+  color: var(--gold-bright);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+.dossier-folder {
+  width: min(100% - 2 * var(--gutter), 58rem);
+  margin: clamp(1.75rem, 5vw, 3.5rem) auto 0;
+}
+.dossier-sheet {
+  position: relative;
+  overflow: hidden;
+  /* room at the foot for the fingerprint, clear of the text */
+  padding: clamp(2.75rem, 6vw, 4rem) clamp(1.25rem, 5vw, 3.5rem) clamp(6rem, 16vw, 8.5rem);
+  background: url('../assets/textures/parchment.webp') 0 0 / 360px;
+  color: var(--parchment-ink);
+  box-shadow: 0 30px 60px -24px rgb(0 0 0 / 0.8);
+}
+.dossier-sheet ::selection {
+  background: var(--burgundy);
+  color: var(--ivory);
+}
+.stamp--large {
+  top: 1rem;
+  right: 1rem;
+  font-size: clamp(0.95rem, 3.4vw, 1.35rem);
+  transform: rotate(7deg);
+}
+.dossier-top {
+  display: grid;
+  gap: var(--space-6);
+}
+.dossier-portrait {
+  position: relative;
+  width: min(72%, 15rem);
+  margin: 0.6rem 0 0;
+  padding: 0.6rem 0.6rem 1.7rem;
+  background: #f3ead2;
+  box-shadow:
+    0 1px 1px rgb(0 0 0 / 0.25),
+    0 12px 20px -10px rgb(0 0 0 / 0.55);
+  transform: rotate(-2.2deg);
+}
+.dossier-portrait img {
+  width: 100%;
+  height: auto;
+  filter: sepia(0.35) contrast(1.05);
+}
+.paperclip {
+  position: absolute;
+  top: -1.5rem;
+  left: 1.1rem;
+  z-index: 1;
+  width: 1.6rem;
+  height: auto;
+}
+.portrait-blank {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 5;
+  padding: 1rem;
+  border: 1px dashed rgb(73 5 24 / 0.55);
+  background:
+    repeating-linear-gradient(135deg, rgb(73 5 24 / 0.07) 0 10px, transparent 10px 20px),
+    #e2d3b0;
+  color: #6a1a2a;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  text-align: center;
+}
+.dossier-label {
+  color: #5d4118;
+  font-size: 0.8rem;
+}
+.dossier-name {
+  margin: 0.25rem 0 1.1rem;
+  font-size: var(--step-3);
+  color: var(--burgundy);
+}
+.dossier-facts {
+  display: grid;
+  margin: 0;
+  border-top: 1px solid rgb(73 5 24 / 0.35);
+}
+.dossier-facts div {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.6rem 0 0.5rem;
+  border-bottom: 2px dotted rgb(73 5 24 / 0.3);
+}
+.dossier-facts dt {
+  color: #5d4118;
+  font-size: 0.76rem;
+}
+.dossier-facts dd {
+  margin: 0;
+  line-height: 1.3;
+}
+.dossier-intro {
+  max-width: 40rem;
+  margin-top: var(--space-7);
+}
+.dossier-intro h3 {
+  margin-bottom: 0.6rem;
+}
+.placeholder-text {
+  padding: 0.85rem 1rem 0.7rem;
+  border: 1px dashed rgb(73 5 24 / 0.55);
+  color: #6a1a2a;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+.fingerprint {
+  position: absolute;
+  right: clamp(0.75rem, 4vw, 2.5rem);
+  bottom: 0.6rem;
+  width: clamp(4rem, 14vw, 6.5rem);
+  color: rgb(122 12 23 / 0.17);
+  transform: rotate(17deg);
+  pointer-events: none;
+}
+.dossier-sealed {
+  display: grid;
+  gap: var(--space-5);
+  align-items: center;
+  padding: clamp(1.75rem, 5vw, 3rem) clamp(1.25rem, 5vw, 3.5rem);
+  border: 1px solid rgb(184 155 98 / 0.4);
+  border-top: 0;
+  background:
+    linear-gradient(180deg, rgb(0 0 0 / 0.2), rgb(0 0 0 / 0.5)),
+    var(--oxblood);
+}
+.sealed-wax {
+  width: 7rem;
+  height: 7rem;
+}
+.sealed-title {
+  margin-bottom: 0.7rem;
+  font-size: var(--step-2);
+}
+.dossier-sealed p + p {
+  margin-top: 0.6rem;
+  color: var(--text-soft);
+}
+.redactions {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1.1rem;
+}
+.redactions span {
+  display: block;
+  height: 0.85rem;
+  background: #12060a;
+}
+@media (min-width: 44em) {
+  .dossier-top {
+    grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+    gap: var(--space-7);
+    align-items: start;
+  }
+  .dossier-portrait {
+    width: 100%;
+  }
+  .dossier-sealed {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-6);
+  }
+}
+
+/* ---------- Dress for the Decade ---------- */
+.dress {
+  padding-bottom: 0;
+  background: var(--ink);
+}
+.dress-index ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 2rem;
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.dress-index a {
+  display: grid;
+  gap: 0.15rem;
+  min-height: 2.75rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid rgb(184 155 98 / 0.6);
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 0.1em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ivory);
+}
+.dress-index .typed {
+  font-size: 0.72rem;
+  color: var(--gold-bright);
+}
+.dress .wrap:first-child {
+  padding-bottom: var(--space-8);
+}
+
+/* Each board is a page of the magazine: paper, burgundy ink, its own arrangement. */
+.board {
+  padding-block: clamp(3rem, 7vw, 5rem);
+  background: url('../assets/textures/parchment.webp') 0 0 / 360px;
+  color: var(--parchment-ink);
+  scroll-margin-top: 3.5rem;
+}
+.board + .board {
+  border-top: 3px double rgb(73 5 24 / 0.45);
+}
+.board--ladies {
+  background: linear-gradient(rgb(246 236 214 / 0.72), rgb(246 236 214 / 0.72)), url('../assets/textures/parchment.webp') 0 0 / 360px;
+}
+.board ::selection {
+  background: var(--burgundy);
+  color: var(--ivory);
+}
+.board-page {
+  display: grid;
+  gap: var(--space-7);
+}
+.board-head {
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+  justify-items: start;
+}
+.board-plate {
+  color: var(--blood);
+}
+.board-title {
+  font-size: var(--step-3);
+  color: var(--burgundy);
+}
+.board-subtitle {
+  font-size: var(--step-1);
+  font-style: italic;
+  line-height: 1.2;
+}
+.board-note {
+  max-width: 30rem;
+  text-wrap: pretty;
+}
+.board-head .placeholder-note {
+  margin-top: 0.6rem;
+}
+
+.plates {
+  columns: 2;
+  column-gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.plate-item {
+  break-inside: avoid;
+  margin-bottom: 0.9rem;
+}
+.plate-button {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: zoom-in;
+  box-shadow:
+    0 1px 1px rgb(0 0 0 / 0.2),
+    0 10px 18px -10px rgb(43 10 19 / 0.55);
+  touch-action: manipulation;
+  transition: transform 180ms var(--ease-out);
+}
+.plate-button img {
+  width: 100%;
+  height: auto;
+}
+.plate-button:active {
+  transform: scale(0.985);
+}
+.plate-button--blank,
+.gallery-blank {
+  display: grid;
+  place-items: center;
+  border: 1px dashed rgb(73 5 24 / 0.5);
+  background:
+    repeating-linear-gradient(135deg, rgb(73 5 24 / 0.055) 0 12px, transparent 12px 24px),
+    #eadcbd;
+  color: #6a1a2a;
+}
+.plate-marks {
+  position: absolute;
+  inset: 0.45rem;
+  border: 1px solid rgb(73 5 24 / 0.22);
+  pointer-events: none;
+}
+.plate-label {
+  padding: 0.75rem;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  text-align: center;
+}
+.plate-label span {
+  display: block;
+  font-size: 0.66rem;
+  letter-spacing: 0.03em;
+  text-transform: none;
+}
+.plate-caption {
+  margin-top: 0.4rem;
+  font-size: var(--step--1);
+  font-style: italic;
+  line-height: 1.3;
+}
+
+/* Board one: a wide opening photograph above three columns. */
+.board--cellar .plate-item:first-child {
+  column-span: all;
+}
+@media (min-width: 48em) {
+  .plates {
+    column-gap: 1.25rem;
+  }
+  .plate-item {
+    margin-bottom: 1.25rem;
+  }
+  .board--cellar .plates,
+  .board--gentlemen .plates {
+    columns: 3;
+  }
+  .board--ladies .plates {
+    columns: 3;
+  }
+}
+@media (min-width: 62em) {
+  /* Board one: heading in a narrow left column, beside the photographs. */
+  .board--cellar .board-page {
+    grid-template-columns: minmax(0, 19rem) minmax(0, 1fr);
+    gap: var(--space-8);
+  }
+  .board--cellar .board-head,
+  .board--ladies .board-head {
+    position: sticky;
+    top: 5.5rem;
+  }
+  /* Board two: four narrow columns, heading on the right. */
+  .board--ladies .board-page {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 19rem);
+    gap: var(--space-8);
+  }
+  .board--ladies .board-head {
+    order: 2;
+  }
+  .board--ladies .plates {
+    columns: 4;
+  }
+  /* Board three: a centred masthead over three broad columns. */
+  .board--gentlemen .board-head {
+    justify-items: center;
+    text-align: center;
+    padding-bottom: var(--space-5);
+    border-bottom: 2px dotted rgb(73 5 24 / 0.45);
+  }
+  .board--gentlemen .board-title {
+    font-size: var(--step-4);
+  }
+}
+
+/* The enlarged view for photographs */
+.gallery {
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgb(14 4 8 / 0.97);
+  color: var(--ivory);
+}
+.gallery[open] {
+  display: flex;
+  flex-direction: column;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .gallery[open] {
+    animation: lightbox-in 260ms var(--ease-out);
+  }
+}
+.gallery-track {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.gallery-track::-webkit-scrollbar {
+  display: none;
+}
+.gallery-track:focus-visible {
+  outline-offset: -4px;
+}
+.gallery-slide {
+  flex: 0 0 100%;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  padding: 1rem;
+  scroll-snap-align: center;
+}
+.gallery-slide img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  box-shadow: 0 20px 60px -20px rgb(0 0 0 / 0.8);
+}
+.gallery-blank {
+  max-width: 100%;
+  max-height: 100%;
+  padding: 1.5rem;
+  font-family: var(--font-type);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  text-align: center;
+}
+.gallery-caption {
+  flex: none;
+  min-height: 3rem;
+  padding: 0.6rem 1rem 1rem;
+  font-style: italic;
+  text-align: center;
+  color: var(--text-soft);
+}

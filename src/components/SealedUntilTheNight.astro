@@ -1,0 +1,76 @@
+---
+/**
+ * Sections eleven and twelve: The Final Verdict and A Night to Remember.
+ * Both are switched on by the host in src/content/site.json. While a section is
+ * off, its link is not in the page at all: only the sealed placeholder is built.
+ * Voting results are never shown here, and the solution is never stored anywhere.
+ */
+import site from '../content/site.json';
+import Display from './Display.astro';
+
+const { voting, gallery } = site;
+const votingOpen = voting.active && Boolean(voting.formUrl);
+const galleryOpen = gallery.active && Boolean(gallery.albumUrl);
+---
+
+<section class="section sealed-band" aria-label="For the night itself">
+  <div class="wrap sealed-grid">
+    <article class="verdict" id="verdict" aria-labelledby="verdict-title">
+      <div class="evidence" aria-hidden="true">
+        <span class="evidence-flap" />
+        <span class="evidence-string" />
+        <span class="evidence-label typed">Evidence<br />Do not open</span>
+        {!votingOpen && <span class="stamp typed evidence-stamp">Sealed</span>}
+      </div>
+      {
+        votingOpen ? (
+          <div class="sealed-copy">
+            <Display as="h2" id="verdict-title" class="sealed-heading" text="The Final Verdict" />
+            <p>The evidence has been examined. The suspects have spoken. Now it is time to deliver your verdict.</p>
+            <a class="btn btn--primary" href={voting.formUrl} target="_blank" rel="noopener noreferrer">
+              Cast your vote
+            </a>
+          </div>
+        ) : (
+          <div class="sealed-copy">
+            <Display as="h2" id="verdict-title" class="sealed-heading" text="The Verdict Remains Sealed" />
+            <p>Voting will open when the investigation draws to a close.</p>
+          </div>
+        )
+      }
+    </article>
+
+    <article class="remember" id="remember" aria-labelledby="remember-title">
+      <div class="album" aria-hidden="true">
+        <span class="album-photo album-photo--one" />
+        <span class="album-photo album-photo--two" />
+        <span class="album-photo album-photo--three" />
+      </div>
+      <div class="sealed-copy">
+        <Display as="h2" id="remember-title" class="sealed-heading" text="A Night to Remember" />
+        {
+          galleryOpen ? (
+            <Fragment>
+              <p>
+                The doors may have closed, but the secrets, scandals and memories of The Velvet Cellar live on.
+              </p>
+              {gallery.thankYou && <p>{gallery.thankYou}</p>}
+              <p class="sealed-actions">
+                <a class="btn btn--primary" href={gallery.albumUrl} target="_blank" rel="noopener noreferrer">
+                  Open the album
+                </a>
+                {gallery.contributeUrl && (
+                  <a class="btn" href={gallery.contributeUrl} target="_blank" rel="noopener noreferrer">
+                    Add your photographs
+                  </a>
+                )}
+              </p>
+            </Fragment>
+          ) : (
+            <p>The album opens after the party.</p>
+          )
+        }
+      </div>
+    </article>
+  </div>
+</section>
