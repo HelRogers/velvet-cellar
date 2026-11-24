@@ -71,7 +71,7 @@ const grooves = [92, 86, 80, 74, 68, 62, 56, 50];
               <p class="record-strap">{record.strap}</p>
               <p>{record.text}</p>
               {record.url ? (
-                <a class="btn btn--primary" href={record.url} target="_blank" rel="noopener noreferrer">
+                <a class="btn btn--primary" href={record.url} target="_blank" rel="noopener noreferrer" data-music-pause>
                   {record.action}
                   <span class="sr-only"> (opens Spotify in a new tab)</span>
                 </a>

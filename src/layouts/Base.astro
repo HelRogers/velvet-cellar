@@ -1,6 +1,7 @@
 ---
 import '../styles/tokens.css';
 import '../styles/base.css';
+import site from '../content/site.json';
 // The lettering above the fold is preloaded so the opening scene never flashes a fallback face.
 import smythe from '@fontsource/smythe/files/smythe-latin-400-normal.woff2?url';
 import elsie from '@fontsource/elsie-swash-caps/files/elsie-swash-caps-latin-400-normal.woff2?url';
@@ -23,10 +24,11 @@ interface Props {
 // The title and description are deliberately generic: nothing private belongs in
 // a browser tab, a link preview or a search result.
 const { title = 'The Velvet Cellar', door = false } = Astro.props;
+const music = !door && site.music.file ? `audio/${site.music.file}` : undefined;
 ---
 
 <!doctype html>
-<html lang="en-GB">
+<html lang="en-GB" data-music-src={music} data-music-volume={music ? site.music.volume : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -46,5 +48,15 @@ const { title = 'The Velvet Cellar', door = false } = Astro.props;
   <body>
     <a class="skip-link" href="#content">Skip to the content</a>
     <slot />
+    {music && (
+      <button class="music-toggle" type="button" data-music-toggle aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z" />
+          <path class="music-waves" d="M15.5 9.2a4 4 0 0 1 0 5.6M18 6.8a7.4 7.4 0 0 1 0 10.4" />
+          <path class="music-cross" d="M15.5 9.5l5 5M20.5 9.5l-5 5" />
+        </svg>
+        <span class="sr-only" data-music-label>Turn the music on</span>
+      </button>
+    )}
   </body>
 </html>

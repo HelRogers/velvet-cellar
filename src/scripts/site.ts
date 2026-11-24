@@ -8,6 +8,7 @@
  */
 
 import { initRedaction } from './redaction';
+import { initMusic } from './music';
 
 const root = document.documentElement;
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -411,4 +412,5 @@ export function initSite() {
   initArchives();
   initDossiers();
   initGallery();
+  initMusic();
 }
